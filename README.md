@@ -1,4 +1,4 @@
-# AgencePulse — ERP et Portail Client pour Agence Digitale
+# CRM Agence Digitale — ERP et Portail Client
 
 Système de gestion intégré (ERP / CRM) et portail client sécurisé développé sur mesure pour les agences web, créatives et de marketing digital. Conçu avec **Laravel 12** et **Filament**, ce projet unifie la gestion de la relation client, le suivi des projets de développement web, le pilotage des campagnes publicitaires (Ads), ainsi qu'une facturation intelligente avec génération de factures PDF conformes et alertes automatisées.
 
@@ -12,7 +12,7 @@ Dans une agence web moderne, le quotidien implique de jongler entre :
 - Des campagnes d'acquisition publicitaire (Meta Ads, Google Ads, TikTok Ads) dont le budget et les objectifs doivent être constamment surveillés.
 - Une trésorerie tendue avec la gestion d'acomptes à la commande, de soldes à la livraison et de relances chronophages pour factures impayées.
 
-Face à la dispersion des données (échanges WhatsApp, feuilles Excel volantes, devis et factures créés manuellement), **AgencePulse** centralise l'ensemble de l'activité sur une plateforme unifiée à double entrée : un **espace d'administration** pour l'équipe de l'agence et un **portail client dédié** pour offrir une expérience transparente et professionnelle à chaque client.
+Face à la dispersion des données (échanges WhatsApp, feuilles Excel volantes, devis et factures créés manuellement), ce système centralise l'ensemble de l'activité sur une plateforme unifiée à double entrée : un **espace d'administration** pour l'équipe de l'agence et un **portail client dédié** pour offrir une expérience transparente et professionnelle à chaque client.
 
 ---
 
