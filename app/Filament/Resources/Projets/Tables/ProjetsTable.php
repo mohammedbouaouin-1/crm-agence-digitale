@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Projets\Tables;
 
+use App\Models\Projet;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
