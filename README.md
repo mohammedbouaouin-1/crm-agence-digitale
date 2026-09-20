@@ -51,12 +51,16 @@ L'application repose sur deux panneaux distincts gérés par Filament avec une s
 - Statuts opérationnels : *Planifiée*, *Active*, *En pause*, *Terminée*.
 
 #### Devis et Propositions Commerciales
-- **Cycle complet de devis** : Création, émission et suivi des devis avec statuts dynamiques (*Brouillon*, *Envoyé*, *Accepté*, *Refusé*, *Expiré*).
-- **Liaison intelligente avec le Budget** : Le montant du devis validé est automatiquement hérité par le projet créé, fiabilisant le suivi budgétaire.
-- **Conversion en 1 clic** :
-  - Création automatique du projet web à partir d'un devis accepté (pré-remplissage du client, du nom, du devis d'origine et du budget).
-  - Génération de factures d'acompte (30%, 50%) ou de solde (100%) directement depuis la fiche du devis.
-- **Édition PDF officielle** : Modèle de devis dédié aux normes professionnelles avec mentions légales, tableau des prestations et zone de signature « Bon pour accord ».
+- **Cycle complet de devis** : Création, émission et suivi des propositions commerciales avec statuts dynamiques (*Brouillon*, *Envoyé*, *Accepté*, *Refusé*, *Expiré*).
+- **Notification automatique par Email** : Envoi direct au client avec le PDF officiel en pièce jointe (`NouveauDevisDisponible`).
+- **Acceptation Électronique Certifiée** : Le client valide le devis directement depuis son portail ; l'application horodate la validation et enregistre l'adresse IP du signataire.
+- **Édition PDF officielle conforme** : Modèle de devis aux normes avec tableau des prestations, mentions légales et cartouche d'acceptation certifiée affichant la date, l'heure et l'IP signataire.
+- **Conversion et Synchronisation du Budget en 1 clic** :
+  - Création automatique du **Projet Web** à partir du devis accepté avec report instantané du montant dans le champ budget.
+  - Création automatique de la **Campagne Ads / SEO** avec héritage du budget devisé.
+  - Émission de **Factures** d'acompte (30%, 50%) ou de solde (100%) rattachées directement au devis.
+- **Indicateurs Commerciaux (KPIs)** : Suivi en direct du pipeline des devis en cours d'arbitrage et du taux de conversion commercial sur le tableau de bord administrateur.
+- **Progression Visuelle des Projets** : Calcul dynamique du pourcentage d'avancement (Maquette : 25%, Développement : 50%, Tests : 75%, Livré : 100%) avec badges colorés sur les panneaux admin et client.
 
 #### Facturation Intelligente et Règlements
 - **Recalcul automatique du statut** : Le statut de la facture s'adapte en temps réel selon les paiements saisis :
@@ -195,6 +199,20 @@ Après exécution de `php artisan migrate --seed`, vous pouvez vous connecter im
 ### Espace Client / Portail (`http://127.0.0.1:8000/client`)
 - **Email** : `contact@client-demo.com` *(ou tout client créé via le bouton "Créer un accès")*
 - **Mot de passe** : `password`
+
+---
+
+## Tests et Qualité de Code
+
+Le projet est rigoureusement testé et conforme aux standards de l'écosystème Laravel :
+
+```bash
+# Exécution de la suite de tests automatisés (19 tests)
+php artisan test
+
+# Audit et formatage du style de code (PSR-12)
+./vendor/bin/pint --test
+```
 
 ---
 
