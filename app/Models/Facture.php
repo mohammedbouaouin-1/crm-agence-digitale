@@ -9,7 +9,7 @@ class Facture extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['client_id', 'numero', 'montant', 'date_emission', 'date_echeance', 'statut'];
+    protected $fillable = ['client_id', 'devis_id', 'numero', 'montant', 'date_emission', 'date_echeance', 'statut'];
     protected $casts = ['date_emission' => 'date', 'date_echeance' => 'date'];
 
     protected static function booted()
@@ -30,6 +30,7 @@ class Facture extends Model
     }
 
     public function client() { return $this->belongsTo(Client::class); }
+    public function devis() { return $this->belongsTo(Devis::class); }
     public function paiements() { return $this->hasMany(Paiement::class); }
 
     public function getTotalPayeAttribute(): float

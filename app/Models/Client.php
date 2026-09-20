@@ -17,4 +17,5 @@ class Client extends Model
     public function notes() { return $this->hasMany(NoteHistorique::class); }
     public function projets() { return $this->hasMany(Projet::class); }
     public function demandes() { return $this->hasMany(DemandeClient::class); }
+    public function devis() { return $this->hasMany(Devis::class); }
 }

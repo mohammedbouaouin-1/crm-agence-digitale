@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Campagne;
 use App\Models\Client;
 use App\Models\DemandeClient;
+use App\Models\Devis;
 use App\Models\Facture;
 use App\Models\NoteHistorique;
 use App\Models\Paiement;
@@ -544,6 +545,43 @@ class DemoSeeder extends Seeder
             foreach ($data['demandes'] as $d) {
                 $client->demandes()->create($d);
             }
+        }
+
+        // Devis de démonstration
+        $firstClient = Client::first();
+        if ($firstClient) {
+            $devis1 = Devis::create([
+                'client_id'     => $firstClient->id,
+                'numero'        => 'DEV-2026-0001',
+                'titre'         => 'Conception Site Web & Moteur de Réservation',
+                'montant'       => 18000,
+                'date_emission' => Carbon::now()->subMonths(2),
+                'date_validite' => Carbon::now()->subMonth(),
+                'statut'        => 'accepte',
+                'description'   => 'Développement d\'un site web vitrine responsive avec moteur de réservation direct, intégration multilingue et optimisation SEO locale.',
+                'conditions'    => 'Acompte de 30% à la signature, 70% à la livraison finale.',
+            ]);
+
+            // Lier le premier projet à ce devis
+            $premierProjet = $firstClient->projets()->first();
+            if ($premierProjet) {
+                $premierProjet->update(['devis_id' => $devis1->id]);
+            }
+        }
+
+        $otherClient = Client::skip(1)->first();
+        if ($otherClient) {
+            Devis::create([
+                'client_id'     => $otherClient->id,
+                'numero'        => 'DEV-2026-0002',
+                'titre'         => 'Stratégie Publicitaire & Campagnes Google Ads',
+                'montant'       => 12000,
+                'date_emission' => Carbon::now()->subWeeks(2),
+                'date_validite' => Carbon::now()->addWeeks(2),
+                'statut'        => 'envoye',
+                'description'   => 'Audit sémantique, création des groupes d\'annonces et gestion des enchères Google Ads sur une période de 3 mois.',
+                'conditions'    => 'Règlement mensuel par prélèvement ou virement.',
+            ]);
         }
     }
 }

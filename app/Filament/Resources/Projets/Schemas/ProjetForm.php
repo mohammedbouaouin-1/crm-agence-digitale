@@ -22,8 +22,27 @@ class ProjetForm
                         ->relationship('client', 'nom')
                         ->searchable()
                         ->preload()
+                        ->live()
                         ->required()
                         ->label('Client'),
+
+                    Select::make('devis_id')
+                        ->label('Devis d\'origine (optionnel)')
+                        ->relationship('devis', 'numero', function ($query, $get) {
+                            $clientId = $get('client_id');
+                            return $clientId ? $query->where('client_id', $clientId) : $query;
+                        })
+                        ->searchable()
+                        ->preload()
+                        ->live()
+                        ->afterStateUpdated(function ($state, callable $set) {
+                            if ($state) {
+                                $devis = \App\Models\Devis::find($state);
+                                if ($devis) {
+                                    $set('budget', $devis->montant);
+                                }
+                            }
+                        }),
 
                     TextInput::make('nom')
                         ->label('Nom du projet')
@@ -43,7 +62,8 @@ class ProjetForm
                     TextInput::make('budget')
                         ->label('Budget')
                         ->numeric()
-                        ->suffix('DH'),
+                        ->suffix('DH')
+                        ->helperText('Rempli automatiquement si un devis est sélectionné, ou saisie libre.'),
                 ]),
 
             Section::make('Planning & Statut')

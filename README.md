@@ -50,6 +50,14 @@ L'application repose sur deux panneaux distincts gérés par Filament avec une s
 - Suivi du compte publicitaire cible, du lien de destination, des dates d'activation et du budget investi.
 - Statuts opérationnels : *Planifiée*, *Active*, *En pause*, *Terminée*.
 
+#### Devis et Propositions Commerciales
+- **Cycle complet de devis** : Création, émission et suivi des devis avec statuts dynamiques (*Brouillon*, *Envoyé*, *Accepté*, *Refusé*, *Expiré*).
+- **Liaison intelligente avec le Budget** : Le montant du devis validé est automatiquement hérité par le projet créé, fiabilisant le suivi budgétaire.
+- **Conversion en 1 clic** :
+  - Création automatique du projet web à partir d'un devis accepté (pré-remplissage du client, du nom, du devis d'origine et du budget).
+  - Génération de factures d'acompte (30%, 50%) ou de solde (100%) directement depuis la fiche du devis.
+- **Édition PDF officielle** : Modèle de devis dédié aux normes professionnelles avec mentions légales, tableau des prestations et zone de signature « Bon pour accord ».
+
 #### Facturation Intelligente et Règlements
 - **Recalcul automatique du statut** : Le statut de la facture s'adapte en temps réel selon les paiements saisis :
   - `payee` : Montant total réglé.
@@ -70,6 +78,7 @@ L'application repose sur deux panneaux distincts gérés par Filament avec une s
 
 Chaque client dispose d'un espace épuré à son image :
 - **Dashboard Personnel** : Synthèse de ses projets en cours et alerte visuelle sur ses éventuelles factures en attente.
+- **Mes Devis** : Consultation des propositions commerciales, téléchargement du PDF officiel et bouton d'acceptation directe en ligne.
 - **Mes Projets** : Suivi de l'avancement de la conception de son site web avec accès direct aux liens de prévisualisation.
 - **Mes Campagnes** : Visibilité sur les campagnes publicitaires actives et les budgets engagés.
 - **Mes Factures** : Téléchargement direct des factures acquittées ou à régler au format PDF en un clic.
@@ -80,7 +89,7 @@ Chaque client dispose d'un espace épuré à son image :
 ### 4. Automatisation et Tâches Planifiées
 
 - **Détection quotidienne des retards** : Une tâche planifiée (`app:mettre-a-jour-factures-en-retard`) s'exécute chaque nuit pour actualiser automatiquement les factures dont l'échéance est passée.
-- **Protection des téléchargements** : La route de streaming du PDF (`/factures/{id}/pdf`) contrôle rigoureusement que le client connecté est bien le propriétaire légitime de la facture avant tout affichage.
+- **Protection des téléchargements** : Les routes de streaming PDF (`/factures/{id}/pdf` et `/devis/{id}/pdf`) contrôlent rigoureusement que le client connecté est bien le propriétaire légitime du document avant tout affichage.
 
 ---
 

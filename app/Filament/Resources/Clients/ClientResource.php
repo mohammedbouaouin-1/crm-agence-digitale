@@ -6,6 +6,7 @@ use App\Filament\Resources\Clients\Pages\CreateClient;
 use App\Filament\Resources\Clients\Pages\EditClient;
 use App\Filament\Resources\Clients\Pages\ListClients;
 use App\Filament\Resources\Clients\RelationManagers\CampagnesRelationManager;
+use App\Filament\Resources\Clients\RelationManagers\DevisRelationManager;
 use App\Filament\Resources\Clients\RelationManagers\FacturesRelationManager;
 use App\Filament\Resources\Clients\RelationManagers\NotesRelationManager;
 use App\Filament\Resources\Clients\RelationManagers\ProjetsRelationManager;
@@ -48,10 +49,11 @@ class ClientResource extends Resource
     public static function getRelations(): array
     {
         return [
+            DevisRelationManager::class,
+            ProjetsRelationManager::class,
             CampagnesRelationManager::class,
             FacturesRelationManager::class,
             NotesRelationManager::class,
-            ProjetsRelationManager::class,
         ];
     }
 

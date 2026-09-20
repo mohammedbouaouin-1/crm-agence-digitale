@@ -12,6 +12,7 @@ class Projet extends Model
 
     protected $fillable = [
         'client_id',
+        'devis_id',
         'nom',
         'type_site',
         'budget',
@@ -32,5 +33,10 @@ class Projet extends Model
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
+    }
+
+    public function devis(): BelongsTo
+    {
+        return $this->belongsTo(Devis::class);
     }
 }
