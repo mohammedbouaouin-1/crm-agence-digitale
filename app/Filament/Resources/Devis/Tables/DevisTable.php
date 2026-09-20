@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources\Devis\Tables;
 
+use App\Mail\NouveauDevisDisponible;
 use App\Models\Campagne;
 use App\Models\Devis;
 use App\Models\Facture;
 use App\Models\Projet;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
+use Illuminate\Support\Facades\Mail;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
@@ -64,7 +66,8 @@ class DevisTable
                         'refuse'    => 'Refusé',
                         'expire'    => 'Expiré',
                         default     => ucfirst($state),
-                    }),
+                    })
+                    ->description(fn (Devis $record) => $record->accepte_le ? 'Validé le ' . $record->accepte_le->format('d/m/Y H:i') : null),
 
                 TextColumn::make('date_emission')
                     ->label('Émission')
@@ -97,6 +100,29 @@ class DevisTable
                     ->icon('heroicon-o-document-arrow-down')
                     ->url(fn (Devis $record) => route('devis.pdf', $record))
                     ->openUrlInNewTab(),
+
+                Action::make('envoyer_email')
+                    ->label('Envoyer au client')
+                    ->icon('heroicon-o-paper-airplane')
+                    ->color('primary')
+                    ->visible(fn (Devis $record) => !empty($record->client?->email) && in_array($record->statut, ['brouillon', 'envoye']))
+                    ->requiresConfirmation()
+                    ->modalHeading('Envoyer la proposition commerciale')
+                    ->modalDescription(fn (Devis $record) => "Transmettre le devis {$record->numero} et son PDF par email à {$record->client->nom} ({$record->client->email}) ?")
+                    ->modalSubmitActionLabel('Envoyer par email')
+                    ->action(function (Devis $record) {
+                        Mail::to($record->client->email)->send(new NouveauDevisDisponible($record));
+
+                        if ($record->statut === 'brouillon') {
+                            $record->update(['statut' => 'envoye']);
+                        }
+
+                        Notification::make()
+                            ->title('Devis envoyé par email')
+                            ->body("La proposition {$record->numero} a été transmise à {$record->client->email}.")
+                            ->success()
+                            ->send();
+                    }),
 
                 Action::make('creer_projet')
                     ->label('Créer le projet')

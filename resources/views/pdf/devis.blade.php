@@ -431,11 +431,33 @@
             <strong>Conditions générales :</strong><br>
             La signature du présent devis emporte acceptation sans réserve des conditions générales de vente de l'agence. Le présent devis est valable jusqu'au {{ $devis->date_validite?->format('d/m/Y') ?? '30 jours' }}. Tout dépassement du périmètre convenu fera l'objet d'un avenant.
         </div>
+        @if($devis->accepte_le)
+        <div class="signature-bloc" style="border: 2px solid #10b981; background-color: #f0fdf4; border-radius: 6px; padding: 12px 14px; text-align: left;">
+            <div style="font-size: 11px; font-weight: bold; color: #065f46; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; border-bottom: 1px solid #bbf7d0; padding-bottom: 4px;">
+                Acceptation Électronique Certifiée
+            </div>
+            <div style="font-size: 10px; color: #047857; margin-bottom: 6px; font-weight: 600;">
+                Document validé en ligne par le client
+            </div>
+            <div style="font-size: 10px; color: #1e293b; margin-bottom: 3px;">
+                <strong>Date & heure :</strong> {{ $devis->accepte_le->format('d/m/Y à H:i:s') }}
+            </div>
+            @if($devis->ip_acceptation)
+            <div style="font-size: 9px; color: #475569; margin-bottom: 3px;">
+                <strong>Adresse IP signataire :</strong> {{ $devis->ip_acceptation }}
+            </div>
+            @endif
+            <div style="font-size: 9px; color: #047857; font-style: italic; margin-top: 8px; padding-top: 4px; border-top: 1px dashed #86efac;">
+                Mention formelle : « Bon pour accord enregistré »
+            </div>
+        </div>
+        @else
         <div class="signature-bloc">
             <div class="signature-titre">Pour le Client : Bon pour accord</div>
             <div class="signature-mention">(Date, signature et cachet précédés de la mention manuscrite « Bon pour accord »)</div>
             <div class="signature-ligne">Date & Signature :</div>
         </div>
+        @endif
     </div>
 
     <!-- Pied de page -->

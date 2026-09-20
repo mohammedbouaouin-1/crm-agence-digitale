@@ -23,11 +23,14 @@ class Devis extends Model
         'statut',
         'description',
         'conditions',
+        'accepte_le',
+        'ip_acceptation',
     ];
 
     protected $casts = [
         'date_emission' => 'date',
         'date_validite' => 'date',
+        'accepte_le'    => 'datetime',
         'montant'       => 'decimal:2',
     ];
 

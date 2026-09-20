@@ -60,6 +60,17 @@ class MesProjets extends BaseWidget
                         default         => $state,
                     }),
 
+                TextColumn::make('progression')
+                    ->label('Avancement')
+                    ->badge()
+                    ->color(fn (int $state): string => match (true) {
+                        $state === 100 => 'success',
+                        $state >= 50   => 'info',
+                        $state > 0     => 'warning',
+                        default        => 'danger',
+                    })
+                    ->formatStateUsing(fn (int $state): string => "{$state}%"),
+
                 TextColumn::make('date_livraison_prevue')
                     ->label('Livraison prévue')
                     ->date('d/m/Y'),

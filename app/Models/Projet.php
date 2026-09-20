@@ -39,4 +39,15 @@ class Projet extends Model
     {
         return $this->belongsTo(Devis::class);
     }
+
+    public function getProgressionAttribute(): int
+    {
+        return match ($this->statut) {
+            'maquette'      => 25,
+            'developpement' => 50,
+            'tests'         => 75,
+            'livre'         => 100,
+            default         => 0,
+        };
+    }
 }

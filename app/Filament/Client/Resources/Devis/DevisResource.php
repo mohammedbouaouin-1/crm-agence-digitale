@@ -125,11 +125,15 @@ class DevisResource extends Resource
                     ->modalDescription('En validant ce devis, vous confirmez votre accord pour la réalisation des prestations indiquées.')
                     ->modalSubmitActionLabel('Oui, j\'accepte le devis')
                     ->action(function (Devis $record) {
-                        $record->update(['statut' => 'accepte']);
+                        $record->update([
+                            'statut'         => 'accepte',
+                            'accepte_le'     => now(),
+                            'ip_acceptation' => request()->ip() ?? '127.0.0.1',
+                        ]);
 
                         Notification::make()
                             ->title('Devis accepté')
-                            ->body('Votre accord a été transmis à l\'agence avec succès.')
+                            ->body('Votre accord certifié a été transmis à l\'agence avec succès.')
                             ->success()
                             ->send();
                     }),
