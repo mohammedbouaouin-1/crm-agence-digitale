@@ -23,7 +23,26 @@ class CampagneForm
                         ->relationship('client', 'nom')
                         ->searchable()
                         ->preload()
+                        ->live()
                         ->required(),
+
+                    Select::make('devis_id')
+                        ->label('Devis d\'origine (optionnel)')
+                        ->relationship('devis', 'numero', function ($query, $get) {
+                            $clientId = $get('client_id');
+                            return $clientId ? $query->where('client_id', $clientId) : $query;
+                        })
+                        ->searchable()
+                        ->preload()
+                        ->live()
+                        ->afterStateUpdated(function ($state, callable $set) {
+                            if ($state) {
+                                $devis = \App\Models\Devis::find($state);
+                                if ($devis) {
+                                    $set('budget', $devis->montant);
+                                }
+                            }
+                        }),
 
                     TextInput::make('nom')
                         ->label('Nom de la campagne')
@@ -49,7 +68,8 @@ class CampagneForm
 
                     TextInput::make('plateforme')
                         ->label('Plateforme cible')
-                        ->placeholder('ex: Instagram, TikTok, Meta Ads, Google'),
+                        ->placeholder('ex: Instagram, TikTok, Meta Ads, Google')
+                        ->columnSpanFull(),
                 ]),
 
             Section::make('Budget & Planning')
@@ -60,7 +80,8 @@ class CampagneForm
                     TextInput::make('budget')
                         ->label('Budget alloué')
                         ->numeric()
-                        ->prefix('DH'),
+                        ->prefix('DH')
+                        ->helperText('Rempli automatiquement si un devis est sélectionné, ou saisie libre.'),
 
                     DatePicker::make('date_debut')
                         ->label('Date de début')

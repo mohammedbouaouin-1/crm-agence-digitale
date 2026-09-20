@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Campagne;
 use App\Models\Client;
 use App\Models\Devis;
 use App\Models\Projet;
@@ -86,3 +87,28 @@ it('associe correctement un projet à son devis d\'origine', function () {
         ->and($projet->devis->id)->toBe($devis->id)
         ->and((float) $projet->budget)->toBe(15000.00);
 });
+
+it('associe correctement une campagne à son devis d\'origine', function () {
+    $client = Client::factory()->create();
+    $devis = Devis::factory()->create([
+        'client_id' => $client->id,
+        'montant'   => 8000,
+    ]);
+
+    $campagne = Campagne::create([
+        'client_id'  => $client->id,
+        'devis_id'   => $devis->id,
+        'nom'        => 'Campagne Meta Ads Promo',
+        'type'       => 'Ads',
+        'plateforme' => 'Meta Ads',
+        'budget'     => $devis->montant,
+        'date_debut' => now(),
+        'statut'     => 'en_cours',
+    ]);
+
+    expect($campagne->devis)->not->toBeNull()
+        ->and($campagne->devis->id)->toBe($devis->id)
+        ->and((float) $campagne->budget)->toBe(8000.00)
+        ->and($devis->fresh()->campagnes->pluck('id'))->toContain($campagne->id);
+});
+

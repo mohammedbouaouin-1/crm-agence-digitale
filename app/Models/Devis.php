@@ -51,6 +51,11 @@ class Devis extends Model
         return $this->hasMany(Projet::class);
     }
 
+    public function campagnes(): HasMany
+    {
+        return $this->hasMany(Campagne::class);
+    }
+
     public function factures(): HasMany
     {
         return $this->hasMany(Facture::class);

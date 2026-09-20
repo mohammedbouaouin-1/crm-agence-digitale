@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Devis\Tables;
 
+use App\Models\Campagne;
 use App\Models\Devis;
 use App\Models\Facture;
 use App\Models\Projet;
@@ -145,6 +146,61 @@ class DevisTable
                         Notification::make()
                             ->title('Projet créé avec succès')
                             ->body("Le projet a été créé avec un budget de " . number_format($record->montant, 2, ',', ' ') . " DH.")
+                            ->success()
+                            ->send();
+                    }),
+
+                Action::make('creer_campagne')
+                    ->label('Créer campagne')
+                    ->icon('heroicon-o-megaphone')
+                    ->color('warning')
+                    ->visible(fn (Devis $record) => $record->statut === 'accepte')
+                    ->form([
+                        TextInput::make('nom')
+                            ->label('Nom de la campagne')
+                            ->default(fn (Devis $record) => $record->titre)
+                            ->required(),
+                        Select::make('type')
+                            ->label('Type de prestation')
+                            ->options([
+                                'Ads' => 'Pub Ads',
+                                'SEO' => 'SEO',
+                            ])
+                            ->default('Ads')
+                            ->required(),
+                        TextInput::make('plateforme')
+                            ->label('Plateforme cible')
+                            ->placeholder('ex: Meta Ads, Google Ads, TikTok')
+                            ->default('Meta Ads'),
+                        TextInput::make('budget')
+                            ->label('Budget hérité du devis (DH)')
+                            ->default(fn (Devis $record) => $record->montant)
+                            ->disabled()
+                            ->dehydrated(false),
+                        DatePicker::make('date_debut')
+                            ->label('Date de démarrage')
+                            ->default(now())
+                            ->required(),
+                        DatePicker::make('date_fin')
+                            ->label('Date de fin prévue')
+                            ->default(now()->addDays(30)),
+                    ])
+                    ->action(function (Devis $record, array $data) {
+                        Campagne::create([
+                            'client_id'  => $record->client_id,
+                            'devis_id'   => $record->id,
+                            'nom'        => $data['nom'],
+                            'type'       => $data['type'],
+                            'plateforme' => $data['plateforme'] ?? null,
+                            'budget'     => $record->montant,
+                            'date_debut' => $data['date_debut'],
+                            'date_fin'   => $data['date_fin'] ?? null,
+                            'statut'     => 'en_cours',
+                        ]);
+
+                        Notification::make()
+                            ->title('Campagne créée avec succès')
+                            ->body("La campagne a été créée avec un budget de " . number_format($record->montant, 2, ',', ' ') . " DH.")
                             ->success()
                             ->send();
                     }),
