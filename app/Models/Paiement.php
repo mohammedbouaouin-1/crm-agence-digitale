@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Paiement extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = ['facture_id', 'montant', 'date', 'methode'];
+
     protected $casts = ['date' => 'date'];
 
     protected static function booted()
@@ -18,5 +19,8 @@ class Paiement extends Model
         static::deleted(fn (Paiement $p) => $p->facture?->mettreAJourStatut());
     }
 
-    public function facture() { return $this->belongsTo(Facture::class); }
+    public function facture()
+    {
+        return $this->belongsTo(Facture::class);
+    }
 }

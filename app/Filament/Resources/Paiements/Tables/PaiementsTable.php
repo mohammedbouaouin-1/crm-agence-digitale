@@ -28,7 +28,7 @@ class PaiementsTable
 
                 TextColumn::make('montant')
                     ->label('Montant')
-                    ->formatStateUsing(fn ($state) => number_format($state, 2, ',', ' ') . ' DH')
+                    ->formatStateUsing(fn ($state) => number_format($state, 2, ',', ' ').' DH')
                     ->sortable()
                     ->weight('bold'),
 
@@ -37,15 +37,15 @@ class PaiementsTable
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'virement' => 'success',
-                        'cheque'   => 'warning',
-                        'especes'  => 'info',
-                        default    => 'gray',
+                        'cheque' => 'warning',
+                        'especes' => 'info',
+                        default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'virement' => 'Virement',
-                        'cheque'   => 'Chèque',
-                        'especes'  => 'Espèces',
-                        default    => $state,
+                        'cheque' => 'Chèque',
+                        'especes' => 'Espèces',
+                        default => $state,
                     }),
 
                 TextColumn::make('date')
@@ -58,8 +58,8 @@ class PaiementsTable
                     ->label('Méthode de paiement')
                     ->options([
                         'virement' => 'Virement',
-                        'cheque'   => 'Chèque',
-                        'especes'  => 'Espèces',
+                        'cheque' => 'Chèque',
+                        'especes' => 'Espèces',
                     ]),
             ])
             ->recordActions([

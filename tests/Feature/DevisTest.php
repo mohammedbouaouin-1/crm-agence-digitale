@@ -1,5 +1,6 @@
 <?php
 
+use App\Mail\NouveauDevisDisponible;
 use App\Models\Campagne;
 use App\Models\Client;
 use App\Models\Devis;
@@ -17,9 +18,9 @@ it('génère un numéro séquentiel de devis correct', function () {
 it('bascule automatiquement le statut en expiré si la date de validité est dépassée', function () {
     $client = Client::factory()->create();
     $devis = Devis::factory()->create([
-        'client_id'     => $client->id,
+        'client_id' => $client->id,
         'date_validite' => now()->subDay(),
-        'statut'        => 'envoye',
+        'statut' => 'envoye',
     ]);
 
     $devis->save();
@@ -71,17 +72,17 @@ it('associe correctement un projet à son devis d\'origine', function () {
     $client = Client::factory()->create();
     $devis = Devis::factory()->create([
         'client_id' => $client->id,
-        'montant'   => 15000,
+        'montant' => 15000,
     ]);
 
     $projet = Projet::create([
-        'client_id'  => $client->id,
-        'devis_id'   => $devis->id,
-        'nom'        => 'Projet Dérivé',
-        'type_site'  => 'e-commerce',
-        'budget'     => $devis->montant,
+        'client_id' => $client->id,
+        'devis_id' => $devis->id,
+        'nom' => 'Projet Dérivé',
+        'type_site' => 'e-commerce',
+        'budget' => $devis->montant,
         'date_debut' => now(),
-        'statut'     => 'maquette',
+        'statut' => 'maquette',
     ]);
 
     expect($projet->devis)->not->toBeNull()
@@ -93,18 +94,18 @@ it('associe correctement une campagne à son devis d\'origine', function () {
     $client = Client::factory()->create();
     $devis = Devis::factory()->create([
         'client_id' => $client->id,
-        'montant'   => 8000,
+        'montant' => 8000,
     ]);
 
     $campagne = Campagne::create([
-        'client_id'  => $client->id,
-        'devis_id'   => $devis->id,
-        'nom'        => 'Campagne Meta Ads Promo',
-        'type'       => 'Ads',
+        'client_id' => $client->id,
+        'devis_id' => $devis->id,
+        'nom' => 'Campagne Meta Ads Promo',
+        'type' => 'Ads',
         'plateforme' => 'Meta Ads',
-        'budget'     => $devis->montant,
+        'budget' => $devis->montant,
         'date_debut' => now(),
-        'statut'     => 'en_cours',
+        'statut' => 'en_cours',
     ]);
 
     expect($campagne->devis)->not->toBeNull()
@@ -117,15 +118,15 @@ it('enregistre l\'horodatage et l\'adresse IP lors de l\'acceptation d\'un devis
     $client = Client::factory()->create();
     $devis = Devis::factory()->create([
         'client_id' => $client->id,
-        'statut'    => 'envoye',
+        'statut' => 'envoye',
     ]);
 
     $now = now();
     $ip = '196.200.150.10';
 
     $devis->update([
-        'statut'         => 'accepte',
-        'accepte_le'     => $now,
+        'statut' => 'accepte',
+        'accepte_le' => $now,
         'ip_acceptation' => $ip,
     ]);
 
@@ -139,14 +140,14 @@ it('prépare un email mailable avec PDF joint lors de l\'envoi d\'un devis', fun
     $client = Client::factory()->create(['email' => 'client-test@agence.ma']);
     $devis = Devis::factory()->create([
         'client_id' => $client->id,
-        'titre'     => 'Refonte portail web',
-        'montant'   => 25000,
+        'titre' => 'Refonte portail web',
+        'montant' => 25000,
     ]);
 
-    $mailable = new \App\Mail\NouveauDevisDisponible($devis);
+    $mailable = new NouveauDevisDisponible($devis);
     $mailable->build();
 
-    expect($mailable->subject)->toContain('Devis ' . $devis->numero)
+    expect($mailable->subject)->toContain('Devis '.$devis->numero)
         ->and($mailable->rawAttachments)->toHaveCount(1)
         ->and($mailable->rawAttachments[0]['name'])->toBe("devis-{$devis->numero}.pdf");
 });
@@ -202,22 +203,20 @@ it('associe correctement une facture à son devis d\'origine', function () {
     $client = Client::factory()->create();
     $devis = Devis::factory()->create([
         'client_id' => $client->id,
-        'montant'   => 12000,
+        'montant' => 12000,
     ]);
 
     $facture = Facture::create([
-        'client_id'     => $client->id,
-        'devis_id'      => $devis->id,
-        'numero'        => 'FAC-2026-9999',
-        'montant'       => 12000,
+        'client_id' => $client->id,
+        'devis_id' => $devis->id,
+        'numero' => 'FAC-2026-9999',
+        'montant' => 12000,
         'date_emission' => now(),
         'date_echeance' => now()->addDays(30),
-        'statut'        => 'en_attente',
+        'statut' => 'en_attente',
     ]);
 
     expect($facture->devis)->not->toBeNull()
         ->and($facture->devis->id)->toBe($devis->id)
         ->and($devis->fresh()->factures->pluck('id'))->toContain($facture->id);
 });
-
-

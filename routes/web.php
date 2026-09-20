@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Devis;
 use App\Models\Facture;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
@@ -18,17 +19,18 @@ Route::get('/factures/{facture}/pdf', function (Facture $facture) {
 
     $facture->load(['client', 'paiements']);
     $pdf = Pdf::loadView('pdf.facture', ['facture' => $facture]);
+
     return response()->stream(
-        fn () => print($pdf->output()),
+        fn () => print ($pdf->output()),
         200,
         [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="facture-' . $facture->numero . '.pdf"',
+            'Content-Disposition' => 'inline; filename="facture-'.$facture->numero.'.pdf"',
         ]
     );
 })->middleware(['auth'])->name('factures.pdf');
 
-Route::get('/devis/{devis}/pdf', function (\App\Models\Devis $devis) {
+Route::get('/devis/{devis}/pdf', function (Devis $devis) {
     $user = auth()->user();
 
     abort_unless(
@@ -38,13 +40,13 @@ Route::get('/devis/{devis}/pdf', function (\App\Models\Devis $devis) {
 
     $devis->load(['client']);
     $pdf = Pdf::loadView('pdf.devis', ['devis' => $devis]);
+
     return response()->stream(
-        fn () => print($pdf->output()),
+        fn () => print ($pdf->output()),
         200,
         [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="devis-' . $devis->numero . '.pdf"',
+            'Content-Disposition' => 'inline; filename="devis-'.$devis->numero.'.pdf"',
         ]
     );
 })->middleware(['auth'])->name('devis.pdf');
-

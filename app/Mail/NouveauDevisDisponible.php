@@ -18,7 +18,7 @@ class NouveauDevisDisponible extends Mailable
     {
         $this->devis->load('client');
 
-        return $this->subject('Nouvelle proposition commerciale — Devis ' . $this->devis->numero)
+        return $this->subject('Nouvelle proposition commerciale — Devis '.$this->devis->numero)
             ->view('emails.nouveau-devis')
             ->with(['devis' => $this->devis])
             ->attachData(

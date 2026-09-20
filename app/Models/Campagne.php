@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Campagne extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'client_id',
         'devis_id',
@@ -23,9 +23,16 @@ class Campagne extends Model
         'date_fin',
         'statut',
     ];
-    
+
     protected $casts = ['date_debut' => 'date', 'date_fin' => 'date'];
 
-    public function client(): BelongsTo { return $this->belongsTo(Client::class); }
-    public function devis(): BelongsTo { return $this->belongsTo(Devis::class); }
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function devis(): BelongsTo
+    {
+        return $this->belongsTo(Devis::class);
+    }
 }

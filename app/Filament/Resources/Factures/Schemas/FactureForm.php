@@ -2,11 +2,12 @@
 
 namespace App\Filament\Resources\Factures\Schemas;
 
+use App\Models\Devis;
 use App\Models\Facture;
 use Filament\Forms\Components\DatePicker;
-use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class FactureForm
@@ -32,15 +33,16 @@ class FactureForm
                         ->label('Devis d\'origine (optionnel)')
                         ->relationship('devis', 'numero', function ($query, $get) {
                             $clientId = $get('client_id');
+
                             return $clientId ? $query->where('client_id', $clientId) : $query;
                         })
-                        ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->numero} — {$record->titre} (" . number_format($record->montant, 0, ',', ' ') . " DH)")
+                        ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->numero} — {$record->titre} (".number_format($record->montant, 0, ',', ' ').' DH)')
                         ->searchable()
                         ->preload()
                         ->live()
                         ->afterStateUpdated(function ($state, callable $set) {
                             if ($state) {
-                                $devis = \App\Models\Devis::find($state);
+                                $devis = Devis::find($state);
                                 if ($devis) {
                                     $set('montant', $devis->montant);
                                 }
@@ -91,10 +93,10 @@ class FactureForm
                     Select::make('statut')
                         ->label('Statut')
                         ->options([
-                            'en_attente'          => 'En attente',
+                            'en_attente' => 'En attente',
                             'partiellement_payee' => 'Partiellement payée',
-                            'payee'               => 'Payée',
-                            'en_retard'           => 'En retard',
+                            'payee' => 'Payée',
+                            'en_retard' => 'En retard',
                         ])
                         ->default('en_attente')
                         ->disabled()

@@ -3,6 +3,7 @@
 namespace App\Filament\Client\Widgets;
 
 use App\Models\Facture;
+use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -35,7 +36,7 @@ class FacturesARegler extends BaseWidget
 
                 TextColumn::make('montant')
                     ->label('Montant')
-                    ->formatStateUsing(fn ($state) => number_format($state, 2, ',', ' ') . ' DH')
+                    ->formatStateUsing(fn ($state) => number_format($state, 2, ',', ' ').' DH')
                     ->weight('bold'),
 
                 TextColumn::make('statut')
@@ -43,15 +44,15 @@ class FacturesARegler extends BaseWidget
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'partiellement_payee' => 'warning',
-                        'en_attente'          => 'secondary',
-                        'en_retard'           => 'danger',
-                        default               => 'gray',
+                        'en_attente' => 'secondary',
+                        'en_retard' => 'danger',
+                        default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'partiellement_payee' => 'Partiellement payée',
-                        'en_attente'          => 'En attente',
-                        'en_retard'           => 'En retard',
-                        default               => $state,
+                        'en_attente' => 'En attente',
+                        'en_retard' => 'En retard',
+                        default => $state,
                     }),
 
                 TextColumn::make('date_echeance')
@@ -60,7 +61,7 @@ class FacturesARegler extends BaseWidget
                     ->color(fn ($record) => $record->date_echeance?->isPast() ? 'danger' : null),
             ])
             ->recordActions([
-                \Filament\Actions\Action::make('telecharger_pdf')
+                Action::make('telecharger_pdf')
                     ->label('PDF')
                     ->icon('heroicon-o-document-arrow-down')
                     ->url(fn (Facture $record) => route('factures.pdf', $record))

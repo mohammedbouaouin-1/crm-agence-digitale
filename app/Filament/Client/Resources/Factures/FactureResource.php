@@ -4,9 +4,7 @@ namespace App\Filament\Client\Resources\Factures;
 
 use App\Filament\Client\Resources\Factures\Pages\ManageFactures;
 use App\Models\Facture;
-use Barryvdh\DomPDF\Facade\Pdf;
 use BackedEnum;
-use UnitEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -18,6 +16,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use UnitEnum;
 
 class FactureResource extends Resource
 {
@@ -65,10 +64,10 @@ class FactureResource extends Resource
                 Select::make('statut')
                     ->label('Statut')
                     ->options([
-                        'en_attente'          => 'En attente',
+                        'en_attente' => 'En attente',
                         'partiellement_payee' => 'Partiellement payée',
-                        'payee'               => 'Payée',
-                        'en_retard'           => 'En retard',
+                        'payee' => 'Payée',
+                        'en_retard' => 'En retard',
                     ])
                     ->disabled(),
             ]);
@@ -86,7 +85,7 @@ class FactureResource extends Resource
 
                 TextColumn::make('montant')
                     ->label('Montant TTC')
-                    ->formatStateUsing(fn ($state) => number_format($state, 2, ',', ' ') . ' DH')
+                    ->formatStateUsing(fn ($state) => number_format($state, 2, ',', ' ').' DH')
                     ->sortable()
                     ->weight('bold'),
 
@@ -94,11 +93,13 @@ class FactureResource extends Resource
                     ->label('Reste à payer')
                     ->state(function (Facture $record): string {
                         $reste = max(0, $record->montant - ($record->totalPaye ?? 0));
-                        return number_format($reste, 2, ',', ' ') . ' DH';
+
+                        return number_format($reste, 2, ',', ' ').' DH';
                     })
                     ->badge()
                     ->color(function (Facture $record): string {
                         $reste = max(0, $record->montant - ($record->totalPaye ?? 0));
+
                         return $reste <= 0 ? 'success' : 'warning';
                     }),
 
@@ -116,18 +117,18 @@ class FactureResource extends Resource
                     ->label('Statut')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'payee'               => 'success',
+                        'payee' => 'success',
                         'partiellement_payee' => 'warning',
-                        'en_attente'          => 'secondary',
-                        'en_retard'           => 'danger',
-                        default               => 'gray',
+                        'en_attente' => 'secondary',
+                        'en_retard' => 'danger',
+                        default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'payee'               => 'Payée',
+                        'payee' => 'Payée',
                         'partiellement_payee' => 'Partiellement payée',
-                        'en_attente'          => 'En attente',
-                        'en_retard'           => 'En retard',
-                        default               => ucfirst($state),
+                        'en_attente' => 'En attente',
+                        'en_retard' => 'En retard',
+                        default => ucfirst($state),
                     }),
             ])
             ->filters([])

@@ -3,7 +3,6 @@
 namespace App\Filament\Client\Resources\Factures\Pages;
 
 use App\Filament\Client\Resources\Factures\FactureResource;
-use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
 
 class ManageFactures extends ManageRecords
@@ -13,7 +12,7 @@ class ManageFactures extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-          
+
         ];
     }
 }

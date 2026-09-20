@@ -21,6 +21,7 @@ class ManageDemandes extends ManageRecords
                 ->modalHeading('Envoyer une nouvelle demande')
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['client_id'] = auth()->user()?->client_id;
+
                     return $data;
                 })
                 ->after(function ($record) {

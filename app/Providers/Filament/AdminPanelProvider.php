@@ -2,6 +2,11 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\CampagnesParStatut;
+use App\Filament\Widgets\ClientsParStatut;
+use App\Filament\Widgets\DernieresActivites;
+use App\Filament\Widgets\RevenueChart;
+use App\Filament\Widgets\StatsOverview;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -62,11 +67,11 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
-                \App\Filament\Widgets\StatsOverview::class,
-                \App\Filament\Widgets\RevenueChart::class,
-                \App\Filament\Widgets\CampagnesParStatut::class,
-                \App\Filament\Widgets\ClientsParStatut::class,
-                \App\Filament\Widgets\DernieresActivites::class,
+                StatsOverview::class,
+                RevenueChart::class,
+                CampagnesParStatut::class,
+                ClientsParStatut::class,
+                DernieresActivites::class,
             ])
             ->middleware([
                 EncryptCookies::class,

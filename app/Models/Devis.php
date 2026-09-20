@@ -30,8 +30,8 @@ class Devis extends Model
     protected $casts = [
         'date_emission' => 'date',
         'date_validite' => 'date',
-        'accepte_le'    => 'datetime',
-        'montant'       => 'decimal:2',
+        'accepte_le' => 'datetime',
+        'montant' => 'decimal:2',
     ];
 
     protected static function booted()

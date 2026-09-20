@@ -5,7 +5,6 @@ namespace App\Filament\Client\Resources\Campagnes;
 use App\Filament\Client\Resources\Campagnes\Pages\ManageCampagnes;
 use App\Models\Campagne;
 use BackedEnum;
-use UnitEnum;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -16,6 +15,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use UnitEnum;
 
 class CampagneResource extends Resource
 {
@@ -97,7 +97,7 @@ class CampagneResource extends Resource
 
                 TextColumn::make('budget')
                     ->label('Budget')
-                    ->formatStateUsing(fn ($state) => $state ? number_format($state, 2, ',', ' ') . ' DH' : '—')
+                    ->formatStateUsing(fn ($state) => $state ? number_format($state, 2, ',', ' ').' DH' : '—')
                     ->sortable(),
 
                 TextColumn::make('date_debut')
@@ -118,13 +118,13 @@ class CampagneResource extends Resource
                         'en_cours' => 'success',
                         'terminee' => 'secondary',
                         'en_pause' => 'warning',
-                        default    => 'gray',
+                        default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'en_cours' => 'En cours',
                         'terminee' => 'Terminée',
                         'en_pause' => 'En pause',
-                        default    => ucfirst($state),
+                        default => ucfirst($state),
                     }),
             ])
             ->filters([])

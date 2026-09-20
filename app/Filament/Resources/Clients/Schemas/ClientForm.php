@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources\Clients\Schemas;
 
-use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class ClientForm
@@ -57,8 +57,8 @@ class ClientForm
                         ->label('Statut')
                         ->options([
                             'prospect' => 'Prospect',
-                            'actif'    => 'Actif',
-                            'inactif'  => 'Inactif',
+                            'actif' => 'Actif',
+                            'inactif' => 'Inactif',
                         ])
                         ->required(),
                 ]),

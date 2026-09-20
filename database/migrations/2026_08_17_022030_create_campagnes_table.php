@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('campagnes', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('client_id')->constrained()->cascadeOnDelete();
-    $table->string('nom');
-    $table->string('type');
-    $table->string('plateforme')->nullable();
-    $table->decimal('budget', 10, 2)->nullable();
-    $table->date('date_debut');
-    $table->date('date_fin')->nullable();
-    $table->enum('statut', ['en_cours', 'terminee', 'en_pause'])->default('en_cours');
-    $table->timestamps();
-});
+            $table->id();
+            $table->foreignId('client_id')->constrained()->cascadeOnDelete();
+            $table->string('nom');
+            $table->string('type');
+            $table->string('plateforme')->nullable();
+            $table->decimal('budget', 10, 2)->nullable();
+            $table->date('date_debut');
+            $table->date('date_fin')->nullable();
+            $table->enum('statut', ['en_cours', 'terminee', 'en_pause'])->default('en_cours');
+            $table->timestamps();
+        });
     }
 
     /**

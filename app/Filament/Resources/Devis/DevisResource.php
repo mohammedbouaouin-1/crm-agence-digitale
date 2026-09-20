@@ -9,11 +9,11 @@ use App\Filament\Resources\Devis\Schemas\DevisForm;
 use App\Filament\Resources\Devis\Tables\DevisTable;
 use App\Models\Devis;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class DevisResource extends Resource
 {
@@ -47,9 +47,9 @@ class DevisResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListDevis::route('/'),
+            'index' => ListDevis::route('/'),
             'create' => CreateDevis::route('/create'),
-            'edit'   => EditDevis::route('/{record}/edit'),
+            'edit' => EditDevis::route('/{record}/edit'),
         ];
     }
 }

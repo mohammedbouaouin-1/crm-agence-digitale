@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('clients', function (Blueprint $table) {
-    $table->id();
-    $table->string('nom');
-    $table->string('entreprise')->nullable();
-    $table->string('email')->unique();
-    $table->string('telephone')->nullable();
-    $table->string('adresse')->nullable();
-    $table->string('secteur_activite')->nullable();
-    $table->enum('statut', ['prospect', 'actif', 'inactif'])->default('prospect');
-    $table->softDeletes();
-    $table->timestamps();
-});
+        Schema::create('clients', function (Blueprint $table) {
+            $table->id();
+            $table->string('nom');
+            $table->string('entreprise')->nullable();
+            $table->string('email')->unique();
+            $table->string('telephone')->nullable();
+            $table->string('adresse')->nullable();
+            $table->string('secteur_activite')->nullable();
+            $table->enum('statut', ['prospect', 'actif', 'inactif'])->default('prospect');
+            $table->softDeletes();
+            $table->timestamps();
+        });
     }
 
     /**

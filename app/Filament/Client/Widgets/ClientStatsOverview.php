@@ -34,6 +34,7 @@ class ClientStatsOverview extends StatsOverviewWidget
         // Données des 6 derniers mois
         $facturesParMois = collect(range(5, 0))->map(function ($monthsAgo) use ($clientId) {
             $date = now()->subMonths($monthsAgo);
+
             return (float) Facture::where('client_id', $clientId)
                 ->whereYear('created_at', $date->year)
                 ->whereMonth('created_at', $date->month)
@@ -42,6 +43,7 @@ class ClientStatsOverview extends StatsOverviewWidget
 
         $campagnesParMois = collect(range(5, 0))->map(function ($monthsAgo) use ($clientId) {
             $date = now()->subMonths($monthsAgo);
+
             return (int) Campagne::where('client_id', $clientId)
                 ->whereYear('created_at', $date->year)
                 ->whereMonth('created_at', $date->month)
@@ -50,6 +52,7 @@ class ClientStatsOverview extends StatsOverviewWidget
 
         $facturesAttenteParMois = collect(range(5, 0))->map(function ($monthsAgo) use ($clientId) {
             $date = now()->subMonths($monthsAgo);
+
             return (int) Facture::where('client_id', $clientId)
                 ->where('statut', '!=', 'payee')
                 ->whereYear('created_at', $date->year)
@@ -68,7 +71,7 @@ class ClientStatsOverview extends StatsOverviewWidget
                 ->chart($facturesAttenteParMois)
                 ->color($facturesEnAttente > 0 ? 'warning' : 'success'),
 
-            Stat::make('Total facturé', new HtmlString("<span style='font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em;'>" . number_format($totalFacture, 0, ',', ' ') . " DH</span>"))
+            Stat::make('Total facturé', new HtmlString("<span style='font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em;'>".number_format($totalFacture, 0, ',', ' ').' DH</span>'))
                 ->description('Cumul de vos prestations')
                 ->chart($facturesParMois)
                 ->color('success'),

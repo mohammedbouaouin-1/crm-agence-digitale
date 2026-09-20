@@ -22,8 +22,8 @@ class ClientsParStatut extends ChartWidget
     {
         return [
             'maintainAspectRatio' => false,
-            'responsive'          => true,
-            'plugins'             => [
+            'responsive' => true,
+            'plugins' => [
                 'legend' => [
                     'position' => 'bottom',
                 ],
@@ -42,7 +42,7 @@ class ClientsParStatut extends ChartWidget
                         Client::where('statut', 'inactif')->count(),
                     ],
                     'backgroundColor' => ['#f59e0b', '#10b981', '#ef4444'],
-                    'hoverOffset'     => 6,
+                    'hoverOffset' => 6,
                 ],
             ],
             'labels' => ['Prospects', 'Actifs', 'Inactifs'],

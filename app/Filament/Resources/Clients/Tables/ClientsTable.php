@@ -42,13 +42,13 @@ class ClientsTable
 
                 TextColumn::make('statut')
                     ->badge()
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'actif' => 'success',
                         'prospect' => 'warning',
                         'inactif' => 'danger',
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn(string $state): string => match ($state) {
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
                         'actif' => 'Actif',
                         'prospect' => 'Prospect',
                         'inactif' => 'Inactif',
@@ -62,8 +62,9 @@ class ClientsTable
                     ->color('info')
                     ->tooltip(function ($record) {
                         $noms = $record->campagnes->pluck('nom')->filter();
+
                         return $noms->count() > 0
-                            ? 'Campagnes: ' . $noms->join(', ')
+                            ? 'Campagnes: '.$noms->join(', ')
                             : 'Aucune campagne';
                     }),
 
@@ -86,7 +87,7 @@ class ClientsTable
                 Action::make('creer_acces')
                     ->label('Créer un accès')
                     ->icon('heroicon-o-key')
-                    ->visible(fn($record) => !User::where('client_id', $record->id)->exists())
+                    ->visible(fn ($record) => ! User::where('client_id', $record->id)->exists())
                     ->requiresConfirmation()
                     ->action(function ($record) {
                         $motDePasse = Str::password(12);

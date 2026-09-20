@@ -47,9 +47,9 @@ class ProjetResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListProjets::route('/'),
+            'index' => ListProjets::route('/'),
             'create' => CreateProjet::route('/create'),
-            'edit'   => EditProjet::route('/{record}/edit'),
+            'edit' => EditProjet::route('/{record}/edit'),
         ];
     }
 }

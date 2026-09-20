@@ -3,9 +3,9 @@
 namespace App\Filament\Resources\NoteHistoriques\Schemas;
 
 use Filament\Forms\Components\DatePicker;
-use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class NoteHistoriqueForm
@@ -28,10 +28,10 @@ class NoteHistoriqueForm
                     Select::make('type')
                         ->label('Type d\'échange')
                         ->options([
-                            'appel'   => 'Appel',
-                            'email'   => 'Email',
+                            'appel' => 'Appel',
+                            'email' => 'Email',
                             'reunion' => 'Réunion',
-                            'autre'   => 'Autre',
+                            'autre' => 'Autre',
                         ])
                         ->required(),
 

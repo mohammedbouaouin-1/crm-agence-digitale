@@ -25,7 +25,7 @@ class CampagnesTable
                     ->label('Nom de la campagne')
                     ->searchable()
                     ->weight('bold')
-                    ->description(fn (Campagne $record) => $record->devis ? 'Devis: ' . $record->devis->numero : null),
+                    ->description(fn (Campagne $record) => $record->devis ? 'Devis: '.$record->devis->numero : null),
 
                 TextColumn::make('compte_cible')
                     ->label('Compte / Page')
@@ -38,9 +38,9 @@ class CampagnesTable
                     ->label('Type')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'SEO'          => 'success',
-                        'Ads'          => 'info',
-                        default        => 'gray',
+                        'SEO' => 'success',
+                        'Ads' => 'info',
+                        default => 'gray',
                     }),
 
                 TextColumn::make('plateforme')
@@ -49,7 +49,7 @@ class CampagnesTable
 
                 TextColumn::make('budget')
                     ->label('Budget')
-                    ->formatStateUsing(fn ($state) => $state ? number_format($state, 2, ',', ' ') . ' DH' : '—')
+                    ->formatStateUsing(fn ($state) => $state ? number_format($state, 2, ',', ' ').' DH' : '—')
                     ->sortable(),
 
                 TextColumn::make('date_debut')
@@ -70,13 +70,13 @@ class CampagnesTable
                         'en_cours' => 'success',
                         'en_pause' => 'warning',
                         'terminee' => 'gray',
-                        default    => 'gray',
+                        default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'en_cours' => 'En cours',
                         'en_pause' => 'En pause',
                         'terminee' => 'Terminée',
-                        default    => $state,
+                        default => $state,
                     }),
             ])
             ->filters([

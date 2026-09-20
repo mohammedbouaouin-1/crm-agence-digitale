@@ -26,16 +26,16 @@ class NoteHistoriquesTable
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'reunion' => 'success',
-                        'appel'   => 'info',
-                        'email'   => 'warning',
-                        default   => 'gray',
+                        'appel' => 'info',
+                        'email' => 'warning',
+                        default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'reunion' => 'Réunion',
-                        'appel'   => 'Appel',
-                        'email'   => 'Email',
-                        'autre'   => 'Autre',
-                        default   => $state,
+                        'appel' => 'Appel',
+                        'email' => 'Email',
+                        'autre' => 'Autre',
+                        default => $state,
                     }),
 
                 TextColumn::make('contenu')
@@ -58,10 +58,10 @@ class NoteHistoriquesTable
                 SelectFilter::make('type')
                     ->label('Type d\'échange')
                     ->options([
-                        'appel'   => 'Appel',
-                        'email'   => 'Email',
+                        'appel' => 'Appel',
+                        'email' => 'Email',
                         'reunion' => 'Réunion',
-                        'autre'   => 'Autre',
+                        'autre' => 'Autre',
                     ]),
             ])
             ->recordActions([

@@ -4,6 +4,7 @@ namespace App\Filament\Resources\DemandeClients\Schemas;
 
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -23,7 +24,7 @@ class DemandeClientForm
                         ->relationship('client', 'nom')
                         ->disabled(),
 
-                    \Filament\Forms\Components\TextInput::make('sujet')
+                    TextInput::make('sujet')
                         ->label('Sujet')
                         ->disabled(),
 

@@ -5,7 +5,6 @@ namespace App\Filament\Client\Resources\Devis;
 use App\Filament\Client\Resources\Devis\Pages\ManageDevis;
 use App\Models\Devis;
 use BackedEnum;
-use UnitEnum;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
@@ -15,6 +14,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use UnitEnum;
 
 class DevisResource extends Resource
 {
@@ -72,7 +72,7 @@ class DevisResource extends Resource
 
                 TextColumn::make('montant')
                     ->label('Montant Net')
-                    ->formatStateUsing(fn ($state) => number_format($state, 2, ',', ' ') . ' DH')
+                    ->formatStateUsing(fn ($state) => number_format($state, 2, ',', ' ').' DH')
                     ->sortable()
                     ->weight('bold'),
 
@@ -91,22 +91,22 @@ class DevisResource extends Resource
                     ->label('Statut')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'accepte'   => 'success',
-                        'envoye'    => 'info',
+                        'accepte' => 'success',
+                        'envoye' => 'info',
                         'brouillon' => 'secondary',
-                        'refuse'    => 'danger',
-                        'expire'    => 'warning',
-                        default     => 'gray',
+                        'refuse' => 'danger',
+                        'expire' => 'warning',
+                        default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'accepte'   => 'Accepté',
-                        'envoye'    => 'En attente de votre accord',
+                        'accepte' => 'Accepté',
+                        'envoye' => 'En attente de votre accord',
                         'brouillon' => 'Brouillon',
-                        'refuse'    => 'Refusé',
-                        'expire'    => 'Expiré',
-                        default     => ucfirst($state),
+                        'refuse' => 'Refusé',
+                        'expire' => 'Expiré',
+                        default => ucfirst($state),
                     })
-                    ->description(fn (Devis $record) => $record->accepte_le ? 'Validé le ' . $record->accepte_le->format('d/m/Y H:i') : null),
+                    ->description(fn (Devis $record) => $record->accepte_le ? 'Validé le '.$record->accepte_le->format('d/m/Y H:i') : null),
             ])
             ->filters([])
             ->recordActions([
@@ -127,8 +127,8 @@ class DevisResource extends Resource
                     ->modalSubmitActionLabel('Oui, j\'accepte le devis')
                     ->action(function (Devis $record) {
                         $record->update([
-                            'statut'         => 'accepte',
-                            'accepte_le'     => now(),
+                            'statut' => 'accepte',
+                            'accepte_le' => now(),
                             'ip_acceptation' => request()->ip() ?? '127.0.0.1',
                         ]);
 

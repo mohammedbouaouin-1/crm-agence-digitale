@@ -24,49 +24,49 @@ class ProjetsTable
                     ->label('Nom du projet')
                     ->searchable()
                     ->weight('bold')
-                    ->description(fn (Projet $record) => $record->devis ? 'Devis: ' . $record->devis->numero : null),
+                    ->description(fn (Projet $record) => $record->devis ? 'Devis: '.$record->devis->numero : null),
 
                 TextColumn::make('type_site')
                     ->label('Type')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'vitrine'         => 'info',
-                        'e-commerce'      => 'success',
+                        'vitrine' => 'info',
+                        'e-commerce' => 'success',
                         'application_web' => 'primary',
-                        'refonte'         => 'warning',
-                        default           => 'gray',
+                        'refonte' => 'warning',
+                        default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'vitrine'         => 'Site vitrine',
-                        'e-commerce'      => 'E-commerce',
+                        'vitrine' => 'Site vitrine',
+                        'e-commerce' => 'E-commerce',
                         'application_web' => 'Application web',
-                        'refonte'         => 'Refonte',
-                        default           => $state,
+                        'refonte' => 'Refonte',
+                        default => $state,
                     }),
 
                 TextColumn::make('budget')
                     ->label('Budget')
-                    ->formatStateUsing(fn ($state) => $state ? number_format($state, 2, ',', ' ') . ' DH' : '—')
+                    ->formatStateUsing(fn ($state) => $state ? number_format($state, 2, ',', ' ').' DH' : '—')
                     ->sortable(),
 
                 TextColumn::make('statut')
                     ->label('Statut')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'maquette'      => 'secondary',
+                        'maquette' => 'secondary',
                         'developpement' => 'info',
-                        'tests'         => 'warning',
-                        'livre'         => 'success',
-                        'en_pause'      => 'danger',
-                        default         => 'gray',
+                        'tests' => 'warning',
+                        'livre' => 'success',
+                        'en_pause' => 'danger',
+                        default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'maquette'      => 'Maquette',
+                        'maquette' => 'Maquette',
                         'developpement' => 'Développement',
-                        'tests'         => 'Tests',
-                        'livre'         => 'Livré',
-                        'en_pause'      => 'En pause',
-                        default         => $state,
+                        'tests' => 'Tests',
+                        'livre' => 'Livré',
+                        'en_pause' => 'En pause',
+                        default => $state,
                     }),
 
                 TextColumn::make('progression')
@@ -74,9 +74,9 @@ class ProjetsTable
                     ->badge()
                     ->color(fn (int $state): string => match (true) {
                         $state === 100 => 'success',
-                        $state >= 50   => 'info',
-                        $state > 0     => 'warning',
-                        default        => 'danger',
+                        $state >= 50 => 'info',
+                        $state > 0 => 'warning',
+                        default => 'danger',
                     })
                     ->formatStateUsing(fn (int $state): string => "{$state}%"),
 
@@ -96,19 +96,19 @@ class ProjetsTable
                 SelectFilter::make('statut')
                     ->label('Statut')
                     ->options([
-                        'maquette'      => 'Maquette',
+                        'maquette' => 'Maquette',
                         'developpement' => 'Développement',
-                        'tests'         => 'Tests',
-                        'livre'         => 'Livré',
-                        'en_pause'      => 'En pause',
+                        'tests' => 'Tests',
+                        'livre' => 'Livré',
+                        'en_pause' => 'En pause',
                     ]),
                 SelectFilter::make('type_site')
                     ->label('Type de site')
                     ->options([
-                        'vitrine'         => 'Site vitrine',
-                        'e-commerce'      => 'E-commerce',
+                        'vitrine' => 'Site vitrine',
+                        'e-commerce' => 'E-commerce',
                         'application_web' => 'Application web',
-                        'refonte'         => 'Refonte',
+                        'refonte' => 'Refonte',
                     ]),
                 SelectFilter::make('client_id')
                     ->relationship('client', 'nom')

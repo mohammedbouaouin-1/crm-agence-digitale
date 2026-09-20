@@ -27,7 +27,8 @@ class PaiementForm
                             $clientNom = $record->client?->nom ?? 'Client';
                             $totalPaye = $record->totalPaye ?? 0;
                             $reste = max(0, $record->montant - $totalPaye);
-                            return "{$record->numero} — {$clientNom} (Total: " . number_format($record->montant, 2, ',', ' ') . " DH | Reste: " . number_format($reste, 2, ',', ' ') . " DH)";
+
+                            return "{$record->numero} — {$clientNom} (Total: ".number_format($record->montant, 2, ',', ' ').' DH | Reste: '.number_format($reste, 2, ',', ' ').' DH)';
                         })
                         ->searchable(['numero'])
                         ->preload()
@@ -43,14 +44,20 @@ class PaiementForm
                         ->visible(fn ($get) => filled($get('facture_id')))
                         ->formatStateUsing(function ($get) {
                             $factureId = $get('facture_id');
-                            if (!$factureId) return null;
+                            if (! $factureId) {
+                                return null;
+                            }
                             $facture = Facture::find($factureId);
+
                             return $facture ? number_format($facture->montant, 2, ',', ' ') : null;
                         })
                         ->placeholder(function ($get) {
                             $factureId = $get('facture_id');
-                            if (!$factureId) return null;
+                            if (! $factureId) {
+                                return null;
+                            }
                             $facture = Facture::find($factureId);
+
                             return $facture ? number_format($facture->montant, 2, ',', ' ') : null;
                         }),
 
@@ -62,22 +69,32 @@ class PaiementForm
                         ->visible(fn ($get) => filled($get('facture_id')))
                         ->formatStateUsing(function ($get, ?Model $record) {
                             $factureId = $get('facture_id');
-                            if (!$factureId) return null;
+                            if (! $factureId) {
+                                return null;
+                            }
                             $facture = Facture::with('paiements')->find($factureId);
-                            if (!$facture) return null;
+                            if (! $facture) {
+                                return null;
+                            }
                             $dejaPaye = $facture->paiements
                                 ->when($record?->id, fn ($p) => $p->where('id', '!=', $record->id))
                                 ->sum('montant');
+
                             return number_format(max(0, $facture->montant - $dejaPaye), 2, ',', ' ');
                         })
                         ->placeholder(function ($get, ?Model $record) {
                             $factureId = $get('facture_id');
-                            if (!$factureId) return null;
+                            if (! $factureId) {
+                                return null;
+                            }
                             $facture = Facture::with('paiements')->find($factureId);
-                            if (!$facture) return null;
+                            if (! $facture) {
+                                return null;
+                            }
                             $dejaPaye = $facture->paiements
                                 ->when($record?->id, fn ($p) => $p->where('id', '!=', $record->id))
                                 ->sum('montant');
+
                             return number_format(max(0, $facture->montant - $dejaPaye), 2, ',', ' ');
                         }),
 
@@ -96,28 +113,38 @@ class PaiementForm
                         ->visible(fn ($get) => filled($get('facture_id')))
                         ->formatStateUsing(function ($get, ?Model $record) {
                             $factureId = $get('facture_id');
-                            if (!$factureId) return null;
+                            if (! $factureId) {
+                                return null;
+                            }
                             $facture = Facture::with('paiements')->find($factureId);
-                            if (!$facture) return null;
+                            if (! $facture) {
+                                return null;
+                            }
                             $dejaPaye = $facture->paiements
                                 ->when($record?->id, fn ($p) => $p->where('id', '!=', $record->id))
                                 ->sum('montant');
                             $resteAvant = max(0, $facture->montant - $dejaPaye);
                             $montantSaisi = (float) ($get('montant') ?? 0);
                             $nouveauReste = max(0, $resteAvant - $montantSaisi);
+
                             return number_format($nouveauReste, 2, ',', ' ');
                         })
                         ->placeholder(function ($get, ?Model $record) {
                             $factureId = $get('facture_id');
-                            if (!$factureId) return null;
+                            if (! $factureId) {
+                                return null;
+                            }
                             $facture = Facture::with('paiements')->find($factureId);
-                            if (!$facture) return null;
+                            if (! $facture) {
+                                return null;
+                            }
                             $dejaPaye = $facture->paiements
                                 ->when($record?->id, fn ($p) => $p->where('id', '!=', $record->id))
                                 ->sum('montant');
                             $resteAvant = max(0, $facture->montant - $dejaPaye);
                             $montantSaisi = (float) ($get('montant') ?? 0);
                             $nouveauReste = max(0, $resteAvant - $montantSaisi);
+
                             return number_format($nouveauReste, 2, ',', ' ');
                         }),
 
@@ -130,8 +157,8 @@ class PaiementForm
                         ->label('Mode de paiement')
                         ->options([
                             'virement' => 'Virement bancaire',
-                            'cheque'   => 'Chèque',
-                            'especes'  => 'Espèces',
+                            'cheque' => 'Chèque',
+                            'especes' => 'Espèces',
                         ])
                         ->default('virement')
                         ->required(),

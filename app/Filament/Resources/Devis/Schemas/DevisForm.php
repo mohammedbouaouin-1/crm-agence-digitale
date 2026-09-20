@@ -67,10 +67,10 @@ class DevisForm
                         ->label('Statut')
                         ->options([
                             'brouillon' => 'Brouillon',
-                            'envoye'    => 'Envoyé au client',
-                            'accepte'   => 'Accepté',
-                            'refuse'    => 'Refusé',
-                            'expire'    => 'Expiré',
+                            'envoye' => 'Envoyé au client',
+                            'accepte' => 'Accepté',
+                            'refuse' => 'Refusé',
+                            'expire' => 'Expiré',
                         ])
                         ->default('brouillon')
                         ->required()
@@ -78,7 +78,7 @@ class DevisForm
 
                     Placeholder::make('acceptation_info')
                         ->label('Certification d\'acceptation')
-                        ->content(fn (?Devis $record) => $record?->accepte_le ? "Validé en ligne le " . $record->accepte_le->format('d/m/Y à H:i:s') . ($record->ip_acceptation ? " — IP signataire : {$record->ip_acceptation}" : '') : '—')
+                        ->content(fn (?Devis $record) => $record?->accepte_le ? 'Validé en ligne le '.$record->accepte_le->format('d/m/Y à H:i:s').($record->ip_acceptation ? " — IP signataire : {$record->ip_acceptation}" : '') : '—')
                         ->visible(fn (?Devis $record) => (bool) $record?->accepte_le)
                         ->columnSpanFull(),
                 ]),

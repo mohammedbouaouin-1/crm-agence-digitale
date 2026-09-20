@@ -2,10 +2,11 @@
 
 namespace App\Filament\Resources\Campagnes\Schemas;
 
+use App\Models\Devis;
 use Filament\Forms\Components\DatePicker;
-use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class CampagneForm
@@ -31,15 +32,16 @@ class CampagneForm
                         ->label('Devis d\'origine (optionnel)')
                         ->relationship('devis', 'numero', function ($query, $get) {
                             $clientId = $get('client_id');
+
                             return $clientId ? $query->where('client_id', $clientId) : $query;
                         })
-                        ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->numero} — {$record->titre} (" . number_format($record->montant, 0, ',', ' ') . " DH)")
+                        ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->numero} — {$record->titre} (".number_format($record->montant, 0, ',', ' ').' DH)')
                         ->searchable()
                         ->preload()
                         ->live()
                         ->afterStateUpdated(function ($state, callable $set) {
                             if ($state) {
-                                $devis = \App\Models\Devis::find($state);
+                                $devis = Devis::find($state);
                                 if ($devis) {
                                     $set('budget', $devis->montant);
                                 }

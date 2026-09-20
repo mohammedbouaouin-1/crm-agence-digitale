@@ -65,31 +65,31 @@ class ProjetResource extends Resource
                     ->label('Type')
                     ->badge()
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'vitrine'         => 'Site vitrine',
-                        'e-commerce'      => 'E-commerce',
+                        'vitrine' => 'Site vitrine',
+                        'e-commerce' => 'E-commerce',
                         'application_web' => 'Application web',
-                        'refonte'         => 'Refonte',
-                        default           => $state,
+                        'refonte' => 'Refonte',
+                        default => $state,
                     }),
 
                 TextColumn::make('statut')
                     ->label('Avancement')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'maquette'      => 'secondary',
+                        'maquette' => 'secondary',
                         'developpement' => 'info',
-                        'tests'         => 'warning',
-                        'livre'         => 'success',
-                        'en_pause'      => 'danger',
-                        default         => 'gray',
+                        'tests' => 'warning',
+                        'livre' => 'success',
+                        'en_pause' => 'danger',
+                        default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'maquette'      => 'Maquette',
+                        'maquette' => 'Maquette',
                         'developpement' => 'Développement',
-                        'tests'         => 'Tests',
-                        'livre'         => 'Livré',
-                        'en_pause'      => 'En pause',
-                        default         => $state,
+                        'tests' => 'Tests',
+                        'livre' => 'Livré',
+                        'en_pause' => 'En pause',
+                        default => $state,
                     }),
 
                 TextColumn::make('date_livraison_prevue')

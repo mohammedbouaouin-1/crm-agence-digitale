@@ -2,6 +2,9 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Client\Widgets\ClientStatsOverview;
+use App\Filament\Client\Widgets\FacturesARegler;
+use App\Filament\Client\Widgets\MesProjets;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -10,7 +13,6 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets\AccountWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -36,7 +38,7 @@ class ClientPanelProvider extends PanelProvider
             ->colors(['primary' => Color::Indigo])
             ->renderHook(
                 'panels::head.end',
-                fn(): string => '<style>
+                fn (): string => '<style>
                     .fi-sidebar-header .fi-logo, .fi-topbar .fi-logo { height: 2.2rem !important; }
                     .fi-simple-main .fi-logo { height: 4.8rem !important; }
                 </style>'
@@ -53,9 +55,9 @@ class ClientPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Client/Widgets'), for: 'App\\Filament\\Client\\Widgets')
             ->widgets([
-                \App\Filament\Client\Widgets\ClientStatsOverview::class,
-                \App\Filament\Client\Widgets\FacturesARegler::class,
-                \App\Filament\Client\Widgets\MesProjets::class,
+                ClientStatsOverview::class,
+                FacturesARegler::class,
+                MesProjets::class,
             ])
             ->middleware([
                 EncryptCookies::class,

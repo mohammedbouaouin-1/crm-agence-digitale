@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('note_historiques', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('client_id')->constrained()->cascadeOnDelete();
-    $table->enum('type', ['appel', 'email', 'reunion', 'autre']);
-    $table->text('contenu');
-    $table->date('prochaine_action')->nullable();
-    $table->timestamps();
-});
+            $table->id();
+            $table->foreignId('client_id')->constrained()->cascadeOnDelete();
+            $table->enum('type', ['appel', 'email', 'reunion', 'autre']);
+            $table->text('contenu');
+            $table->date('prochaine_action')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**

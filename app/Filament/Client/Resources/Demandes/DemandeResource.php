@@ -53,10 +53,10 @@ class DemandeResource extends Resource
                 Select::make('sujet')
                     ->label('Sujet de votre demande')
                     ->options([
-                        'Question sur une campagne'  => 'Question sur une campagne',
-                        'Question sur une facture'   => 'Question sur une facture',
+                        'Question sur une campagne' => 'Question sur une campagne',
+                        'Question sur une facture' => 'Question sur une facture',
                         'Question sur un projet web' => 'Question sur un projet web',
-                        'Autre demande'              => 'Autre demande',
+                        'Autre demande' => 'Autre demande',
                     ])
                     ->required(),
 

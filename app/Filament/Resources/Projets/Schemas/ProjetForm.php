@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Projets\Schemas;
 
+use App\Models\Devis;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -31,15 +32,16 @@ class ProjetForm
                         ->label('Devis d\'origine (optionnel)')
                         ->relationship('devis', 'numero', function ($query, $get) {
                             $clientId = $get('client_id');
+
                             return $clientId ? $query->where('client_id', $clientId) : $query;
                         })
-                        ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->numero} — {$record->titre} (" . number_format($record->montant, 0, ',', ' ') . " DH)")
+                        ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->numero} — {$record->titre} (".number_format($record->montant, 0, ',', ' ').' DH)')
                         ->searchable()
                         ->preload()
                         ->live()
                         ->afterStateUpdated(function ($state, callable $set) {
                             if ($state) {
-                                $devis = \App\Models\Devis::find($state);
+                                $devis = Devis::find($state);
                                 if ($devis) {
                                     $set('budget', $devis->montant);
                                 }
@@ -54,10 +56,10 @@ class ProjetForm
                     Select::make('type_site')
                         ->label('Type de site')
                         ->options([
-                            'vitrine'         => 'Site vitrine',
-                            'e-commerce'      => 'E-commerce',
+                            'vitrine' => 'Site vitrine',
+                            'e-commerce' => 'E-commerce',
                             'application_web' => 'Application web',
-                            'refonte'         => 'Refonte de site existant',
+                            'refonte' => 'Refonte de site existant',
                         ])
                         ->required(),
 
@@ -86,11 +88,11 @@ class ProjetForm
                     Select::make('statut')
                         ->label('Statut du projet')
                         ->options([
-                            'maquette'      => 'Maquette',
+                            'maquette' => 'Maquette',
                             'developpement' => 'Développement',
-                            'tests'         => 'Tests',
-                            'livre'         => 'Livré',
-                            'en_pause'      => 'En pause',
+                            'tests' => 'Tests',
+                            'livre' => 'Livré',
+                            'en_pause' => 'En pause',
                         ])
                         ->required()
                         ->columnSpanFull(),

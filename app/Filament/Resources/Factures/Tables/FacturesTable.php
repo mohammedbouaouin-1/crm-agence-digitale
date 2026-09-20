@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Factures\Tables;
 
 use App\Mail\RelanceFacture;
 use App\Models\Facture;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -30,7 +29,7 @@ class FacturesTable
                     ->searchable()
                     ->sortable()
                     ->weight('bold')
-                    ->description(fn (Facture $record) => $record->devis ? 'Devis: ' . $record->devis->numero : null),
+                    ->description(fn (Facture $record) => $record->devis ? 'Devis: '.$record->devis->numero : null),
 
                 TextColumn::make('client.nom')
                     ->label('Client')
@@ -39,7 +38,7 @@ class FacturesTable
 
                 TextColumn::make('montant')
                     ->label('Montant')
-                    ->formatStateUsing(fn ($state) => number_format($state, 2, ',', ' ') . ' DH')
+                    ->formatStateUsing(fn ($state) => number_format($state, 2, ',', ' ').' DH')
                     ->sortable()
                     ->weight('bold'),
 
@@ -47,18 +46,18 @@ class FacturesTable
                     ->label('Statut')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'payee'               => 'success',
+                        'payee' => 'success',
                         'partiellement_payee' => 'warning',
-                        'en_attente'          => 'secondary',
-                        'en_retard'           => 'danger',
-                        default               => 'gray',
+                        'en_attente' => 'secondary',
+                        'en_retard' => 'danger',
+                        default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'payee'               => 'Payée',
+                        'payee' => 'Payée',
                         'partiellement_payee' => 'Partiellement payée',
-                        'en_attente'          => 'En attente',
-                        'en_retard'           => 'En retard',
-                        default               => $state,
+                        'en_attente' => 'En attente',
+                        'en_retard' => 'En retard',
+                        default => $state,
                     }),
 
                 TextColumn::make('date_emission')
@@ -76,10 +75,10 @@ class FacturesTable
                 SelectFilter::make('statut')
                     ->label('Statut')
                     ->options([
-                        'en_attente'          => 'En attente',
+                        'en_attente' => 'En attente',
                         'partiellement_payee' => 'Partiellement payée',
-                        'payee'               => 'Payée',
-                        'en_retard'           => 'En retard',
+                        'payee' => 'Payée',
+                        'en_retard' => 'En retard',
                     ]),
             ])
             ->recordActions([

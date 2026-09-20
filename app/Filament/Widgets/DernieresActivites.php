@@ -2,7 +2,9 @@
 
 namespace App\Filament\Widgets;
 
+use App\Filament\Resources\Factures\FactureResource;
 use App\Models\Facture;
+use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -40,7 +42,7 @@ class DernieresActivites extends BaseWidget
 
                 TextColumn::make('montant')
                     ->label('Montant')
-                    ->formatStateUsing(fn ($state) => number_format($state, 2, ',', ' ') . ' DH')
+                    ->formatStateUsing(fn ($state) => number_format($state, 2, ',', ' ').' DH')
                     ->weight('bold'),
 
                 TextColumn::make('statut')
@@ -48,15 +50,15 @@ class DernieresActivites extends BaseWidget
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'partiellement_payee' => 'warning',
-                        'en_attente'          => 'secondary',
-                        'en_retard'           => 'danger',
-                        default               => 'gray',
+                        'en_attente' => 'secondary',
+                        'en_retard' => 'danger',
+                        default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'partiellement_payee' => 'Partiellement payée',
-                        'en_attente'          => 'En attente',
-                        'en_retard'           => 'En retard',
-                        default               => $state,
+                        'en_attente' => 'En attente',
+                        'en_retard' => 'En retard',
+                        default => $state,
                     }),
 
                 TextColumn::make('date_emission')
@@ -74,9 +76,9 @@ class DernieresActivites extends BaseWidget
                     }),
             ])
             ->headerActions([
-                \Filament\Actions\Action::make('voir_tout')
+                Action::make('voir_tout')
                     ->label('Voir toutes les factures')
-                    ->url(\App\Filament\Resources\Factures\FactureResource::getUrl('index')),
+                    ->url(FactureResource::getUrl('index')),
             ]);
     }
 }

@@ -9,11 +9,11 @@ use App\Filament\Resources\Paiements\Schemas\PaiementForm;
 use App\Filament\Resources\Paiements\Tables\PaiementsTable;
 use App\Models\Paiement;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class PaiementResource extends Resource
 {

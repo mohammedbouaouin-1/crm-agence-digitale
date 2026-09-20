@@ -43,11 +43,11 @@ class Projet extends Model
     public function getProgressionAttribute(): int
     {
         return match ($this->statut) {
-            'maquette'      => 25,
+            'maquette' => 25,
             'developpement' => 50,
-            'tests'         => 75,
-            'livre'         => 100,
-            default         => 0,
+            'tests' => 75,
+            'livre' => 100,
+            default => 0,
         };
     }
 }

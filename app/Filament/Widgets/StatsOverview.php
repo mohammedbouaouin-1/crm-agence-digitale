@@ -43,6 +43,7 @@ class StatsOverview extends StatsOverviewWidget
         // Données des 6 derniers mois
         $clientsParMois = collect(range(5, 0))->map(function ($monthsAgo) {
             $date = now()->subMonths($monthsAgo)->endOfMonth();
+
             return Client::where('statut', 'actif')
                 ->where('created_at', '<=', $date)
                 ->count();
@@ -50,6 +51,7 @@ class StatsOverview extends StatsOverviewWidget
 
         $campagnesParMois = collect(range(5, 0))->map(function ($monthsAgo) {
             $date = now()->subMonths($monthsAgo);
+
             return Campagne::whereYear('created_at', $date->year)
                 ->whereMonth('created_at', $date->month)
                 ->count();
@@ -57,6 +59,7 @@ class StatsOverview extends StatsOverviewWidget
 
         $factureParMois = collect(range(5, 0))->map(function ($monthsAgo) {
             $date = now()->subMonths($monthsAgo);
+
             return (float) Facture::whereYear('date_emission', $date->year)
                 ->whereMonth('date_emission', $date->month)
                 ->sum('montant');
@@ -64,6 +67,7 @@ class StatsOverview extends StatsOverviewWidget
 
         $retardsParMois = collect(range(5, 0))->map(function ($monthsAgo) {
             $date = now()->subMonths($monthsAgo);
+
             return Facture::where('statut', 'en_retard')
                 ->whereYear('created_at', $date->year)
                 ->whereMonth('created_at', $date->month)
@@ -72,6 +76,7 @@ class StatsOverview extends StatsOverviewWidget
 
         $pipelineParMois = collect(range(5, 0))->map(function ($monthsAgo) {
             $date = now()->subMonths($monthsAgo);
+
             return (float) Devis::where('statut', 'envoye')
                 ->whereYear('created_at', $date->year)
                 ->whereMonth('created_at', $date->month)
@@ -80,6 +85,7 @@ class StatsOverview extends StatsOverviewWidget
 
         $devisAcceptesParMois = collect(range(5, 0))->map(function ($monthsAgo) {
             $date = now()->subMonths($monthsAgo);
+
             return Devis::where('statut', 'accepte')
                 ->whereYear('created_at', $date->year)
                 ->whereMonth('created_at', $date->month)
@@ -95,7 +101,7 @@ class StatsOverview extends StatsOverviewWidget
                 ->color($diffClients >= 0 ? 'success' : 'danger')
                 ->chart($clientsParMois),
 
-            Stat::make('Pipeline devis', new HtmlString("<span style='font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em;'>" . number_format($pipelineDevisMontant, 0, ',', ' ') . " DH</span>"))
+            Stat::make('Pipeline devis', new HtmlString("<span style='font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em;'>".number_format($pipelineDevisMontant, 0, ',', ' ').' DH</span>'))
                 ->description("{$devisEnAttenteCount} proposition(s) en attente")
                 ->color($pipelineDevisMontant > 0 ? 'warning' : 'gray')
                 ->chart($pipelineParMois),
@@ -105,7 +111,7 @@ class StatsOverview extends StatsOverviewWidget
                 ->color($tauxConversion >= 50 ? 'success' : ($tauxConversion > 0 ? 'info' : 'gray'))
                 ->chart($devisAcceptesParMois),
 
-            Stat::make('Facturé ce mois', new HtmlString("<span style='font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em;'>" . number_format($facture_ce_mois, 0, ',', ' ') . " DH</span>"))
+            Stat::make('Facturé ce mois', new HtmlString("<span style='font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em;'>".number_format($facture_ce_mois, 0, ',', ' ').' DH</span>'))
                 ->description($facture_ce_mois >= $facture_mois_dernier ? 'En hausse par rapport au mois dernier' : 'En baisse par rapport au mois dernier')
                 ->color($facture_ce_mois >= $facture_mois_dernier ? 'success' : 'danger')
                 ->chart($factureParMois),

@@ -21,6 +21,6 @@ class MettreAJourFacturesEnRetard extends Command
             $facture->mettreAJourStatut();
         }
 
-        $this->info($factures->count() . ' facture(s) mise(s) à jour.');
+        $this->info($factures->count().' facture(s) mise(s) à jour.');
     }
 }

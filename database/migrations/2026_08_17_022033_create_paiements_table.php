@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('paiements', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('facture_id')->constrained()->cascadeOnDelete();
-    $table->decimal('montant', 10, 2);
-    $table->date('date');
-    $table->enum('methode', ['virement', 'cheque', 'especes', 'carte']);
-    $table->timestamps();
-});
+            $table->id();
+            $table->foreignId('facture_id')->constrained()->cascadeOnDelete();
+            $table->decimal('montant', 10, 2);
+            $table->date('date');
+            $table->enum('methode', ['virement', 'cheque', 'especes', 'carte']);
+            $table->timestamps();
+        });
     }
 
     /**

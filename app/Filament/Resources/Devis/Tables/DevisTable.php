@@ -9,7 +9,6 @@ use App\Models\Facture;
 use App\Models\Projet;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
-use Illuminate\Support\Facades\Mail;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
@@ -19,6 +18,7 @@ use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Mail;
 
 class DevisTable
 {
@@ -44,7 +44,7 @@ class DevisTable
 
                 TextColumn::make('montant')
                     ->label('Montant')
-                    ->formatStateUsing(fn ($state) => number_format($state, 2, ',', ' ') . ' DH')
+                    ->formatStateUsing(fn ($state) => number_format($state, 2, ',', ' ').' DH')
                     ->sortable()
                     ->weight('bold'),
 
@@ -52,22 +52,22 @@ class DevisTable
                     ->label('Statut')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'accepte'   => 'success',
-                        'envoye'    => 'info',
+                        'accepte' => 'success',
+                        'envoye' => 'info',
                         'brouillon' => 'secondary',
-                        'refuse'    => 'danger',
-                        'expire'    => 'warning',
-                        default     => 'gray',
+                        'refuse' => 'danger',
+                        'expire' => 'warning',
+                        default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'accepte'   => 'Accepté',
-                        'envoye'    => 'Envoyé',
+                        'accepte' => 'Accepté',
+                        'envoye' => 'Envoyé',
                         'brouillon' => 'Brouillon',
-                        'refuse'    => 'Refusé',
-                        'expire'    => 'Expiré',
-                        default     => ucfirst($state),
+                        'refuse' => 'Refusé',
+                        'expire' => 'Expiré',
+                        default => ucfirst($state),
                     })
-                    ->description(fn (Devis $record) => $record->accepte_le ? 'Validé le ' . $record->accepte_le->format('d/m/Y H:i') : null),
+                    ->description(fn (Devis $record) => $record->accepte_le ? 'Validé le '.$record->accepte_le->format('d/m/Y H:i') : null),
 
                 TextColumn::make('date_emission')
                     ->label('Émission')
@@ -85,10 +85,10 @@ class DevisTable
                     ->label('Statut')
                     ->options([
                         'brouillon' => 'Brouillon',
-                        'envoye'    => 'Envoyé',
-                        'accepte'   => 'Accepté',
-                        'refuse'    => 'Refusé',
-                        'expire'    => 'Expiré',
+                        'envoye' => 'Envoyé',
+                        'accepte' => 'Accepté',
+                        'refuse' => 'Refusé',
+                        'expire' => 'Expiré',
                     ]),
                 SelectFilter::make('client_id')
                     ->label('Client')
@@ -105,7 +105,7 @@ class DevisTable
                     ->label('Envoyer au client')
                     ->icon('heroicon-o-paper-airplane')
                     ->color('primary')
-                    ->visible(fn (Devis $record) => !empty($record->client?->email) && in_array($record->statut, ['brouillon', 'envoye']))
+                    ->visible(fn (Devis $record) => ! empty($record->client?->email) && in_array($record->statut, ['brouillon', 'envoye']))
                     ->requiresConfirmation()
                     ->modalHeading('Envoyer la proposition commerciale')
                     ->modalDescription(fn (Devis $record) => "Transmettre le devis {$record->numero} et son PDF par email à {$record->client->nom} ({$record->client->email}) ?")
@@ -137,10 +137,10 @@ class DevisTable
                         Select::make('type_site')
                             ->label('Type de site')
                             ->options([
-                                'vitrine'         => 'Site vitrine',
-                                'e-commerce'      => 'E-commerce',
+                                'vitrine' => 'Site vitrine',
+                                'e-commerce' => 'E-commerce',
                                 'application_web' => 'Application web',
-                                'refonte'         => 'Refonte de site existant',
+                                'refonte' => 'Refonte de site existant',
                             ])
                             ->default('vitrine')
                             ->required(),
@@ -159,19 +159,19 @@ class DevisTable
                     ])
                     ->action(function (Devis $record, array $data) {
                         Projet::create([
-                            'client_id'             => $record->client_id,
-                            'devis_id'              => $record->id,
-                            'nom'                   => $data['nom'],
-                            'type_site'             => $data['type_site'],
-                            'budget'                => $record->montant,
-                            'date_debut'            => $data['date_debut'],
+                            'client_id' => $record->client_id,
+                            'devis_id' => $record->id,
+                            'nom' => $data['nom'],
+                            'type_site' => $data['type_site'],
+                            'budget' => $record->montant,
+                            'date_debut' => $data['date_debut'],
                             'date_livraison_prevue' => $data['date_livraison_prevue'] ?? null,
-                            'statut'                => 'maquette',
+                            'statut' => 'maquette',
                         ]);
 
                         Notification::make()
                             ->title('Projet créé avec succès')
-                            ->body("Le projet a été créé avec un budget de " . number_format($record->montant, 2, ',', ' ') . " DH.")
+                            ->body('Le projet a été créé avec un budget de '.number_format($record->montant, 2, ',', ' ').' DH.')
                             ->success()
                             ->send();
                     }),
@@ -213,20 +213,20 @@ class DevisTable
                     ])
                     ->action(function (Devis $record, array $data) {
                         Campagne::create([
-                            'client_id'  => $record->client_id,
-                            'devis_id'   => $record->id,
-                            'nom'        => $data['nom'],
-                            'type'       => $data['type'],
+                            'client_id' => $record->client_id,
+                            'devis_id' => $record->id,
+                            'nom' => $data['nom'],
+                            'type' => $data['type'],
                             'plateforme' => $data['plateforme'] ?? null,
-                            'budget'     => $record->montant,
+                            'budget' => $record->montant,
                             'date_debut' => $data['date_debut'],
-                            'date_fin'   => $data['date_fin'] ?? null,
-                            'statut'     => 'en_cours',
+                            'date_fin' => $data['date_fin'] ?? null,
+                            'statut' => 'en_cours',
                         ]);
 
                         Notification::make()
                             ->title('Campagne créée avec succès')
-                            ->body("La campagne a été créée avec un budget de " . number_format($record->montant, 2, ',', ' ') . " DH.")
+                            ->body('La campagne a été créée avec un budget de '.number_format($record->montant, 2, ',', ' ').' DH.')
                             ->success()
                             ->send();
                     }),
@@ -242,7 +242,7 @@ class DevisTable
                             ->options([
                                 'acompte_30' => 'Acompte de 30%',
                                 'acompte_50' => 'Acompte de 50%',
-                                'solde_100'  => 'Totalité (100%)',
+                                'solde_100' => 'Totalité (100%)',
                             ])
                             ->default('acompte_30')
                             ->required(),
@@ -259,7 +259,7 @@ class DevisTable
                         $taux = match ($data['type_facture']) {
                             'acompte_30' => 0.30,
                             'acompte_50' => 0.50,
-                            default      => 1.00,
+                            default => 1.00,
                         };
 
                         $montantFacture = round($record->montant * $taux, 2);
@@ -278,18 +278,18 @@ class DevisTable
                         $numero = sprintf('FAC-%s-%04d', $annee, $prochain);
 
                         Facture::create([
-                            'client_id'     => $record->client_id,
-                            'devis_id'      => $record->id,
-                            'numero'        => $numero,
-                            'montant'       => $montantFacture,
+                            'client_id' => $record->client_id,
+                            'devis_id' => $record->id,
+                            'numero' => $numero,
+                            'montant' => $montantFacture,
                             'date_emission' => $data['date_emission'],
                             'date_echeance' => $data['date_echeance'],
-                            'statut'        => 'en_attente',
+                            'statut' => 'en_attente',
                         ]);
 
                         Notification::make()
                             ->title('Facture générée avec succès')
-                            ->body("Facture {$numero} émise pour un montant de " . number_format($montantFacture, 2, ',', ' ') . " DH.")
+                            ->body("Facture {$numero} émise pour un montant de ".number_format($montantFacture, 2, ',', ' ').' DH.')
                             ->success()
                             ->send();
                     }),

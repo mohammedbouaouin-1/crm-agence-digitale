@@ -22,8 +22,8 @@ class CampagnesParStatut extends ChartWidget
     {
         return [
             'maintainAspectRatio' => false,
-            'responsive'          => true,
-            'plugins'             => [
+            'responsive' => true,
+            'plugins' => [
                 'legend' => [
                     'position' => 'bottom',
                 ],
@@ -42,7 +42,7 @@ class CampagnesParStatut extends ChartWidget
                         Campagne::where('statut', 'en_pause')->count(),
                     ],
                     'backgroundColor' => ['#10b981', '#6b7280', '#f59e0b'],
-                    'hoverOffset'     => 6,
+                    'hoverOffset' => 6,
                 ],
             ],
             'labels' => ['En cours', 'Terminées', 'En pause'],
