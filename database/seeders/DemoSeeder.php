@@ -496,66 +496,79 @@ class DemoSeeder extends Seeder
         ];
 
         foreach ($clientsData as $data) {
-            $client = Client::create([
-                'nom' => $data['nom'],
-                'entreprise' => $data['entreprise'],
-                'email' => $data['email'],
-                'telephone' => $data['telephone'],
-                'adresse' => $data['adresse'],
-                'secteur_activite' => $data['secteur_activite'],
-                'statut' => $data['statut'],
-                'created_at' => $data['created_at'],
-            ]);
+            $client = Client::firstOrCreate(
+                ['email' => $data['email']],
+                [
+                    'nom' => $data['nom'],
+                    'entreprise' => $data['entreprise'],
+                    'telephone' => $data['telephone'],
+                    'adresse' => $data['adresse'],
+                    'secteur_activite' => $data['secteur_activite'],
+                    'statut' => $data['statut'],
+                    'created_at' => $data['created_at'],
+                ]
+            );
 
             foreach ($data['projets'] as $p) {
-                $client->projets()->create($p);
+                $client->projets()->firstOrCreate(['nom' => $p['nom']], $p);
             }
 
             foreach ($data['campagnes'] as $c) {
-                $client->campagnes()->create($c);
+                $client->campagnes()->firstOrCreate(['nom' => $c['nom']], $c);
             }
 
             foreach ($data['factures'] as $f) {
                 $paiements = $f['paiements'];
                 unset($f['paiements']);
 
-                $facture = $client->factures()->create(array_merge($f, [
-                    'statut' => 'en_attente',
-                    'created_at' => $f['date_emission'],
-                ]));
+                $facture = $client->factures()->firstOrCreate(
+                    ['numero' => $f['numero']],
+                    array_merge($f, [
+                        'statut' => 'en_attente',
+                        'created_at' => $f['date_emission'],
+                    ])
+                );
 
                 foreach ($paiements as $paiement) {
-                    $facture->paiements()->create(array_merge($paiement, [
-                        'created_at' => $paiement['date'],
-                    ]));
+                    $facture->paiements()->firstOrCreate(
+                        [
+                            'montant' => $paiement['montant'],
+                            'date' => $paiement['date'],
+                        ],
+                        array_merge($paiement, [
+                            'created_at' => $paiement['date'],
+                        ])
+                    );
                 }
 
                 $facture->mettreAJourStatut();
             }
 
             foreach ($data['notes'] as $n) {
-                $client->notes()->create($n);
+                $client->notes()->firstOrCreate(['contenu' => $n['contenu']], $n);
             }
 
             foreach ($data['demandes'] as $d) {
-                $client->demandes()->create($d);
+                $client->demandes()->firstOrCreate(['sujet' => $d['sujet']], $d);
             }
         }
 
         // Devis de démonstration
         $firstClient = Client::first();
         if ($firstClient) {
-            $devis1 = Devis::create([
-                'client_id' => $firstClient->id,
-                'numero' => 'DEV-2026-0001',
-                'titre' => 'Conception Site Web & Moteur de Réservation',
-                'montant' => 18000,
-                'date_emission' => Carbon::now()->subMonths(2),
-                'date_validite' => Carbon::now()->subMonth(),
-                'statut' => 'accepte',
-                'description' => 'Développement d\'un site web vitrine responsive avec moteur de réservation direct, intégration multilingue et optimisation SEO locale.',
-                'conditions' => 'Acompte de 30% à la signature, 70% à la livraison finale.',
-            ]);
+            $devis1 = Devis::firstOrCreate(
+                ['numero' => 'DEV-2026-0001'],
+                [
+                    'client_id' => $firstClient->id,
+                    'titre' => 'Conception Site Web & Moteur de Réservation',
+                    'montant' => 18000,
+                    'date_emission' => Carbon::now()->subMonths(2),
+                    'date_validite' => Carbon::now()->subMonth(),
+                    'statut' => 'accepte',
+                    'description' => 'Développement d\'un site web vitrine responsive avec moteur de réservation direct, intégration multilingue et optimisation SEO locale.',
+                    'conditions' => 'Acompte de 30% à la signature, 70% à la livraison finale.',
+                ]
+            );
 
             // Lier le premier projet à ce devis
             $premierProjet = $firstClient->projets()->first();
@@ -566,17 +579,19 @@ class DemoSeeder extends Seeder
 
         $otherClient = Client::skip(1)->first();
         if ($otherClient) {
-            Devis::create([
-                'client_id' => $otherClient->id,
-                'numero' => 'DEV-2026-0002',
-                'titre' => 'Stratégie Publicitaire & Campagnes Google Ads',
-                'montant' => 12000,
-                'date_emission' => Carbon::now()->subWeeks(2),
-                'date_validite' => Carbon::now()->addWeeks(2),
-                'statut' => 'envoye',
-                'description' => 'Audit sémantique, création des groupes d\'annonces et gestion des enchères Google Ads sur une période de 3 mois.',
-                'conditions' => 'Règlement mensuel par prélèvement ou virement.',
-            ]);
+            Devis::firstOrCreate(
+                ['numero' => 'DEV-2026-0002'],
+                [
+                    'client_id' => $otherClient->id,
+                    'titre' => 'Stratégie Publicitaire & Campagnes Google Ads',
+                    'montant' => 12000,
+                    'date_emission' => Carbon::now()->subWeeks(2),
+                    'date_validite' => Carbon::now()->addWeeks(2),
+                    'statut' => 'envoye',
+                    'description' => 'Audit sémantique, création des groupes d\'annonces et gestion des enchères Google Ads sur une période de 3 mois.',
+                    'conditions' => 'Règlement mensuel par prélèvement ou virement.',
+                ]
+            );
         }
     }
 }
