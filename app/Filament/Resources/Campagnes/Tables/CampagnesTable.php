@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Campagnes\Tables;
 
+use App\Models\Campagne;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -23,7 +24,8 @@ class CampagnesTable
                 TextColumn::make('nom')
                     ->label('Nom de la campagne')
                     ->searchable()
-                    ->weight('bold'),
+                    ->weight('bold')
+                    ->description(fn (Campagne $record) => $record->devis ? 'Devis: ' . $record->devis->numero : null),
 
                 TextColumn::make('compte_cible')
                     ->label('Compte / Page')

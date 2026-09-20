@@ -29,7 +29,8 @@ class FacturesTable
                     ->label('N° Facture')
                     ->searchable()
                     ->sortable()
-                    ->weight('bold'),
+                    ->weight('bold')
+                    ->description(fn (Facture $record) => $record->devis ? 'Devis: ' . $record->devis->numero : null),
 
                 TextColumn::make('client.nom')
                     ->label('Client')

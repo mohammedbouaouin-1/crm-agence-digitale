@@ -281,6 +281,12 @@
                     <td class="cle">Date d'échéance</td>
                     <td class="valeur">{{ $facture->date_echeance?->format('d/m/Y') }}</td>
                 </tr>
+                @if($facture->devis)
+                <tr>
+                    <td class="cle">Réf. Devis</td>
+                    <td class="valeur">{{ $facture->devis->numero }}</td>
+                </tr>
+                @endif
             </table>
         </div>
     </div>

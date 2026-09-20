@@ -23,6 +23,7 @@ class ProjetForm
                         ->searchable()
                         ->preload()
                         ->live()
+                        ->afterStateUpdated(fn (callable $set) => $set('devis_id', null))
                         ->required()
                         ->label('Client'),
 
@@ -32,6 +33,7 @@ class ProjetForm
                             $clientId = $get('client_id');
                             return $clientId ? $query->where('client_id', $clientId) : $query;
                         })
+                        ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->numero} — {$record->titre} (" . number_format($record->montant, 0, ',', ' ') . " DH)")
                         ->searchable()
                         ->preload()
                         ->live()

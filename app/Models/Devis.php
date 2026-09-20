@@ -64,6 +64,26 @@ class Devis extends Model
         return $this->hasMany(Facture::class);
     }
 
+    public function scopeEnAttente($query)
+    {
+        return $query->where('statut', 'envoye');
+    }
+
+    public function scopeAccepte($query)
+    {
+        return $query->where('statut', 'accepte');
+    }
+
+    public function scopeExpire($query)
+    {
+        return $query->where('statut', 'expire');
+    }
+
+    public function scopeRefuse($query)
+    {
+        return $query->where('statut', 'refuse');
+    }
+
     public static function genererNumero(): string
     {
         $annee = date('Y');

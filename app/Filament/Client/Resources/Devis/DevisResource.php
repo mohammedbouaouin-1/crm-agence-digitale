@@ -105,7 +105,8 @@ class DevisResource extends Resource
                         'refuse'    => 'Refusé',
                         'expire'    => 'Expiré',
                         default     => ucfirst($state),
-                    }),
+                    })
+                    ->description(fn (Devis $record) => $record->accepte_le ? 'Validé le ' . $record->accepte_le->format('d/m/Y H:i') : null),
             ])
             ->filters([])
             ->recordActions([

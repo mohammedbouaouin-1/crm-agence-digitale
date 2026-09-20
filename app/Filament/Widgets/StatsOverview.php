@@ -34,10 +34,10 @@ class StatsOverview extends StatsOverviewWidget
         $facturesEnRetard = Facture::where('statut', 'en_retard')->count();
 
         // Pipeline et conversion Devis
-        $pipelineDevisMontant = (float) Devis::where('statut', 'envoye')->sum('montant');
-        $devisEnAttenteCount = Devis::where('statut', 'envoye')->count();
+        $pipelineDevisMontant = (float) Devis::enAttente()->sum('montant');
+        $devisEnAttenteCount = Devis::enAttente()->count();
         $devisTraites = Devis::whereIn('statut', ['accepte', 'refuse', 'expire', 'envoye'])->count();
-        $devisAcceptes = Devis::where('statut', 'accepte')->count();
+        $devisAcceptes = Devis::accepte()->count();
         $tauxConversion = $devisTraites > 0 ? round(($devisAcceptes / $devisTraites) * 100, 1) : 0;
 
         // Données des 6 derniers mois

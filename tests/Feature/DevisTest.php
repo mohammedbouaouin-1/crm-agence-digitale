@@ -3,6 +3,7 @@
 use App\Models\Campagne;
 use App\Models\Client;
 use App\Models\Devis;
+use App\Models\Facture;
 use App\Models\Projet;
 use App\Models\User;
 
@@ -182,6 +183,41 @@ it('calcule correctement les métriques de pipeline et de conversion devis', fun
         ->and($traites)->toBe(3)
         ->and($acceptes)->toBe(1)
         ->and($taux)->toBe(33.3);
+});
+
+it('filtre correctement les devis avec les scopes Eloquent', function () {
+    $client = Client::factory()->create();
+
+    $d1 = Devis::factory()->create(['client_id' => $client->id, 'statut' => 'envoye']);
+    $d2 = Devis::factory()->create(['client_id' => $client->id, 'statut' => 'accepte']);
+    $d3 = Devis::factory()->create(['client_id' => $client->id, 'statut' => 'refuse']);
+
+    expect(Devis::enAttente()->pluck('id'))->toContain($d1->id)
+        ->and(Devis::enAttente()->pluck('id'))->not->toContain($d2->id)
+        ->and(Devis::accepte()->pluck('id'))->toContain($d2->id)
+        ->and(Devis::refuse()->pluck('id'))->toContain($d3->id);
+});
+
+it('associe correctement une facture à son devis d\'origine', function () {
+    $client = Client::factory()->create();
+    $devis = Devis::factory()->create([
+        'client_id' => $client->id,
+        'montant'   => 12000,
+    ]);
+
+    $facture = Facture::create([
+        'client_id'     => $client->id,
+        'devis_id'      => $devis->id,
+        'numero'        => 'FAC-2026-9999',
+        'montant'       => 12000,
+        'date_emission' => now(),
+        'date_echeance' => now()->addDays(30),
+        'statut'        => 'en_attente',
+    ]);
+
+    expect($facture->devis)->not->toBeNull()
+        ->and($facture->devis->id)->toBe($devis->id)
+        ->and($devis->fresh()->factures->pluck('id'))->toContain($facture->id);
 });
 
 

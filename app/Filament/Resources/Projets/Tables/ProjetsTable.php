@@ -23,7 +23,8 @@ class ProjetsTable
                 TextColumn::make('nom')
                     ->label('Nom du projet')
                     ->searchable()
-                    ->weight('bold'),
+                    ->weight('bold')
+                    ->description(fn (Projet $record) => $record->devis ? 'Devis: ' . $record->devis->numero : null),
 
                 TextColumn::make('type_site')
                     ->label('Type')
