@@ -66,4 +66,20 @@ class Facture extends Model
 
         $this->saveQuietly();
     }
+
+    public static function genererNumero(): string
+    {
+        $annee = date('Y');
+        $dernier = static::where('numero', 'like', "FAC-{$annee}-%")
+            ->orderBy('id', 'desc')
+            ->first();
+
+        if ($dernier && preg_match('/FAC-\d{4}-(\d+)/', $dernier->numero, $matches)) {
+            $prochain = (int) $matches[1] + 1;
+        } else {
+            $prochain = 1;
+        }
+
+        return sprintf('FAC-%s-%04d', $annee, $prochain);
+    }
 }

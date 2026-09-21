@@ -2,9 +2,12 @@
 
 namespace App\Filament\Resources\DemandeClients\Tables;
 
+use App\Models\DemandeClient;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
@@ -49,6 +52,32 @@ class DemandeClientsTable
                     ->falseLabel('Non traitées uniquement'),
             ])
             ->recordActions([
+                Action::make('marquer_traite')
+                    ->label('Marquer traitée')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('success')
+                    ->visible(fn (DemandeClient $record) => ! $record->traite)
+                    ->action(function (DemandeClient $record) {
+                        $record->update(['traite' => true]);
+
+                        Notification::make()
+                            ->title('Demande marquée comme traitée')
+                            ->success()
+                            ->send();
+                    }),
+                Action::make('marquer_non_traite')
+                    ->label('Rouvrir')
+                    ->icon('heroicon-o-arrow-path')
+                    ->color('gray')
+                    ->visible(fn (DemandeClient $record) => $record->traite)
+                    ->action(function (DemandeClient $record) {
+                        $record->update(['traite' => false]);
+
+                        Notification::make()
+                            ->title('Demande rouverte')
+                            ->info()
+                            ->send();
+                    }),
                 EditAction::make(),
             ])
             ->toolbarActions([

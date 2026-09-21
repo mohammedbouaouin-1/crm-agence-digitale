@@ -51,20 +51,7 @@ class FactureForm
 
                     TextInput::make('numero')
                         ->label('N° de Facture')
-                        ->default(function () {
-                            $annee = date('Y');
-                            $derniere = Facture::where('numero', 'like', "FAC-{$annee}-%")
-                                ->orderBy('id', 'desc')
-                                ->first();
-
-                            if ($derniere && preg_match('/FAC-\d{4}-(\d+)/', $derniere->numero, $matches)) {
-                                $prochain = (int) $matches[1] + 1;
-                            } else {
-                                $prochain = 1;
-                            }
-
-                            return sprintf('FAC-%s-%04d', $annee, $prochain);
-                        })
+                        ->default(fn () => Facture::genererNumero())
                         ->required()
                         ->unique(ignoreRecord: true),
                 ]),

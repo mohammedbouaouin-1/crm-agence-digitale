@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Factures\Tables;
 
+use App\Mail\NouvelleFactureDisponible;
 use App\Mail\RelanceFacture;
 use App\Models\Facture;
 use Filament\Actions\Action;
@@ -82,6 +83,25 @@ class FacturesTable
                     ]),
             ])
             ->recordActions([
+                Action::make('envoyer_email')
+                    ->label('Envoyer')
+                    ->icon('heroicon-o-paper-airplane')
+                    ->color('primary')
+                    ->visible(fn (Facture $record) => ! empty($record->client?->email))
+                    ->requiresConfirmation()
+                    ->modalHeading('Transmettre la facture au client')
+                    ->modalDescription(fn (Facture $record) => "Envoyer la facture {$record->numero} et son PDF par email à {$record->client->nom} ({$record->client->email}) ?")
+                    ->modalSubmitActionLabel('Envoyer par email')
+                    ->action(function (Facture $record) {
+                        Mail::to($record->client->email)->send(new NouvelleFactureDisponible($record));
+
+                        Notification::make()
+                            ->title('Facture envoyée')
+                            ->body("La facture {$record->numero} a été transmise à {$record->client->email}.")
+                            ->success()
+                            ->send();
+                    }),
+
                 Action::make('relancer')
                     ->label('Relancer')
                     ->icon('heroicon-o-envelope')

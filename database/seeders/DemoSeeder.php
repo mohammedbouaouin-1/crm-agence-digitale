@@ -588,7 +588,7 @@ class DemoSeeder extends Seeder
                     'date_emission' => Carbon::now()->subWeeks(2),
                     'date_validite' => Carbon::now()->addWeeks(2),
                     'statut' => 'envoye',
-                    'description' => null,
+                    'description' => "• Audit sémantique et étude des mots-clés stratégiques\n• Configuration du compte Google Ads, balises et suivi des conversions\n• Création et structuration des campagnes Search & Performance Max\n• Rédaction des annonces et optimisation du Quality Score\n• Pilotage des enchères et optimisation hebdomadaire du ROAS (période de 3 mois)\n• Rapport mensuel détaillé des performances et recommandations",
                     'conditions' => 'Règlement mensuel par prélèvement ou virement.',
                 ]
             );

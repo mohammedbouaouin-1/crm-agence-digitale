@@ -301,7 +301,14 @@
         </thead>
         <tbody>
             <tr>
-                <td>Services marketing digital & web — {{ $facture->client->nom }}</td>
+                <td>
+                    @if($facture->devis)
+                        <div style="font-weight: bold; font-size: 14px; color: #0f172a; margin-bottom: 4px;">{{ $facture->devis->titre }}</div>
+                        <div style="color: #64748b; font-size: 11px;">Réf. Devis contractuel : N° {{ $facture->devis->numero }}</div>
+                    @else
+                        <div style="font-weight: bold; font-size: 14px; color: #0f172a;">Services marketing digital &amp; web — {{ $facture->client->nom }}</div>
+                    @endif
+                </td>
                 <td class="droite">{{ number_format($facture->montant, 2, ',', ' ') }} DH</td>
             </tr>
         </tbody>
