@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Devis\Tables;
 
 use App\Filament\Resources\Campagnes\CampagneResource;
+use App\Filament\Resources\Factures\FactureResource;
 use App\Filament\Resources\Projets\ProjetResource;
 use App\Mail\NouveauDevisDisponible;
 use App\Models\Campagne;
@@ -265,52 +266,46 @@ class DevisTable
                     ->label('Créer facture')
                     ->icon('heroicon-o-banknotes')
                     ->color('info')
-                    ->visible(fn (Devis $record) => $record->statut === 'accepte')
+                    ->visible(fn (Devis $record) => $record->statut === 'accepte' && $record->factures->isEmpty())
+                    ->modalHeading('Générer la facture du devis')
+                    ->modalDescription(fn (Devis $record) => "Émettre la facture pour la totalité du devis {$record->numero} (".number_format($record->montant, 2, ',', ' ').' DH). Les règlements (acompte et solde) seront gérés dans le module Paiements.')
+                    ->modalSubmitActionLabel('Créer la facture')
                     ->form([
-                        Select::make('type_facture')
-                            ->label('Type de facturation')
-                            ->options([
-                                'acompte_30' => 'Acompte de 30%',
-                                'acompte_50' => 'Acompte de 50%',
-                                'solde_100' => 'Totalité (100%)',
-                            ])
-                            ->default('acompte_30')
-                            ->required(),
                         DatePicker::make('date_emission')
                             ->label('Date d\'émission')
                             ->default(now())
                             ->required(),
                         DatePicker::make('date_echeance')
                             ->label('Date d\'échéance')
-                            ->default(now()->addDays(15))
+                            ->default(now()->addDays(30))
                             ->required(),
                     ])
                     ->action(function (Devis $record, array $data) {
-                        $taux = match ($data['type_facture']) {
-                            'acompte_30' => 0.30,
-                            'acompte_50' => 0.50,
-                            default => 1.00,
-                        };
-
-                        $montantFacture = round($record->montant * $taux, 2);
                         $numero = Facture::genererNumero();
 
                         Facture::create([
                             'client_id' => $record->client_id,
                             'devis_id' => $record->id,
                             'numero' => $numero,
-                            'montant' => $montantFacture,
+                            'montant' => $record->montant,
                             'date_emission' => $data['date_emission'],
                             'date_echeance' => $data['date_echeance'],
                             'statut' => 'en_attente',
                         ]);
 
                         Notification::make()
-                            ->title('Facture générée avec succès')
-                            ->body("Facture {$numero} émise pour un montant de ".number_format($montantFacture, 2, ',', ' ').' DH.')
+                            ->title('Facture créée avec succès')
+                            ->body("La facture {$numero} a été générée pour le montant total de ".number_format($record->montant, 2, ',', ' ').' DH.')
                             ->success()
                             ->send();
                     }),
+
+                Action::make('voir_facture')
+                    ->label('Voir facture')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('info')
+                    ->visible(fn (Devis $record) => $record->factures->isNotEmpty())
+                    ->url(fn (Devis $record) => FactureResource::getUrl('edit', ['record' => $record->factures->first()])),
 
                 EditAction::make(),
             ])

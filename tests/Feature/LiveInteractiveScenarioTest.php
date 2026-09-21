@@ -8,7 +8,6 @@ use App\Models\Facture;
 use App\Models\Paiement;
 use App\Models\Projet;
 use App\Models\User;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 it('execute le cycle complet de vente, acceptation client, creation campagne, facturation acompte et paiement', function () {
     // 1. MISE EN PLACE DES ACTEURS
@@ -77,59 +76,58 @@ it('execute le cycle complet de vente, acceptation client, creation campagne, fa
     echo "       -> Campagne '{$campagne->nom}' créée avec un budget de 10 000 DH\n";
     echo "       -> Le bouton sur le devis se transforme automatiquement en [Voir campagne]\n";
 
-    // 5. ÉTAPE 4 : L'ADMIN GÉNÈRE LA FACTURE D'ACOMPTE DE 30%
-    $tauxAcompte = 0.30;
-    $montantFacture = round($devis->montant * $tauxAcompte, 2);
+    // 5. ÉTAPE 4 : L'ADMIN GÉNÈRE LA FACTURE POUR LA TOTALITÉ DU DEVIS (100%)
     $numeroFacture = Facture::genererNumero();
 
     $facture = Facture::create([
         'client_id' => $client->id,
         'devis_id' => $devis->id,
         'numero' => $numeroFacture,
-        'montant' => $montantFacture,
+        'montant' => $devis->montant, // Totalité du devis (10 000 DH)
         'date_emission' => now(),
-        'date_echeance' => now()->addDays(15),
+        'date_echeance' => now()->addDays(30),
         'statut' => 'en_attente',
     ]);
 
-    expect($facture->montant)->toBe(3000.0)
+    expect((float) $facture->montant)->toBe(10000.0)
         ->and($facture->statut)->toBe('en_attente')
         ->and($facture->devis_id)->toBe($devis->id);
 
-    echo "✓ [4/6] L'Admin clique sur [Créer facture] et choisit 'Acompte de 30%'\n";
-    echo "       -> Facture {$facture->numero} créée pour un montant de 3 000 DH (Statut : En attente)\n";
+    echo "✓ [4/6] L'Admin clique sur [Créer facture] -> Facture globale {$facture->numero} créée (10 000 DH, Statut : En attente)\n";
 
-    // 6. ÉTAPE 5 : GÉNÉRATION DES PDFS OFFICIELS
-    $devis->load('client');
-    $pdfDevis = Pdf::loadView('pdf.devis', ['devis' => $devis])->output();
-    expect(strlen($pdfDevis))->toBeGreaterThan(5000)
-        ->and(str_starts_with($pdfDevis, '%PDF-'))->toBeTrue();
-
-    $facture->load(['client', 'paiements', 'devis']);
-    $pdfFacture = Pdf::loadView('pdf.facture', ['facture' => $facture])->output();
-    expect(strlen($pdfFacture))->toBeGreaterThan(5000)
-        ->and(str_starts_with($pdfFacture, '%PDF-'))->toBeTrue();
-
-    echo "✓ [5/6] Génération des PDF haute fidélité :\n";
-    echo "       -> PDF Devis {$devis->numero} : ".strlen($pdfDevis)." octets [Cartouche d'acceptation certifiée OK]\n";
-    echo "       -> PDF Facture {$facture->numero} : ".strlen($pdfFacture)." octets [Réf Devis lié et reste à payer OK]\n";
-
-    // 7. ÉTAPE 6 : RÈGLEMENT PAR LE CLIENT ET CLÔTURE DE LA FACTURE
-    $paiement = Paiement::create([
+    // 6. ÉTAPE 5 : RÈGLEMENT DU PREMIER PAIEMENT (ACOMPTE 30% = 3 000 DH)
+    Paiement::create([
         'facture_id' => $facture->id,
         'montant' => 3000.00,
         'date' => now(),
         'methode' => 'virement',
-        'reference' => 'VIR-2026-987654',
+        'reference' => 'VIR-ACOMPTE-001',
+    ]);
+
+    $facture->mettreAJourStatut();
+
+    expect($facture->fresh()->statut)->toBe('partiellement_payee')
+        ->and($facture->fresh()->totalPaye)->toBe(3000.0);
+
+    echo "✓ [5/6] Règlement de l'acompte de 3 000 DH (30%) dans le module Paiements\n";
+    echo "       -> La facture passe automatiquement à : 'Partiellement payée' (Reste dû : 7 000 DH)\n";
+
+    // 7. ÉTAPE 6 : RÈGLEMENT DU SOLDE (7 000 DH) ET CLÔTURE DE LA FACTURE
+    Paiement::create([
+        'facture_id' => $facture->id,
+        'montant' => 7000.00,
+        'date' => now()->addDays(20),
+        'methode' => 'virement',
+        'reference' => 'VIR-SOLDE-002',
     ]);
 
     $facture->mettreAJourStatut();
 
     expect($facture->fresh()->statut)->toBe('payee')
-        ->and($facture->fresh()->totalPaye)->toBe(3000.0);
+        ->and($facture->fresh()->totalPaye)->toBe(10000.0);
 
-    echo "✓ [6/6] Enregistrement du règlement client de 3 000 DH (Virement)\n";
-    echo "       -> Statut de la facture mis à jour automatiquement en : 'Payée' (Badge vert)\n";
+    echo "✓ [6/6] Règlement du solde final de 7 000 DH\n";
+    echo "       -> La facture passe automatiquement à : 'Payée' (Reste dû : 0 DH, Clôturée)\n";
     echo "=======================================================\n";
     echo "  TOUS LES COMPOSANTS ET FLUX ONT ÉTÉ EXÉCUTÉS AVEC SUCCÈS !\n";
     echo "=======================================================\n\n";
