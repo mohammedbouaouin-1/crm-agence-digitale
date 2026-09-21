@@ -271,30 +271,29 @@
             border-top: 1px dashed #86efac;
         }
 
-        /* Cartouche signature classique */
+        /* Cartouche signature classique épuré */
         .cartouche-signature {
             border: 1px dashed #cbd5e1;
-            padding: 15px;
+            background-color: #f8fafc;
+            padding: 12px 14px;
             border-radius: 6px;
             text-align: center;
         }
         .signature-titre {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
             color: #0f172a;
-            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .signature-mention {
-            font-size: 10px;
-            color: #94a3b8;
-            font-style: italic;
-            margin-bottom: 45px;
+        .signature-zone {
+            height: 45px;
         }
         .signature-ligne {
             border-top: 1px solid #cbd5e1;
             padding-top: 6px;
-            font-size: 11px;
-            color: #475569;
+            font-size: 10px;
+            color: #64748b;
         }
 
         /* Pied de page */
@@ -448,9 +447,9 @@
                     </div>
                 @else
                     <div class="cartouche-signature">
-                        <div class="signature-titre">Pour le Client : Bon pour accord</div>
-                        <div class="signature-mention">(Date, signature et cachet précédés de la mention manuscrite « Bon pour accord »)</div>
-                        <div class="signature-ligne">Date & Signature :</div>
+                        <div class="signature-titre">Bon pour accord</div>
+                        <div class="signature-zone"></div>
+                        <div class="signature-ligne">Date & Signature du client</div>
                     </div>
                 @endif
             </div>
