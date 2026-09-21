@@ -95,7 +95,7 @@ class DevisForm
 
                     Textarea::make('conditions')
                         ->label('Conditions de règlement')
-                        ->placeholder('ex. Acompte de 30% au démarrage, solde de 70% à la livraison.')
+                        ->placeholder('Précisez les modalités de paiement si applicable (optionnel)...')
                         ->rows(2),
                 ]),
         ]);

@@ -422,20 +422,16 @@
 
     {{-- Modalités de règlement & Accord commercial --}}
     <div style="clear: both;">
-        <div class="section-titre">Modalités de règlement & Accord commercial</div>
+        <div class="section-titre">{{ $devis->conditions ? 'Modalités de règlement & Accord commercial' : 'Conditions de l\'offre & Accord commercial' }}</div>
         <div class="accord-section">
             <div class="accord-gauche">
-                <div class="conditions-texte">
-                    <strong>Modalités de paiement :</strong><br>
-                    @if($devis->conditions)
+                @if($devis->conditions)
+                    <div class="conditions-texte">
+                        <strong>Modalités de règlement :</strong><br>
                         {!! nl2br(e($devis->conditions)) !!}
-                    @else
-                        - Acompte de 30% exigible à la signature du devis pour validation du démarrage des travaux.<br>
-                        - Solde de 70% à la livraison et recette définitive du projet.<br>
-                        - Règlement par virement bancaire ou chèque à l'ordre de Webmarko.
-                    @endif
-                </div>
-                <div class="conditions-cgv">
+                    </div>
+                @endif
+                <div class="conditions-cgv" @if(!$devis->conditions) style="margin-top: 0;" @endif>
                     La signature du présent devis emporte acceptation sans réserve des conditions générales de vente de l'agence. Offre valable jusqu'au {{ $devis->date_validite?->format('d/m/Y') ?? '30 jours' }}. Tout ajout hors périmètre fera l'objet d'un avenant.
                 </div>
             </div>
