@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Paiement extends Model
 {
@@ -19,7 +20,7 @@ class Paiement extends Model
         static::deleted(fn (Paiement $p) => $p->facture?->mettreAJourStatut());
     }
 
-    public function facture()
+    public function facture(): BelongsTo
     {
         return $this->belongsTo(Facture::class);
     }

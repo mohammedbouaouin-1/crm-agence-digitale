@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
@@ -12,32 +13,32 @@ class Client extends Model
 
     protected $fillable = ['nom', 'entreprise', 'email', 'telephone', 'adresse', 'secteur_activite', 'statut'];
 
-    public function campagnes()
+    public function campagnes(): HasMany
     {
         return $this->hasMany(Campagne::class);
     }
 
-    public function factures()
+    public function factures(): HasMany
     {
         return $this->hasMany(Facture::class);
     }
 
-    public function notes()
+    public function notes(): HasMany
     {
         return $this->hasMany(NoteHistorique::class);
     }
 
-    public function projets()
+    public function projets(): HasMany
     {
         return $this->hasMany(Projet::class);
     }
 
-    public function demandes()
+    public function demandes(): HasMany
     {
         return $this->hasMany(DemandeClient::class);
     }
 
-    public function devis()
+    public function devis(): HasMany
     {
         return $this->hasMany(Devis::class);
     }

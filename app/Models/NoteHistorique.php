@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class NoteHistorique extends Model
 {
@@ -13,7 +14,7 @@ class NoteHistorique extends Model
 
     protected $casts = ['prochaine_action' => 'date'];
 
-    public function client()
+    public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
     }

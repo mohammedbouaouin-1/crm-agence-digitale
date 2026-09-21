@@ -16,7 +16,7 @@ class RelanceFacture extends Mailable
 
     public function build()
     {
-        $this->facture->load(['client', 'paiements']);
+        $this->facture->load(['client', 'paiements', 'devis']);
 
         return $this->subject('Relance — Facture '.$this->facture->numero.' en attente de règlement')
             ->view('emails.relance-facture')

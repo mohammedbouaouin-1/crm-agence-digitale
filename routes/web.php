@@ -17,7 +17,7 @@ Route::get('/factures/{facture}/pdf', function (Facture $facture) {
         403
     );
 
-    $facture->load(['client', 'paiements']);
+    $facture->load(['client', 'paiements', 'devis']);
     $pdf = Pdf::loadView('pdf.facture', ['facture' => $facture]);
 
     return response()->stream(
