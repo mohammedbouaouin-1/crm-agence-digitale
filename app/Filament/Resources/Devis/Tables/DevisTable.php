@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Devis\Tables;
 
+use App\Filament\Resources\Campagnes\CampagneResource;
+use App\Filament\Resources\Projets\ProjetResource;
 use App\Mail\NouveauDevisDisponible;
 use App\Models\Campagne;
 use App\Models\Devis;
@@ -39,8 +41,18 @@ class DevisTable
 
                 TextColumn::make('titre')
                     ->label('Objet')
-                    ->limit(30)
-                    ->searchable(),
+                    ->searchable()
+                    ->description(function (Devis $record) {
+                        $elements = [];
+                        if ($projet = $record->projets->first()) {
+                            $elements[] = '🖥️ Projet : '.$projet->nom;
+                        }
+                        if ($campagne = $record->campagnes->first()) {
+                            $elements[] = '📢 Campagne : '.$campagne->nom;
+                        }
+
+                        return ! empty($elements) ? implode(' | ', $elements) : null;
+                    }),
 
                 TextColumn::make('montant')
                     ->label('Montant')
@@ -128,7 +140,7 @@ class DevisTable
                     ->label('Créer le projet')
                     ->icon('heroicon-o-plus-circle')
                     ->color('success')
-                    ->visible(fn (Devis $record) => $record->statut === 'accepte')
+                    ->visible(fn (Devis $record) => $record->statut === 'accepte' && $record->projets->isEmpty())
                     ->form([
                         TextInput::make('nom')
                             ->label('Nom du projet')
@@ -145,10 +157,11 @@ class DevisTable
                             ->default('vitrine')
                             ->required(),
                         TextInput::make('budget')
-                            ->label('Budget hérité du devis (DH)')
+                            ->label('Budget alloué au projet (DH)')
+                            ->numeric()
                             ->default(fn (Devis $record) => $record->montant)
-                            ->disabled()
-                            ->dehydrated(false),
+                            ->helperText('Ajustable si le devis inclut à la fois un site et du marketing / SEO.')
+                            ->required(),
                         DatePicker::make('date_debut')
                             ->label('Date de démarrage')
                             ->default(now())
@@ -158,12 +171,13 @@ class DevisTable
                             ->default(now()->addDays(30)),
                     ])
                     ->action(function (Devis $record, array $data) {
+                        $budget = (float) ($data['budget'] ?? $record->montant);
                         Projet::create([
                             'client_id' => $record->client_id,
                             'devis_id' => $record->id,
                             'nom' => $data['nom'],
                             'type_site' => $data['type_site'],
-                            'budget' => $record->montant,
+                            'budget' => $budget,
                             'date_debut' => $data['date_debut'],
                             'date_livraison_prevue' => $data['date_livraison_prevue'] ?? null,
                             'statut' => 'maquette',
@@ -171,16 +185,23 @@ class DevisTable
 
                         Notification::make()
                             ->title('Projet créé avec succès')
-                            ->body('Le projet a été créé avec un budget de '.number_format($record->montant, 2, ',', ' ').' DH.')
+                            ->body('Le projet a été créé avec un budget de '.number_format($budget, 2, ',', ' ').' DH.')
                             ->success()
                             ->send();
                     }),
+
+                Action::make('voir_projet')
+                    ->label('Voir projet')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('success')
+                    ->visible(fn (Devis $record) => $record->projets->isNotEmpty())
+                    ->url(fn (Devis $record) => ProjetResource::getUrl('edit', ['record' => $record->projets->first()])),
 
                 Action::make('creer_campagne')
                     ->label('Créer campagne')
                     ->icon('heroicon-o-megaphone')
                     ->color('warning')
-                    ->visible(fn (Devis $record) => $record->statut === 'accepte')
+                    ->visible(fn (Devis $record) => $record->statut === 'accepte' && $record->campagnes->isEmpty())
                     ->form([
                         TextInput::make('nom')
                             ->label('Nom de la campagne')
@@ -199,10 +220,11 @@ class DevisTable
                             ->placeholder('ex: Meta Ads, Google Ads, TikTok')
                             ->default('Meta Ads'),
                         TextInput::make('budget')
-                            ->label('Budget hérité du devis (DH)')
+                            ->label('Budget alloué à la campagne (DH)')
+                            ->numeric()
                             ->default(fn (Devis $record) => $record->montant)
-                            ->disabled()
-                            ->dehydrated(false),
+                            ->helperText('Ajustable si le devis inclut à la fois un site et du marketing / SEO.')
+                            ->required(),
                         DatePicker::make('date_debut')
                             ->label('Date de démarrage')
                             ->default(now())
@@ -212,13 +234,14 @@ class DevisTable
                             ->default(now()->addDays(30)),
                     ])
                     ->action(function (Devis $record, array $data) {
+                        $budget = (float) ($data['budget'] ?? $record->montant);
                         Campagne::create([
                             'client_id' => $record->client_id,
                             'devis_id' => $record->id,
                             'nom' => $data['nom'],
                             'type' => $data['type'],
                             'plateforme' => $data['plateforme'] ?? null,
-                            'budget' => $record->montant,
+                            'budget' => $budget,
                             'date_debut' => $data['date_debut'],
                             'date_fin' => $data['date_fin'] ?? null,
                             'statut' => 'en_cours',
@@ -226,10 +249,17 @@ class DevisTable
 
                         Notification::make()
                             ->title('Campagne créée avec succès')
-                            ->body('La campagne a été créée avec un budget de '.number_format($record->montant, 2, ',', ' ').' DH.')
+                            ->body('La campagne a été créée avec un budget de '.number_format($budget, 2, ',', ' ').' DH.')
                             ->success()
                             ->send();
                     }),
+
+                Action::make('voir_campagne')
+                    ->label('Voir campagne')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('warning')
+                    ->visible(fn (Devis $record) => $record->campagnes->isNotEmpty())
+                    ->url(fn (Devis $record) => CampagneResource::getUrl('edit', ['record' => $record->campagnes->first()])),
 
                 Action::make('generer_facture')
                     ->label('Créer facture')

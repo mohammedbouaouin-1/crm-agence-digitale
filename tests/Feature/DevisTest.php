@@ -220,3 +220,40 @@ it('associe correctement une facture à son devis d\'origine', function () {
         ->and($facture->devis->id)->toBe($devis->id)
         ->and($devis->fresh()->factures->pluck('id'))->toContain($facture->id);
 });
+
+it('associe à la fois un projet web et une campagne marketing avec budgets partagés sur un même devis combiné', function () {
+    $client = Client::factory()->create();
+    $devis = Devis::factory()->create([
+        'client_id' => $client->id,
+        'titre' => 'Pack Global : Site Web Vitrine + Référencement SEO 6 mois',
+        'montant' => 18000,
+        'statut' => 'accepte',
+    ]);
+
+    $projet = Projet::create([
+        'client_id' => $client->id,
+        'devis_id' => $devis->id,
+        'nom' => 'Site Vitrine Riad Authentic',
+        'type_site' => 'vitrine',
+        'budget' => 12000,
+        'date_debut' => now(),
+        'statut' => 'maquette',
+    ]);
+
+    $campagne = Campagne::create([
+        'client_id' => $client->id,
+        'devis_id' => $devis->id,
+        'nom' => 'Stratégie SEO 6 mois',
+        'type' => 'SEO',
+        'budget' => 6000,
+        'date_debut' => now(),
+        'statut' => 'en_cours',
+    ]);
+
+    $devisFresh = $devis->fresh();
+    expect($devisFresh->projets)->toHaveCount(1)
+        ->and($devisFresh->campagnes)->toHaveCount(1)
+        ->and((float) $projet->budget + (float) $campagne->budget)->toBe(18000.0)
+        ->and($devisFresh->projets->first()->id)->toBe($projet->id)
+        ->and($devisFresh->campagnes->first()->id)->toBe($campagne->id);
+});
