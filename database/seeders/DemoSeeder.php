@@ -588,7 +588,7 @@ class DemoSeeder extends Seeder
                     'date_emission' => Carbon::now()->subWeeks(2),
                     'date_validite' => Carbon::now()->addWeeks(2),
                     'statut' => 'envoye',
-                    'description' => 'Audit sémantique, création des groupes d\'annonces et gestion des enchères Google Ads sur une période de 3 mois.',
+                    'description' => null,
                     'conditions' => 'Règlement mensuel par prélèvement ou virement.',
                 ]
             );

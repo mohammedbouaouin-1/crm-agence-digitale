@@ -389,14 +389,10 @@
         <tbody>
             <tr>
                 <td>
-                    <div class="prestation-titre">{{ $devis->titre }}</div>
-                    <div class="prestation-desc">
-                        @if($devis->description)
-                            {{ $devis->description }}
-                        @else
-                            Prestations de conseil en marketing digital, stratégie web, conception et réalisation technique selon les spécifications et objectifs convenus.
-                        @endif
-                    </div>
+                    <div class="prestation-titre" @if(!$devis->description) style="margin-bottom: 0;" @endif>{{ $devis->titre }}</div>
+                    @if($devis->description)
+                        <div class="prestation-desc">{!! nl2br(e($devis->description)) !!}</div>
+                    @endif
                 </td>
                 <td class="droite">
                     {{ number_format($devis->montant, 2, ',', ' ') }} DH
