@@ -244,10 +244,10 @@
             <div class="numero-facture">N° {{ $facture->numero }}</div>
             <span class="badge badge-{{ $facture->statut }}">
                 @switch($facture->statut)
-                    @case('payee') ✓ Payée @break
-                    @case('partiellement_payee') ◑ Partiellement payée @break
-                    @case('en_retard') ⚠ En retard @break
-                    @default ○ En attente
+                    @case('payee') Payée @break
+                    @case('partiellement_payee') Partiellement payée @break
+                    @case('en_retard') En retard @break
+                    @default En attente
                 @endswitch
             </span>
         </div>

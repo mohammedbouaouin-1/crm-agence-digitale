@@ -46,10 +46,10 @@ class DevisTable
                     ->description(function (Devis $record) {
                         $elements = [];
                         if ($projet = $record->projets->first()) {
-                            $elements[] = '🖥️ Projet : '.$projet->nom;
+                            $elements[] = 'Projet : '.$projet->nom;
                         }
                         if ($campagne = $record->campagnes->first()) {
-                            $elements[] = '📢 Campagne : '.$campagne->nom;
+                            $elements[] = 'Campagne : '.$campagne->nom;
                         }
 
                         return ! empty($elements) ? implode(' | ', $elements) : null;

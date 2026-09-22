@@ -126,7 +126,7 @@
         .service-icon {
             width: 48px; height: 48px; border-radius: 12px;
             background: rgba(245,158,11,0.12); display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; margin-bottom: 1.2rem;
+            color: var(--primary); margin-bottom: 1.2rem;
         }
         .service-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: .5rem; }
         .service-card p { color: var(--text-muted); font-size: 0.875rem; line-height: 1.6; }
@@ -137,7 +137,7 @@
             background: var(--bg-card2); border: 1px solid var(--border); border-radius: 12px;
             padding: 1.5rem; display: flex; flex-direction: column; gap: .5rem;
         }
-        .why-card .icon { font-size: 1.4rem; }
+        .why-card .icon { color: var(--primary); display: flex; align-items: center; margin-bottom: .25rem; }
         .why-card h4 { font-weight: 700; font-size: 0.95rem; }
         .why-card p { color: var(--text-muted); font-size: 0.82rem; line-height: 1.5; }
 
@@ -198,7 +198,7 @@
     {{-- HERO --}}
     <section class="hero">
         <div>
-            <div class="hero-badge">✦ Agence Digitale</div>
+            <div class="hero-badge">Agence Digitale</div>
             <h1>Propulsez votre<br>activité <span>en ligne</span></h1>
             <p>Nous concevons des stratégies digitales percutantes — SEO, publicité, réseaux sociaux, branding — pour faire croître votre entreprise.</p>
             <div class="hero-actions">
@@ -223,22 +223,30 @@
         <p class="section-sub">Des solutions complètes pour votre présence digitale, adaptées à chaque objectif.</p>
         <div class="services-grid">
             <div class="service-card">
-                <div class="service-icon">🔍</div>
+                <div class="service-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
                 <h3>SEO & Référencement</h3>
                 <p>Optimisation technique et éditoriale pour positionner votre site en tête des résultats Google.</p>
             </div>
             <div class="service-card">
-                <div class="service-icon">📢</div>
+                <div class="service-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                </div>
                 <h3>Publicité Ads</h3>
                 <p>Campagnes Google Ads et Meta Ads ciblées pour maximiser votre retour sur investissement.</p>
             </div>
             <div class="service-card">
-                <div class="service-icon">📱</div>
+                <div class="service-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                </div>
                 <h3>Social Media</h3>
                 <p>Gestion éditoriale et community management pour engager votre audience sur tous les réseaux.</p>
             </div>
             <div class="service-card">
-                <div class="service-icon">🎨</div>
+                <div class="service-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m4.93 4.93 4.24 4.24"></path><path d="m14.83 9.17 4.24-4.24"></path><path d="m14.83 14.83 4.24 4.24"></path><path d="m9.17 14.83-4.24 4.24"></path></svg>
+                </div>
                 <h3>Branding & Design</h3>
                 <p>Identité visuelle forte et cohérente qui reflète vos valeurs et marque les esprits.</p>
             </div>
@@ -252,22 +260,30 @@
         <p class="section-sub">Une équipe engagée, des résultats mesurables, une transparence totale.</p>
         <div class="why-grid">
             <div class="why-card">
-                <div class="icon">📊</div>
+                <div class="icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                </div>
                 <h4>Reporting détaillé</h4>
                 <p>Accédez à votre espace client pour suivre vos campagnes en temps réel.</p>
             </div>
             <div class="why-card">
-                <div class="icon">⚡</div>
+                <div class="icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                </div>
                 <h4>Réactivité</h4>
                 <p>Une équipe disponible et des délais de réponse rapides pour vos demandes.</p>
             </div>
             <div class="why-card">
-                <div class="icon">🎯</div>
+                <div class="icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                </div>
                 <h4>Stratégie personnalisée</h4>
                 <p>Chaque client a sa propre stratégie, adaptée à son secteur et ses objectifs.</p>
             </div>
             <div class="why-card">
-                <div class="icon">🔒</div>
+                <div class="icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </div>
                 <h4>Transparence totale</h4>
                 <p>Accès à vos factures, campagnes et données, à tout moment.</p>
             </div>
