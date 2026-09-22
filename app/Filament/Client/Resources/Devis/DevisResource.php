@@ -3,6 +3,7 @@
 namespace App\Filament\Client\Resources\Devis;
 
 use App\Filament\Client\Resources\Devis\Pages\ManageDevis;
+use App\Mail\DevisAccepteNotification;
 use App\Models\Devis;
 use BackedEnum;
 use Filament\Actions\Action;
@@ -14,6 +15,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 use UnitEnum;
 
 class DevisResource extends Resource
@@ -131,6 +133,14 @@ class DevisResource extends Resource
                             'accepte_le' => now(),
                             'ip_acceptation' => request()->ip() ?? '127.0.0.1',
                         ]);
+
+                        try {
+                            Mail::to('webmarko.company@gmail.com')->send(
+                                new DevisAccepteNotification($record->fresh())
+                            );
+                        } catch (\Throwable $e) {
+                            // Ignorer silencieusement si SMTP hors ligne en local
+                        }
 
                         Notification::make()
                             ->title('Devis accepté')
