@@ -32,8 +32,6 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->profile()
-
-            // Identité visuelle
             ->brandName('Webmarko')
             ->brandLogo(asset('images/logo.png'))
             ->brandLogoHeight('3.8rem')
@@ -54,8 +52,6 @@ class AdminPanelProvider extends PanelProvider
                     .fi-simple-main .fi-logo { height: 4.8rem !important; }
                 </style>'
             )
-
-            // Confort d'utilisation
             ->darkMode(true)
             ->sidebarCollapsibleOnDesktop()
             ->maxContentWidth('full')

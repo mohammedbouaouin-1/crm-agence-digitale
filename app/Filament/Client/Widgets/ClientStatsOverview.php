@@ -31,7 +31,6 @@ class ClientStatsOverview extends StatsOverviewWidget
         $totalFacture = Facture::where('client_id', $clientId)
             ->sum('montant');
 
-        // Données des 6 derniers mois
         $facturesParMois = collect(range(5, 0))->map(function ($monthsAgo) use ($clientId) {
             $date = now()->subMonths($monthsAgo);
 

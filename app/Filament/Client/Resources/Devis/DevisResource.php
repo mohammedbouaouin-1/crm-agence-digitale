@@ -138,8 +138,7 @@ class DevisResource extends Resource
                             Mail::to('webmarko.company@gmail.com')->send(
                                 new DevisAccepteNotification($record->fresh())
                             );
-                        } catch (\Throwable $e) {
-                            // Ignorer silencieusement si SMTP hors ligne en local
+                        } catch (\Throwable) {
                         }
 
                         Notification::make()

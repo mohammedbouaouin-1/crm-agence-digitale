@@ -37,7 +37,6 @@ class Devis extends Model
     protected static function booted()
     {
         static::saving(function (Devis $devis) {
-            // Si le devis n'est pas déjà accepté ou refusé, et que la date de validité est passée, on le marque expiré
             if (in_array($devis->statut, ['brouillon', 'envoye']) && $devis->date_validite && now()->startOfDay()->isAfter($devis->date_validite->endOfDay())) {
                 $devis->statut = 'expire';
             }

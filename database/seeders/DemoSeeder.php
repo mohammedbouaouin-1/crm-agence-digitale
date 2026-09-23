@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Client;
 use App\Models\Devis;
-use App\Models\Projet;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
@@ -552,8 +551,6 @@ class DemoSeeder extends Seeder
                 $client->demandes()->firstOrCreate(['sujet' => $d['sujet']], $d);
             }
         }
-
-        // Devis de démonstration
         $firstClient = Client::first();
         if ($firstClient) {
             $devis1 = Devis::firstOrCreate(
@@ -569,8 +566,6 @@ class DemoSeeder extends Seeder
                     'conditions' => 'Acompte de 30% à la signature, 70% à la livraison finale.',
                 ]
             );
-
-            // Lier le premier projet à ce devis
             $premierProjet = $firstClient->projets()->first();
             if ($premierProjet) {
                 $premierProjet->update(['devis_id' => $devis1->id]);

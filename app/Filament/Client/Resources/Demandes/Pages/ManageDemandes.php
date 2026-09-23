@@ -35,8 +35,7 @@ class ManageDemandes extends ManageRecords
                                     $record->message,
                                 )
                             );
-                        } catch (\Exception $e) {
-                            // Ignorer les erreurs d'envoi en local sans serveur SMTP
+                        } catch (\Throwable) {
                         }
                     }
 

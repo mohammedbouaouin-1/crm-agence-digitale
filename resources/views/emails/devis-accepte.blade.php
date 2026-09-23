@@ -8,7 +8,6 @@
     <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 30px;">
         <tr>
             <td>
-                <!-- HEADER -->
                 <div style="border-bottom: 2px solid #0d9488; padding-bottom: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center;">
                     <div>
                         <span style="font-size: 22px; font-weight: bold; color: #0d9488; letter-spacing: -0.5px;">Web<span style="color: #0f172a;">marko</span></span>
@@ -16,7 +15,6 @@
                     </div>
                 </div>
 
-                <!-- BADGE ACCORD -->
                 <div style="background-color: #ecfdf5; border-left: 4px solid #10b981; padding: 12px 16px; margin-bottom: 20px; border-radius: 0 6px 6px 0;">
                     <div style="font-size: 14px; font-weight: bold; color: #065f46; text-transform: uppercase; letter-spacing: 0.5px;">Accord Commercial Confirmé en Ligne</div>
                     <div style="font-size: 13px; color: #047857; margin-top: 4px;">Un client vient de valider et signer sa proposition commerciale depuis son portail dédié.</div>
@@ -27,7 +25,6 @@
                     Le client <strong>{{ $devis->client?->nom }}</strong> @if($devis->client?->entreprise) (<em>{{ $devis->client->entreprise }}</em>) @endif a officiellement donné son accord pour la proposition commerciale :
                 </p>
 
-                <!-- RECAP TABLE -->
                 <table width="100%" cellpadding="10" cellspacing="0" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; margin: 20px 0;">
                     <tr>
                         <td style="font-size: 13px; color: #64748b; border-bottom: 1px solid #e2e8f0;">N° de Devis :</td>
@@ -51,7 +48,6 @@
                     </tr>
                 </table>
 
-                <!-- PROCHAINES ACTIONS -->
                 <div style="background-color: #f0fdfa; border: 1px solid #ccfbf1; padding: 14px; border-radius: 6px; margin: 20px 0;">
                     <strong style="font-size: 13px; color: #115e59;">Prochaines actions recommandées (Cycle Quote-to-Cash) :</strong>
                     <ul style="font-size: 13px; color: #0f766e; margin: 8px 0 0 20px; padding: 0; line-height: 1.6;">
