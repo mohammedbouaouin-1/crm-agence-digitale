@@ -13,7 +13,7 @@ class PaiementFactory extends Factory
             'facture_id' => Facture::factory(),
             'montant' => fake()->randomFloat(2, 200, 5000),
             'date' => fake()->dateTimeBetween('-1 month', 'now'),
-            'methode' => fake()->randomElement(['virement', 'cheque', 'especes']),
+            'methode' => fake()->randomElement(['virement', 'cheque', 'especes', 'carte']),
         ];
     }
 }

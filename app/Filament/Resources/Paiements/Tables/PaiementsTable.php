@@ -39,12 +39,14 @@ class PaiementsTable
                         'virement' => 'success',
                         'cheque' => 'warning',
                         'especes' => 'info',
+                        'carte' => 'primary',
                         default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'virement' => 'Virement',
                         'cheque' => 'Chèque',
                         'especes' => 'Espèces',
+                        'carte' => 'Carte bancaire',
                         default => $state,
                     }),
 
@@ -60,6 +62,7 @@ class PaiementsTable
                         'virement' => 'Virement',
                         'cheque' => 'Chèque',
                         'especes' => 'Espèces',
+                        'carte' => 'Carte bancaire',
                     ]),
             ])
             ->recordActions([

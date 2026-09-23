@@ -159,6 +159,7 @@ class PaiementForm
                             'virement' => 'Virement bancaire',
                             'cheque' => 'Chèque',
                             'especes' => 'Espèces',
+                            'carte' => 'Carte bancaire',
                         ])
                         ->default('virement')
                         ->required(),
