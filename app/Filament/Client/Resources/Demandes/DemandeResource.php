@@ -30,6 +30,23 @@ class DemandeResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    public static function getNavigationBadge(): ?string
+    {
+        $clientId = auth()->user()?->client_id;
+        if (! $clientId) {
+            return null;
+        }
+
+        $count = static::getModel()::where('client_id', $clientId)->where('traite', false)->count();
+
+        return $count > 0 ? (string) $count : null;
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'info';
+    }
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

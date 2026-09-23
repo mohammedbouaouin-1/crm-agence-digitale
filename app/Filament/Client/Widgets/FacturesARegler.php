@@ -35,9 +35,19 @@ class FacturesARegler extends BaseWidget
                     ->weight('bold'),
 
                 TextColumn::make('montant')
-                    ->label('Montant')
-                    ->formatStateUsing(fn ($state) => number_format($state, 2, ',', ' ').' DH')
-                    ->weight('bold'),
+                    ->label('Montant total')
+                    ->formatStateUsing(fn ($state) => number_format($state, 2, ',', ' ').' DH'),
+
+                TextColumn::make('reste_a_payer')
+                    ->label('Reste dû')
+                    ->state(fn (Facture $record): string => number_format(max(0, $record->montant - ($record->totalPaye ?? 0)), 2, ',', ' ').' DH')
+                    ->weight('bold')
+                    ->badge()
+                    ->color(function (Facture $record): string {
+                        $reste = max(0, $record->montant - ($record->totalPaye ?? 0));
+
+                        return $reste <= 0 ? 'success' : ($record->date_echeance?->isPast() ? 'danger' : 'warning');
+                    }),
 
                 TextColumn::make('statut')
                     ->label('Statut')

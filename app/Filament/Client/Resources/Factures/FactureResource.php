@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -31,6 +32,23 @@ class FactureResource extends Resource
     protected static ?string $modelLabel = 'Facture';
 
     protected static ?string $pluralModelLabel = 'Mes Factures';
+
+    public static function getNavigationBadge(): ?string
+    {
+        $clientId = auth()->user()?->client_id;
+        if (! $clientId) {
+            return null;
+        }
+
+        $count = static::getModel()::where('client_id', $clientId)->where('statut', '!=', 'payee')->count();
+
+        return $count > 0 ? (string) $count : null;
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'danger';
+    }
 
     public static function getEloquentQuery(): Builder
     {
@@ -131,7 +149,16 @@ class FactureResource extends Resource
                         default => ucfirst($state),
                     }),
             ])
-            ->filters([])
+            ->filters([
+                SelectFilter::make('statut')
+                    ->label('Statut')
+                    ->options([
+                        'en_attente' => 'En attente',
+                        'partiellement_payee' => 'Partiellement payée',
+                        'payee' => 'Payée',
+                        'en_retard' => 'En retard',
+                    ]),
+            ])
             ->recordActions([
                 Action::make('telecharger_pdf')
                     ->label('Télécharger PDF')

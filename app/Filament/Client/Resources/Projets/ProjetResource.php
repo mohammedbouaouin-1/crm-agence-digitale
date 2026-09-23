@@ -9,6 +9,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -101,6 +102,17 @@ class ProjetResource extends Resource
                     ->icon('heroicon-o-arrow-top-right-on-square')
                     ->url(fn ($record) => $record->url_site, shouldOpenInNewTab: true)
                     ->placeholder('En cours de création'),
+            ])
+            ->filters([
+                SelectFilter::make('statut')
+                    ->label('Statut')
+                    ->options([
+                        'maquette' => 'Maquette',
+                        'developpement' => 'Développement',
+                        'tests' => 'Tests',
+                        'livre' => 'Livré',
+                        'en_pause' => 'En pause',
+                    ]),
             ])
             ->defaultSort('created_at', 'desc');
     }

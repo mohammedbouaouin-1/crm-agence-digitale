@@ -32,6 +32,23 @@ class DevisResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Mes Devis';
 
+    public static function getNavigationBadge(): ?string
+    {
+        $clientId = auth()->user()?->client_id;
+        if (! $clientId) {
+            return null;
+        }
+
+        $count = static::getModel()::where('client_id', $clientId)->where('statut', 'envoye')->count();
+
+        return $count > 0 ? (string) $count : null;
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'warning';
+    }
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

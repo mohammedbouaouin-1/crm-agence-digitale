@@ -38,11 +38,11 @@ class ClientPanelProvider extends PanelProvider
             ->colors(['primary' => Color::Indigo])
             ->renderHook(
                 'panels::head.end',
-                fn (): string => '<style>
-                    .fi-sidebar-header .fi-logo, .fi-topbar .fi-logo { height: 2.2rem !important; }
-                    .fi-simple-main .fi-logo { height: 4.8rem !important; }
-                </style>'
+                fn (): string => '<link rel="stylesheet" href="'.asset('css/filament-theme.css').'">'
             )
+            ->darkMode(true)
+            ->sidebarCollapsibleOnDesktop()
+            ->maxContentWidth('full')
             ->navigationGroups([
                 'Mes Activités',
                 'Mes Documents',
