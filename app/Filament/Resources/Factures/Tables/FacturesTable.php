@@ -9,6 +9,9 @@ use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -41,7 +44,27 @@ class FacturesTable
                     ->label('Montant')
                     ->formatStateUsing(fn ($state) => number_format($state, 2, ',', ' ').' DH')
                     ->sortable()
-                    ->weight('bold'),
+                    ->weight('bold')
+                    ->description(function (Facture $record) {
+                        $totalPaye = (float) $record->paiements->sum('montant');
+                        $reste = max(0, (float) $record->montant - $totalPaye);
+
+                        if ($record->statut === 'payee' || $reste <= 0) {
+                            return 'Soldée à 100%';
+                        }
+
+                        return 'Reste dû : '.number_format($reste, 2, ',', ' ').' DH';
+                    })
+                    ->descriptionColor(function (Facture $record) {
+                        $totalPaye = (float) $record->paiements->sum('montant');
+                        $reste = max(0, (float) $record->montant - $totalPaye);
+
+                        if ($record->statut === 'payee' || $reste <= 0) {
+                            return 'success';
+                        }
+
+                        return $record->date_echeance?->isPast() ? 'danger' : 'warning';
+                    }),
 
                 TextColumn::make('statut')
                     ->label('Statut')
@@ -83,6 +106,42 @@ class FacturesTable
                     ]),
             ])
             ->recordActions([
+                Action::make('enregistrer_paiement')
+                    ->label('+ Règlement')
+                    ->icon('heroicon-o-banknotes')
+                    ->color('success')
+                    ->visible(fn (Facture $record) => $record->statut !== 'payee')
+                    ->form([
+                        TextInput::make('montant')
+                            ->label('Montant versé (DH)')
+                            ->numeric()
+                            ->required()
+                            ->default(fn (Facture $record) => max(0, (float) $record->montant - (float) $record->paiements->sum('montant'))),
+                        DatePicker::make('date')
+                            ->label('Date d\'encaissement')
+                            ->required()
+                            ->default(now()),
+                        Select::make('methode')
+                            ->label('Mode de règlement')
+                            ->required()
+                            ->options([
+                                'virement' => 'Virement bancaire',
+                                'cheque' => 'Chèque',
+                                'especes' => 'Espèces',
+                                'carte' => 'Carte bancaire',
+                            ])
+                            ->default('virement'),
+                    ])
+                    ->action(function (Facture $record, array $data) {
+                        $record->paiements()->create($data);
+
+                        Notification::make()
+                            ->title('Règlement enregistré')
+                            ->body('Le versement a été enregistré et le statut de la facture a été actualisé.')
+                            ->success()
+                            ->send();
+                    }),
+
                 Action::make('envoyer_email')
                     ->label('Envoyer')
                     ->icon('heroicon-o-paper-airplane')

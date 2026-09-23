@@ -68,6 +68,46 @@ class ClientsTable
                             : 'Aucune campagne';
                     }),
 
+                TextColumn::make('total_facture')
+                    ->label('CA Facturé')
+                    ->state(fn ($record) => $record->factures->sum('montant'))
+                    ->formatStateUsing(fn ($state) => $state > 0 ? number_format($state, 2, ',', ' ').' DH' : '—')
+                    ->weight('bold')
+                    ->description(function ($record) {
+                        $factures = $record->factures;
+                        if ($factures->isEmpty()) {
+                            return null;
+                        }
+
+                        $totalFacture = (float) $factures->sum('montant');
+                        $totalPaye = (float) $factures->sum(fn ($f) => $f->paiements->sum('montant'));
+                        $reste = max(0, $totalFacture - $totalPaye);
+
+                        if ($reste <= 0) {
+                            return 'Soldé (0 DH dû)';
+                        }
+
+                        $hasRetard = $factures->where('statut', 'en_retard')->isNotEmpty();
+
+                        return ($hasRetard ? 'Impayé en retard : ' : 'Encours : ').number_format($reste, 2, ',', ' ').' DH';
+                    })
+                    ->descriptionColor(function ($record) {
+                        $factures = $record->factures;
+                        if ($factures->isEmpty()) {
+                            return null;
+                        }
+
+                        $totalFacture = (float) $factures->sum('montant');
+                        $totalPaye = (float) $factures->sum(fn ($f) => $f->paiements->sum('montant'));
+                        $reste = max(0, $totalFacture - $totalPaye);
+
+                        if ($reste <= 0) {
+                            return 'success';
+                        }
+
+                        return $factures->where('statut', 'en_retard')->isNotEmpty() ? 'danger' : 'warning';
+                    }),
+
                 TextColumn::make('created_at')
                     ->label('Créé le')
                     ->date('d/m/Y')

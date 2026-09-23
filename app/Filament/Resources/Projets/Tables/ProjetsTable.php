@@ -7,6 +7,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
@@ -85,7 +86,9 @@ class ProjetsTable
                     ->label('Livraison prévue')
                     ->date('d/m/Y')
                     ->sortable()
-                    ->color(fn ($record) => $record->date_livraison_prevue?->isPast() && $record->statut !== 'livre' ? 'danger' : null),
+                    ->color(fn ($record) => $record->date_livraison_prevue?->isPast() && $record->statut !== 'livre' ? 'danger' : null)
+                    ->description(fn ($record) => $record->date_livraison_prevue?->isPast() && $record->statut !== 'livre' ? 'Délai dépassé' : null)
+                    ->descriptionColor('danger'),
 
                 TextColumn::make('url_site')
                     ->label('Lien')
@@ -103,6 +106,9 @@ class ProjetsTable
                         'livre' => 'Livré',
                         'en_pause' => 'En pause',
                     ]),
+                Filter::make('en_retard')
+                    ->label('En retard de livraison')
+                    ->query(fn ($query) => $query->where('date_livraison_prevue', '<', now())->where('statut', '!=', 'livre')),
                 SelectFilter::make('type_site')
                     ->label('Type de site')
                     ->options([
