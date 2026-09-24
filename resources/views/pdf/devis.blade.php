@@ -204,21 +204,9 @@
             border-bottom: 1px solid #e2e8f0;
             padding-bottom: 6px;
         }
-        .accord-section {
-            display: table;
-            width: 100%;
-            margin-bottom: 35px;
-        }
-        .accord-gauche {
-            display: table-cell;
-            width: 55%;
-            vertical-align: top;
-            padding-right: 25px;
-        }
-        .accord-droite {
-            display: table-cell;
-            width: 45%;
-            vertical-align: top;
+        .conditions-bloc {
+            margin-top: 25px;
+            margin-bottom: 25px;
         }
         .conditions-texte {
             font-size: 11px;
@@ -228,72 +216,9 @@
         .conditions-cgv {
             font-size: 10px;
             color: #64748b;
-            margin-top: 10px;
+            margin-top: 8px;
             line-height: 1.5;
             font-style: italic;
-        }
-
-        /* Cartouche acceptation certifiée */
-        .cartouche-certifie {
-            border: 2px solid #10b981;
-            background-color: #f0fdf4;
-            border-radius: 6px;
-            padding: 12px 14px;
-            text-align: left;
-        }
-        .cartouche-titre {
-            font-size: 11px;
-            font-weight: bold;
-            color: #065f46;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-            border-bottom: 1px solid #bbf7d0;
-            padding-bottom: 4px;
-        }
-        .cartouche-sous-titre {
-            font-size: 10px;
-            color: #047857;
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-        .cartouche-info {
-            font-size: 10px;
-            color: #1e293b;
-            margin-bottom: 3px;
-        }
-        .cartouche-mention {
-            font-size: 9px;
-            color: #047857;
-            font-style: italic;
-            margin-top: 8px;
-            padding-top: 4px;
-            border-top: 1px dashed #86efac;
-        }
-
-        /* Cartouche signature classique épuré */
-        .cartouche-signature {
-            border: 1px dashed #cbd5e1;
-            background-color: #f8fafc;
-            padding: 12px 14px;
-            border-radius: 6px;
-            text-align: center;
-        }
-        .signature-titre {
-            font-size: 11px;
-            font-weight: bold;
-            color: #0f172a;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .signature-zone {
-            height: 45px;
-        }
-        .signature-ligne {
-            border-top: 1px solid #cbd5e1;
-            padding-top: 6px;
-            font-size: 10px;
-            color: #64748b;
         }
 
         /* Pied de page */
@@ -415,42 +340,17 @@
         </div>
     </div>
 
-    {{-- Modalités de règlement & Accord commercial --}}
-    <div style="clear: both;">
-        <div class="section-titre">{{ $devis->conditions ? 'Modalités de règlement & Accord commercial' : 'Conditions de l\'offre & Accord commercial' }}</div>
-        <div class="accord-section">
-            <div class="accord-gauche">
-                @if($devis->conditions)
-                    <div class="conditions-texte">
-                        <strong>Modalités de règlement :</strong><br>
-                        {!! nl2br(e($devis->conditions)) !!}
-                    </div>
-                @endif
-                <div class="conditions-cgv" @if(!$devis->conditions) style="margin-top: 0;" @endif>
-                    La signature du présent devis emporte acceptation sans réserve des conditions générales de vente de l'agence. Offre valable jusqu'au {{ $devis->date_validite?->format('d/m/Y') ?? '30 jours' }}. Tout ajout hors périmètre fera l'objet d'un avenant.
-                </div>
+    @if($devis->conditions)
+        <div class="conditions-bloc" style="clear: both;">
+            <div class="section-titre">Modalités de règlement</div>
+            <div class="conditions-texte">
+                {!! nl2br(e($devis->conditions)) !!}
             </div>
-            <div class="accord-droite">
-                @if($devis->accepte_le)
-                    <div class="cartouche-certifie">
-                        <div class="cartouche-titre">Acceptation Électronique Certifiée</div>
-                        <div class="cartouche-sous-titre">Document validé en ligne par le client</div>
-                        <div class="cartouche-info"><strong>Date & heure :</strong> {{ $devis->accepte_le->format('d/m/Y à H:i:s') }}</div>
-                        @if($devis->ip_acceptation)
-                            <div class="cartouche-info"><strong>Adresse IP :</strong> {{ $devis->ip_acceptation }}</div>
-                        @endif
-                        <div class="cartouche-mention">Mention formelle : « Bon pour accord enregistré »</div>
-                    </div>
-                @else
-                    <div class="cartouche-signature">
-                        <div class="signature-titre">Bon pour accord</div>
-                        <div class="signature-zone"></div>
-                        <div class="signature-ligne">Date & Signature du client</div>
-                    </div>
-                @endif
+            <div class="conditions-cgv">
+                Offre valable jusqu'au {{ $devis->date_validite?->format('d/m/Y') ?? '30 jours' }}.
             </div>
         </div>
-    </div>
+    @endif
 
     {{-- Pied de page --}}
     <div class="pied">
