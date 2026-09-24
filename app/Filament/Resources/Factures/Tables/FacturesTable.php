@@ -54,16 +54,6 @@ class FacturesTable
                         }
 
                         return 'Reste dû : '.number_format($reste, 2, ',', ' ').' DH';
-                    })
-                    ->descriptionColor(function (Facture $record) {
-                        $totalPaye = (float) $record->paiements->sum('montant');
-                        $reste = max(0, (float) $record->montant - $totalPaye);
-
-                        if ($record->statut === 'payee' || $reste <= 0) {
-                            return 'success';
-                        }
-
-                        return $record->date_echeance?->isPast() ? 'danger' : 'warning';
                     }),
 
                 TextColumn::make('statut')

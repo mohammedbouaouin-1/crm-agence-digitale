@@ -87,8 +87,7 @@ class ProjetsTable
                     ->date('d/m/Y')
                     ->sortable()
                     ->color(fn ($record) => $record->date_livraison_prevue?->isPast() && $record->statut !== 'livre' ? 'danger' : null)
-                    ->description(fn ($record) => $record->date_livraison_prevue?->isPast() && $record->statut !== 'livre' ? 'Délai dépassé' : null)
-                    ->descriptionColor('danger'),
+                    ->description(fn ($record) => $record->date_livraison_prevue?->isPast() && $record->statut !== 'livre' ? 'Délai dépassé' : null),
 
                 TextColumn::make('url_site')
                     ->label('Lien')
