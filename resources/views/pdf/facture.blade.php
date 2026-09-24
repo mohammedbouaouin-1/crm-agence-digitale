@@ -361,11 +361,22 @@
         </div>
     @endif
 
+    {{-- Coordonnées bancaires pour le règlement --}}
+    <div style="clear: both; margin-top: 25px; margin-bottom: 25px; padding: 14px 18px; background: #f8fafc; border-left: 4px solid #06b6d4; border-radius: 4px;">
+        <div style="font-weight: bold; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #0f172a; margin-bottom: 6px;">Modalités de règlement par virement bancaire</div>
+        <div style="font-size: 11px; color: #334155; line-height: 1.6;">
+            <strong>Banque :</strong> {{ \App\Models\Setting::get('banque_nom', 'Attijariwafa Bank') }} &nbsp;|&nbsp;
+            <strong>Titulaire :</strong> {{ \App\Models\Setting::get('banque_titulaire', 'Webmarko SARL') }}<br>
+            <strong>RIB :</strong> <span style="font-family: monospace; font-size: 12px; font-weight: bold; color: #0f172a; letter-spacing: 0.5px;">{{ \App\Models\Setting::get('banque_rib', '007 780 0001234567890123 45') }}</span>
+        </div>
+    </div>
+
     {{-- Pied de page --}}
     <div class="pied">
-        <strong>Webmarko — Digital Marketing Agency</strong><br>
-        Email: webmarko.company@gmail.com<br>
-        Merci pour votre confiance.
+        <strong>{{ \App\Models\Setting::get('agence_nom', 'Webmarko') }} — {{ \App\Models\Setting::get('agence_slogan', 'Digital Marketing Agency') }}</strong><br>
+        ICE: {{ \App\Models\Setting::get('agence_ice', '002345678000092') }} | IF: {{ \App\Models\Setting::get('agence_if', '45892301') }} | RC: {{ \App\Models\Setting::get('agence_rc', '124580') }} | Patente: {{ \App\Models\Setting::get('agence_patente', '34567890') }}<br>
+        Email: {{ \App\Models\Setting::get('agence_email', 'webmarko.company@gmail.com') }} &nbsp;|&nbsp; Tél: {{ \App\Models\Setting::get('agence_telephone', '+212 5 22 00 00 00') }}<br>
+        {{ \App\Models\Setting::get('facture_mentions', 'Merci pour votre confiance.') }}
     </div>
 
 </body>

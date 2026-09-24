@@ -354,8 +354,9 @@
 
     {{-- Pied de page --}}
     <div class="pied">
-        <strong>Webmarko — Digital Marketing Agency</strong><br>
-        Email: webmarko.company@gmail.com<br>
+        <strong>{{ \App\Models\Setting::get('agence_nom', 'Webmarko') }} — {{ \App\Models\Setting::get('agence_slogan', 'Digital Marketing Agency') }}</strong><br>
+        ICE: {{ \App\Models\Setting::get('agence_ice', '002345678000092') }} | IF: {{ \App\Models\Setting::get('agence_if', '45892301') }} | RC: {{ \App\Models\Setting::get('agence_rc', '124580') }} | Patente: {{ \App\Models\Setting::get('agence_patente', '34567890') }}<br>
+        Email: {{ \App\Models\Setting::get('agence_email', 'webmarko.company@gmail.com') }} &nbsp;|&nbsp; Tél: {{ \App\Models\Setting::get('agence_telephone', '+212 5 22 00 00 00') }}<br>
         Devis N° {{ $devis->numero }} — Merci pour votre confiance.
     </div>
 

@@ -41,6 +41,7 @@ class AdminPanelProvider extends PanelProvider
             ->navigationGroups([
                 'Clients & Commercial',
                 'Finance',
+                'Configuration',
             ])
             ->colors([
                 'primary' => Color::Cyan,

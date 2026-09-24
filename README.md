@@ -77,6 +77,11 @@ L'application repose sur deux panneaux distincts gérés par Filament avec une s
 - **Notes Historiques** : Compte-rendu d'échanges téléphoniques, réunions et planification de la prochaine action de relance.
 - **Traitement des Demandes Clients** : Boîte de réception des tickets envoyés par les clients avec marquage "Traité / En cours".
 
+#### Paramètres Généraux de l'Agence
+- **Configuration dynamique de l'agence** : Gestion directe du nom, coordonnées de contact, mentions légales et fiscales (ICE, RC, IF, Patente) et coordonnées bancaires (Banque, titulaire, RIB 24 chiffres).
+- **Règles de facturation** : Délais d'échéance par défaut, durée de validité des devis et mentions légales de pied de page.
+- **Répercussion instantanée sur les PDF** : Toutes les données renseignées alimentent dynamiquement les devis et factures édités par le système.
+
 ---
 
 ### 3. Espace Client Dedie (`/client`)
@@ -123,6 +128,7 @@ agence-admin/
 │   │   ├── Client/             # PORTAIL CLIENT (Ressources, Pages et Widgets isolés)
 │   │   │   ├── Resources/      # Campagnes, Demandes, Devis, Factures, Projets client
 │   │   │   └── Widgets/        # Statistiques et alertes factures du client
+│   │   ├── Pages/              # Pages personnalisées Filament (ParametresAgence)
 │   │   ├── Resources/          # PANNEAU ADMIN (Gestion complète agence)
 │   │   │   ├── Clients/        # Fiches clients, formulaires, tables & relation managers
 │   │   │   ├── Devis/          # Gestion complète des devis et conversion
@@ -134,10 +140,10 @@ agence-admin/
 │   │   │   └── NoteHistoriques/# Journal des échanges commerciaux
 │   │   └── Widgets/            # Dashboard agence (Revenus, KPI, Graphiques)
 │   ├── Mail/                   # Mailables (AccesClientCree, RelanceFacture, NouveauDevisDisponible...)
-│   ├── Models/                 # Modèles Eloquent (User, Client, Devis, Projet, Facture, Paiement...)
+│   ├── Models/                 # Modèles Eloquent (User, Client, Devis, Projet, Facture, Setting...)
 │   └── Providers/Filament/     # Configuration d'AdminPanelProvider et ClientPanelProvider
 ├── database/
-│   ├── migrations/             # Schéma relationnel complet (13 tables)
+│   ├── migrations/             # Schéma relationnel complet (14 tables)
 │   └── seeders/                # Données initiales et démo (DatabaseSeeder avec comptes de test)
 ├── public/
 │   └── css/filament-theme.css  # Styles CSS personnalisés du CRM
