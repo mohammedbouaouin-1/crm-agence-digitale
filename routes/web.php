@@ -19,7 +19,7 @@ Route::get('/factures/{facture}/pdf', function (Facture $facture) {
     $user = auth()->user();
 
     abort_unless(
-        $user->client_id === null || $user->client_id === $facture->client_id,
+        $user && ($user->client_id === null || $user->client_id === $facture->client_id),
         403
     );
 
@@ -40,7 +40,7 @@ Route::get('/devis/{devis}/pdf', function (Devis $devis) {
     $user = auth()->user();
 
     abort_unless(
-        $user->client_id === null || $user->client_id === $devis->client_id,
+        $user && ($user->client_id === null || $user->client_id === $devis->client_id),
         403
     );
 

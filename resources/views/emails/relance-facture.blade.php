@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8"></head>
 <body style="font-family: sans-serif; padding: 30px; color: #1f2937;">
-    <h2>Bonjour {{ $facture->client->nom }},</h2>
+    <h2>Bonjour {{ $facture->client?->nom ?? 'Client' }},</h2>
     <p>Nous vous rappelons que la facture <strong>{{ $facture->numero }}</strong>, d'un montant de
         <strong>{{ number_format($facture->montant, 2, ',', ' ') }} DH</strong>,
         arrivée à échéance le <strong>{{ $facture->date_echeance?->format('d/m/Y') }}</strong>,

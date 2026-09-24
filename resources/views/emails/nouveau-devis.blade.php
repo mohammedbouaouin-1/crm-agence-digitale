@@ -13,7 +13,7 @@
                     <div style="font-size: 10px; font-weight: bold; letter-spacing: 1.5px; color: #64748b; margin-top: 3px; text-transform: uppercase;">Digital Marketing Agency</div>
                 </div>
 
-                <h2 style="font-size: 18px; color: #0f172a; margin-top: 0;">Bonjour {{ $devis->client->nom }},</h2>
+                <h2 style="font-size: 18px; color: #0f172a; margin-top: 0;">Bonjour {{ $devis->client?->nom ?? 'Client' }},</h2>
 
                 <p style="font-size: 14px; line-height: 1.6; color: #374151;">
                     Nous avons le plaisir de vous transmettre notre proposition commerciale concernant :<br>

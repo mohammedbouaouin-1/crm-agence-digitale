@@ -344,17 +344,17 @@
     <div class="infos">
         <div class="infos-bloc">
             <div class="infos-label">Devis établi pour</div>
-            <div class="infos-nom">{{ $devis->client->nom }}</div>
-            @if($devis->client->entreprise)
+            <div class="infos-nom">{{ $devis->client?->nom ?? 'Client non spécifié' }}</div>
+            @if($devis->client?->entreprise)
                 <div class="infos-ligne"><strong>Page / Marque :</strong> {{ $devis->client->entreprise }}</div>
             @endif
-            @if($devis->client->adresse)
+            @if($devis->client?->adresse)
                 <div class="infos-ligne"><strong>Lien :</strong> {{ $devis->client->adresse }}</div>
             @endif
-            @if($devis->client->email)
+            @if($devis->client?->email)
                 <div class="infos-ligne">{{ $devis->client->email }}</div>
             @endif
-            @if($devis->client->telephone)
+            @if($devis->client?->telephone)
                 <div class="infos-ligne">{{ $devis->client->telephone }}</div>
             @endif
         </div>

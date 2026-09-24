@@ -257,17 +257,17 @@
     <div class="infos">
         <div class="infos-bloc">
             <div class="infos-label">Facturé à</div>
-            <div class="infos-nom">{{ $facture->client->nom }}</div>
-            @if($facture->client->entreprise)
+            <div class="infos-nom">{{ $facture->client?->nom ?? 'Client non spécifié' }}</div>
+            @if($facture->client?->entreprise)
                 <div class="infos-ligne"><strong>Page / Marque :</strong> {{ $facture->client->entreprise }}</div>
             @endif
-            @if($facture->client->adresse)
+            @if($facture->client?->adresse)
                 <div class="infos-ligne"><strong>Lien :</strong> {{ $facture->client->adresse }}</div>
             @endif
-            @if($facture->client->email)
+            @if($facture->client?->email)
                 <div class="infos-ligne">{{ $facture->client->email }}</div>
             @endif
-            @if($facture->client->telephone)
+            @if($facture->client?->telephone)
                 <div class="infos-ligne">{{ $facture->client->telephone }}</div>
             @endif
         </div>
@@ -279,7 +279,7 @@
                 </tr>
                 <tr>
                     <td class="cle">Date d'échéance</td>
-                    <td class="valeur">{{ $facture->date_echeance?->format('d/m/Y') }}</td>
+                    <td class="valeur">{{ $facture->date_echeance?->format('d/m/Y') ?? '—' }}</td>
                 </tr>
                 @if($facture->devis)
                 <tr>
@@ -306,7 +306,7 @@
                         <div style="font-weight: bold; font-size: 14px; color: #0f172a; margin-bottom: 4px;">{{ $facture->devis->titre }}</div>
                         <div style="color: #64748b; font-size: 11px;">Réf. Devis contractuel : N° {{ $facture->devis->numero }}</div>
                     @else
-                        <div style="font-weight: bold; font-size: 14px; color: #0f172a;">Services marketing digital &amp; web — {{ $facture->client->nom }}</div>
+                        <div style="font-weight: bold; font-size: 14px; color: #0f172a;">Services marketing digital &amp; web — {{ $facture->client?->nom ?? 'Prestations' }}</div>
                     @endif
                 </td>
                 <td class="droite">{{ number_format($facture->montant, 2, ',', ' ') }} DH</td>
@@ -352,7 +352,7 @@
                     @foreach($facture->paiements as $paiement)
                         <tr>
                             <td>{{ $paiement->date?->format('d/m/Y') }}</td>
-                            <td>{{ ucfirst($paiement->methode) }}</td>
+                            <td>{{ match($paiement->methode) { 'virement' => 'Virement bancaire', 'cheque' => 'Chèque', 'especes' => 'Espèces', 'carte' => 'Carte bancaire', default => ucfirst($paiement->methode) } }}</td>
                             <td class="droite">{{ number_format($paiement->montant, 2, ',', ' ') }} DH</td>
                         </tr>
                     @endforeach
