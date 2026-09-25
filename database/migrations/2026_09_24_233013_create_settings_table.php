@@ -28,7 +28,7 @@ return new class extends Migration
             'agence_adresse' => 'Avenue Bir Anzarane Résidence Nour 1er Etage Bureau N 9 Centre Ville, 30000 Fès',
             'agence_site_web' => 'https://webmarko.com',
             'agence_ice' => '002345678000092',
-            'agence_rc' => '124580 Casablanca',
+            'agence_rc' => '124580 Fès',
             'agence_if' => '45892301',
             'agence_patente' => '34567890',
             'banque_nom' => 'Attijariwafa Bank',
