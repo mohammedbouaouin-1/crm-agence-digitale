@@ -22,10 +22,10 @@ return new class extends Migration
         // Données par défaut pour Webmarko
         $defaults = [
             'agence_nom' => 'Webmarko',
-            'agence_slogan' => 'Digital Marketing Agency',
+            'agence_slogan' => 'Concepteur de sites web',
             'agence_email' => 'webmarko.company@gmail.com',
-            'agence_telephone' => '+212 5 22 00 00 00',
-            'agence_adresse' => 'Boulevard d\'Anfa, Casablanca, Maroc',
+            'agence_telephone' => '06 61 51 11 83',
+            'agence_adresse' => 'Avenue Bir Anzarane Résidence Nour 1er Etage Bureau N 9 Centre Ville, 30000 Fès',
             'agence_site_web' => 'https://webmarko.com',
             'agence_ice' => '002345678000092',
             'agence_rc' => '124580 Casablanca',

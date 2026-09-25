@@ -63,33 +63,33 @@ class CoordonneesAgence extends Page
 
                         Placeholder::make('telephone')
                             ->label('Téléphone assistance')
-                            ->content(fn () => Setting::get('agence_telephone', '+212 5 22 00 00 00')),
+                            ->content(fn () => Setting::get('agence_telephone', '06 61 51 11 83')),
 
                         Placeholder::make('horaires')
                             ->label('Disponibilité')
-                            ->content('Du Lundi au Vendredi de 09h00 à 18h30'),
+                            ->content('Du Lundi au Vendredi à partir de 08h00'),
 
                         Placeholder::make('demande_action')
                             ->label('Centre de support')
                             ->content(new HtmlString('<a href="'.url('/client/demandes').'" style="color: #6366f1; font-weight: 600; text-decoration: underline;">Ouvrir un ticket dans le Centre de Demandes &rarr;</a>')),
                     ]),
 
-                Section::make('Siège de l\'Agence')
-                    ->description('Implantation et localisation de Webmarko')
+                Section::make('Adresse de l\'agence')
+                    ->description('Nos bureaux situés à Fès')
                     ->icon('heroicon-o-map-pin')
                     ->columns(2)
                     ->schema([
                         Placeholder::make('agence')
                             ->label('Agence')
-                            ->content(fn () => Setting::get('agence_nom', 'Webmarko').' — '.Setting::get('agence_slogan', 'Digital Marketing Agency')),
+                            ->content(fn () => Setting::get('agence_nom', 'Webmarko').' — '.Setting::get('agence_slogan', 'Concepteur de sites web')),
 
                         Placeholder::make('site_web')
                             ->label('Site web officiel')
                             ->content(fn () => Setting::get('agence_site_web', 'https://webmarko.com')),
 
                         Placeholder::make('adresse')
-                            ->label('Adresse du siège')
-                            ->content(fn () => Setting::get('agence_adresse', 'Boulevard d\'Anfa, Casablanca, Maroc'))
+                            ->label('Adresse de nos bureaux')
+                            ->content(fn () => Setting::get('agence_adresse', 'Avenue Bir Anzarane Résidence Nour 1er Etage Bureau N 9 Centre Ville, 30000 Fès'))
                             ->columnSpanFull(),
                     ]),
             ]);
