@@ -75,7 +75,7 @@ class CoordonneesAgence extends Page
                     ]),
 
                 Section::make('Adresse de l\'agence')
-                    ->description('Nos bureaux situés à Fès')
+                    ->description('Notre bureau situé à Fès')
                     ->icon('heroicon-o-map-pin')
                     ->columns(2)
                     ->schema([
@@ -88,7 +88,7 @@ class CoordonneesAgence extends Page
                             ->content(fn () => Setting::get('agence_site_web', 'https://webmarko.com')),
 
                         Placeholder::make('adresse')
-                            ->label('Adresse de nos bureaux')
+                            ->label('Adresse de notre bureau')
                             ->content(fn () => Setting::get('agence_adresse', 'Avenue Bir Anzarane Résidence Nour 1er Etage Bureau N 9 Centre Ville, 30000 Fès'))
                             ->columnSpanFull(),
                     ]),
