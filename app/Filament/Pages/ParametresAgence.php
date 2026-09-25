@@ -76,32 +76,6 @@ class ParametresAgence extends Page
                                 ->columnSpanFull(),
                         ]),
 
-                    Section::make('Mentions légales et fiscales (Maroc)')
-                        ->description('Identifiants officiels reportés sur les devis et factures')
-                        ->icon('heroicon-o-identification')
-                        ->columns(2)
-                        ->schema([
-                            TextInput::make('agence_ice')
-                                ->label('N° ICE (Identifiant Commun de l\'Entreprise)')
-                                ->required()
-                                ->maxLength(20),
-
-                            TextInput::make('agence_rc')
-                                ->label('N° RC (Registre du Commerce)')
-                                ->required()
-                                ->maxLength(50),
-
-                            TextInput::make('agence_if')
-                                ->label('N° IF (Identifiant Fiscal)')
-                                ->required()
-                                ->maxLength(20),
-
-                            TextInput::make('agence_patente')
-                                ->label('N° Patente')
-                                ->required()
-                                ->maxLength(20),
-                        ]),
-
                     Section::make('Coordonnées bancaires')
                         ->description('Coordonnées affichées sur les factures pour les virements des clients')
                         ->icon('heroicon-o-credit-card')

@@ -78,9 +78,9 @@ L'application repose sur deux panneaux distincts gérés par Filament avec une s
 - **Traitement des Demandes Clients** : Boîte de réception des tickets envoyés par les clients avec marquage "Traité / En cours".
 
 #### Paramètres Généraux de l'Agence
-- **Configuration dynamique de l'agence** : Gestion directe du nom, coordonnées de contact, mentions légales et fiscales (ICE, RC, IF, Patente) et coordonnées bancaires (Banque, titulaire, RIB 24 chiffres).
+- **Configuration dynamique de l'agence** : Gestion directe du nom, coordonnées de contact et coordonnées bancaires (Banque, titulaire, RIB 24 chiffres pour les règlements clients).
 - **Règles de facturation** : Délais d'échéance par défaut, durée de validité des devis et mentions légales de pied de page.
-- **Répercussion instantanée sur les PDF** : Toutes les données renseignées alimentent dynamiquement les devis et factures édités par le système.
+- **Répercussion instantanée sur les PDF** : Les coordonnées de l'agence et le RIB alimentent dynamiquement les devis et factures édités par le système.
 
 ---
 
