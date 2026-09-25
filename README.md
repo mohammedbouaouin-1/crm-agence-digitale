@@ -93,6 +93,7 @@ Chaque client dispose d'un espace épuré à son image :
 - **Mes Campagnes** : Visibilité sur les campagnes publicitaires actives et les budgets engagés.
 - **Mes Factures** : Téléchargement direct des factures acquittées ou à régler au format PDF en un clic.
 - **Centre de Demandes** : Formulaire direct pour soumettre une requête technique ou commerciale à l'équipe sans dispersion.
+- **Coordonnées & RIB** : Consultation en direct du compte bancaire officiel de l'agence (Banque, titulaire, RIB 24 chiffres avec sélection rapide) et contacts d'assistance directe.
 
 ---
 
@@ -126,6 +127,7 @@ agence-admin/
 │   ├── Console/Commands/       # Commande artisan de mise à jour des retards de factures
 │   ├── Filament/
 │   │   ├── Client/             # PORTAIL CLIENT (Ressources, Pages et Widgets isolés)
+│   │   │   ├── Pages/          # Pages client (CoordonneesAgence)
 │   │   │   ├── Resources/      # Campagnes, Demandes, Devis, Factures, Projets client
 │   │   │   └── Widgets/        # Statistiques et alertes factures du client
 │   │   ├── Pages/              # Pages personnalisées Filament (ParametresAgence)
