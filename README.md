@@ -93,7 +93,7 @@ Chaque client dispose d'un espace épuré à son image :
 - **Mes Campagnes** : Visibilité sur les campagnes publicitaires actives et les budgets engagés.
 - **Mes Factures** : Téléchargement direct des factures acquittées ou à régler au format PDF en un clic.
 - **Centre de Demandes** : Formulaire direct pour soumettre une requête technique ou commerciale à l'équipe sans dispersion.
-- **Coordonnées & RIB** : Consultation en direct du compte bancaire officiel de l'agence (Banque, titulaire, RIB 24 chiffres avec sélection rapide) et contacts d'assistance directe.
+- **Coordonnées & RIB** : Consultation en direct du compte bancaire officiel de l'agence (Banque, titulaire, RIB 24 chiffres avec bouton de copie instantanée en 1 clic), contacts directs (WhatsApp, appel direct, email), et géolocalisation du bureau de Fès sur Google Maps.
 
 ---
 
