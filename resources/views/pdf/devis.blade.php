@@ -354,8 +354,9 @@
 
     {{-- Pied de page --}}
     <div class="pied">
-        <strong>{{ \App\Models\Setting::get('agence_nom', 'Webmarko') }} — {{ \App\Models\Setting::get('agence_slogan', 'Digital Marketing Agency') }}</strong><br>
-        Email: {{ \App\Models\Setting::get('agence_email', 'webmarko.company@gmail.com') }} &nbsp;|&nbsp; Tél: {{ \App\Models\Setting::get('agence_telephone', '+212 5 22 00 00 00') }}<br>
+        <strong>{{ \App\Models\Setting::get('agence_nom', 'Webmarko') }} — {{ \App\Models\Setting::get('agence_slogan', 'Concepteur de sites web') }}</strong><br>
+        Email: {{ \App\Models\Setting::get('agence_email', 'webmarko.company@gmail.com') }} &nbsp;|&nbsp; Tél: {{ \App\Models\Setting::get('agence_telephone', '06 61 51 11 83') }}<br>
+        {{ \App\Models\Setting::get('agence_adresse', 'Avenue Bir Anzarane Résidence Nour 1er Etage Bureau N 9 Centre Ville, 30000 Fès') }}<br>
         Devis N° {{ $devis->numero }} — Merci pour votre confiance.
     </div>
 

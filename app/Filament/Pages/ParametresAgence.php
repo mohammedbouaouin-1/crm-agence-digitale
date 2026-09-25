@@ -71,7 +71,7 @@ class ParametresAgence extends Page
                                 ->maxLength(255),
 
                             TextInput::make('agence_adresse')
-                                ->label('Adresse du siège social')
+                                ->label('Adresse de notre bureau (Fès)')
                                 ->maxLength(255)
                                 ->columnSpanFull(),
                         ]),
