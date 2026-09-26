@@ -8,11 +8,9 @@
     <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 30px;">
         <tr>
             <td>
-                <div style="border-bottom: 2px solid #0d9488; padding-bottom: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <span style="font-size: 22px; font-weight: bold; color: #0d9488; letter-spacing: -0.5px;">Web<span style="color: #0f172a;">marko</span></span>
-                        <div style="font-size: 10px; font-weight: bold; letter-spacing: 1.5px; color: #64748b; margin-top: 3px; text-transform: uppercase;">Digital Marketing Agency — Notification Interne</div>
-                    </div>
+                <div style="border-bottom: 2px solid #06b6d4; padding-bottom: 15px; margin-bottom: 25px;">
+                    <span style="font-size: 22px; font-weight: bold; color: #06b6d4; letter-spacing: -0.5px;">Web<span style="color: #0f172a;">marko</span></span>
+                    <div style="font-size: 10px; font-weight: bold; letter-spacing: 1.5px; color: #64748b; margin-top: 3px; text-transform: uppercase;">Digital Marketing Agency — Notification Interne</div>
                 </div>
 
                 <div style="background-color: #ecfdf5; border-left: 4px solid #10b981; padding: 12px 16px; margin-bottom: 20px; border-radius: 0 6px 6px 0;">
@@ -36,7 +34,7 @@
                     </tr>
                     <tr>
                         <td style="font-size: 13px; color: #64748b; border-bottom: 1px solid #e2e8f0;">Montant Contractuel :</td>
-                        <td align="right" style="font-size: 15px; font-weight: bold; color: #0d9488; border-bottom: 1px solid #e2e8f0;">{{ number_format($devis->montant, 2, ',', ' ') }} DH</td>
+                        <td align="right" style="font-size: 15px; font-weight: bold; color: #0284c7; border-bottom: 1px solid #e2e8f0;">{{ number_format($devis->montant, 2, ',', ' ') }} DH</td>
                     </tr>
                     <tr>
                         <td style="font-size: 13px; color: #64748b; border-bottom: 1px solid #e2e8f0;">Date & Heure d'accord :</td>
@@ -48,9 +46,9 @@
                     </tr>
                 </table>
 
-                <div style="background-color: #f0fdfa; border: 1px solid #ccfbf1; padding: 14px; border-radius: 6px; margin: 20px 0;">
-                    <strong style="font-size: 13px; color: #115e59;">Prochaines actions recommandées (Cycle Quote-to-Cash) :</strong>
-                    <ul style="font-size: 13px; color: #0f766e; margin: 8px 0 0 20px; padding: 0; line-height: 1.6;">
+                <div style="background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 14px; border-radius: 6px; margin: 20px 0;">
+                    <strong style="font-size: 13px; color: #0369a1;">Prochaines actions recommandées (Cycle Quote-to-Cash) :</strong>
+                    <ul style="font-size: 13px; color: #0c4a6e; margin: 8px 0 0 20px; padding: 0; line-height: 1.6;">
                         <li>Initialiser le projet web ou la campagne Ads en un clic via les boutons d'actions contextuelles.</li>
                         <li>Générer la facture officielle pour 100% du montant convenu.</li>
                         <li>Saisir les versements d'acomptes dans le module des paiements dès réception bancaire.</li>

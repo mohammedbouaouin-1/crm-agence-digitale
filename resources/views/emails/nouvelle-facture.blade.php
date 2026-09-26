@@ -55,7 +55,7 @@
                 <p style="font-size: 14px; line-height: 1.6; color: #374151; margin-bottom: 0;">
                     Bien cordialement,<br>
                     <strong>L'équipe Webmarko</strong><br>
-                    <span style="font-size: 12px; color: #64748b;">Email: webmarko.company@gmail.com</span>
+                    <span style="font-size: 12px; color: #64748b;">Email: webmarko.company@gmail.com &nbsp;|&nbsp; Tél: 06 61 51 11 83</span>
                 </p>
 
                 <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #f1f5f9; font-size: 11px; color: #94a3b8; text-align: center;">
