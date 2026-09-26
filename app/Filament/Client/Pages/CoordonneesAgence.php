@@ -4,7 +4,7 @@ namespace App\Filament\Client\Pages;
 
 use App\Models\Setting;
 use BackedEnum;
-use Filament\Forms\Components\Placeholder;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -33,17 +33,17 @@ class CoordonneesAgence extends Page
                     ->icon('heroicon-o-credit-card')
                     ->columns(2)
                     ->schema([
-                        Placeholder::make('banque')
+                        TextEntry::make('banque')
                             ->label('Établissement bancaire')
-                            ->content(fn () => Setting::get('banque_nom', 'Attijariwafa Bank')),
+                            ->state(fn () => Setting::get('banque_nom', 'Attijariwafa Bank')),
 
-                        Placeholder::make('titulaire')
+                        TextEntry::make('titulaire')
                             ->label('Titulaire du compte')
-                            ->content(fn () => Setting::get('banque_titulaire', 'Webmarko SARL')),
+                            ->state(fn () => Setting::get('banque_titulaire', 'Webmarko SARL')),
 
-                        Placeholder::make('rib')
+                        TextEntry::make('rib')
                             ->label('RIB (Relevé d\'Identité Bancaire — 24 chiffres)')
-                            ->content(function () {
+                            ->state(function () {
                                 $rib = Setting::get('banque_rib', '007 780 0001234567890123 45');
                                 $rawRib = preg_replace('/[^0-9]/', '', $rib);
 
@@ -65,9 +65,9 @@ class CoordonneesAgence extends Page
                             })
                             ->columnSpanFull(),
 
-                        Placeholder::make('consigne')
+                        TextEntry::make('consigne')
                             ->label('Consigne de paiement')
-                            ->content(new HtmlString('
+                            ->state(new HtmlString('
                                 <div style="padding: 12px 16px; background: rgba(16, 185, 129, 0.06); border-left: 4px solid #10b981; border-radius: 6px; font-size: 13px; color: #065f46; line-height: 1.5;">
                                     <strong>Consigne de virement :</strong> Lors de votre virement, merci de mentionner votre numéro de client ou le numéro de facture en référence pour un rapprochement comptable immédiat.
                                 </div>
@@ -80,9 +80,9 @@ class CoordonneesAgence extends Page
                     ->icon('heroicon-o-chat-bubble-left-right')
                     ->columns(2)
                     ->schema([
-                        Placeholder::make('email')
+                        TextEntry::make('email')
                             ->label('Email du support')
-                            ->content(function () {
+                            ->state(function () {
                                 $email = Setting::get('agence_email', 'webmarko.company@gmail.com');
 
                                 return new HtmlString('
@@ -92,9 +92,9 @@ class CoordonneesAgence extends Page
                                 ');
                             }),
 
-                        Placeholder::make('telephone')
+                        TextEntry::make('telephone')
                             ->label('Téléphone assistance')
-                            ->content(function () {
+                            ->state(function () {
                                 $tel = Setting::get('agence_telephone', '06 61 51 11 83');
                                 $cleanTel = preg_replace('/[^0-9+]/', '', $tel);
 
@@ -110,13 +110,13 @@ class CoordonneesAgence extends Page
                                 ');
                             }),
 
-                        Placeholder::make('horaires')
+                        TextEntry::make('horaires')
                             ->label('Disponibilité')
-                            ->content('Du Lundi au Vendredi à partir de 08h00'),
+                            ->state('Du Lundi au Vendredi à partir de 08h00'),
 
-                        Placeholder::make('demande_action')
+                        TextEntry::make('demande_action')
                             ->label('Centre de support')
-                            ->content(new HtmlString('<a href="'.url('/client/demandes').'" style="color: #6366f1; font-weight: 600; text-decoration: underline;">Ouvrir un ticket dans le Centre de Demandes &rarr;</a>')),
+                            ->state(new HtmlString('<a href="'.url('/client/demandes').'" style="color: #6366f1; font-weight: 600; text-decoration: underline;">Ouvrir un ticket dans le Centre de Demandes &rarr;</a>')),
                     ]),
 
                 Section::make('Adresse de l\'agence')
@@ -124,13 +124,13 @@ class CoordonneesAgence extends Page
                     ->icon('heroicon-o-map-pin')
                     ->columns(2)
                     ->schema([
-                        Placeholder::make('agence')
+                        TextEntry::make('agence')
                             ->label('Agence')
-                            ->content(fn () => Setting::get('agence_nom', 'Webmarko').' — '.Setting::get('agence_slogan', 'Concepteur de sites web')),
+                            ->state(fn () => Setting::get('agence_nom', 'Webmarko').' — '.Setting::get('agence_slogan', 'Concepteur de sites web')),
 
-                        Placeholder::make('site_web')
+                        TextEntry::make('site_web')
                             ->label('Site web officiel')
-                            ->content(function () {
+                            ->state(function () {
                                 $site = Setting::get('agence_site_web', 'https://webmarko.com');
 
                                 return new HtmlString('
@@ -140,9 +140,9 @@ class CoordonneesAgence extends Page
                                 ');
                             }),
 
-                        Placeholder::make('adresse')
+                        TextEntry::make('adresse')
                             ->label('Adresse de notre bureau')
-                            ->content(function () {
+                            ->state(function () {
                                 $adresse = Setting::get('agence_adresse', 'Avenue Bir Anzarane Résidence Nour 1er Etage Bureau N 9 Centre Ville, 30000 Fès');
 
                                 return new HtmlString('

@@ -4,10 +4,10 @@ namespace App\Filament\Resources\Devis\Schemas;
 
 use App\Models\Devis;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -76,9 +76,9 @@ class DevisForm
                         ->required()
                         ->columnSpanFull(),
 
-                    Placeholder::make('acceptation_info')
+                    TextEntry::make('acceptation_info')
                         ->label('Certification d\'acceptation')
-                        ->content(fn (?Devis $record) => $record?->accepte_le ? 'Validé en ligne le '.$record->accepte_le->format('d/m/Y à H:i:s').($record->ip_acceptation ? " — IP signataire : {$record->ip_acceptation}" : '') : '—')
+                        ->state(fn (?Devis $record) => $record?->accepte_le ? 'Validé en ligne le '.$record->accepte_le->format('d/m/Y à H:i:s').($record->ip_acceptation ? " — IP signataire : {$record->ip_acceptation}" : '') : '—')
                         ->visible(fn (?Devis $record) => (bool) $record?->accepte_le)
                         ->columnSpanFull(),
                 ]),

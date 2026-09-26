@@ -19,7 +19,7 @@ class ManageDemandes extends ManageRecords
             CreateAction::make()
                 ->label('Nouvelle demande')
                 ->modalHeading('Envoyer une nouvelle demande')
-                ->mutateFormDataUsing(function (array $data): array {
+                ->mutateDataUsing(function (array $data): array {
                     $data['client_id'] = auth()->user()?->client_id;
 
                     return $data;

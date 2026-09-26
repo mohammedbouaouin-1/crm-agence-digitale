@@ -142,7 +142,7 @@ class DevisTable
                     ->icon('heroicon-o-plus-circle')
                     ->color('success')
                     ->visible(fn (Devis $record) => $record->statut === 'accepte' && $record->projets->isEmpty())
-                    ->form([
+                    ->schema([
                         TextInput::make('nom')
                             ->label('Nom du projet')
                             ->default(fn (Devis $record) => $record->titre)
@@ -203,7 +203,7 @@ class DevisTable
                     ->icon('heroicon-o-megaphone')
                     ->color('warning')
                     ->visible(fn (Devis $record) => $record->statut === 'accepte' && $record->campagnes->isEmpty())
-                    ->form([
+                    ->schema([
                         TextInput::make('nom')
                             ->label('Nom de la campagne')
                             ->default(fn (Devis $record) => $record->titre)
@@ -270,7 +270,7 @@ class DevisTable
                     ->modalHeading('Générer la facture du devis')
                     ->modalDescription(fn (Devis $record) => "Émettre la facture pour la totalité du devis {$record->numero} (".number_format($record->montant, 2, ',', ' ').' DH). Les règlements (acompte et solde) seront gérés dans le module Paiements.')
                     ->modalSubmitActionLabel('Créer la facture')
-                    ->form([
+                    ->schema([
                         DatePicker::make('date_emission')
                             ->label('Date d\'émission')
                             ->default(now())

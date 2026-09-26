@@ -101,7 +101,7 @@ class FacturesTable
                     ->icon('heroicon-o-banknotes')
                     ->color('success')
                     ->visible(fn (Facture $record) => $record->statut !== 'payee')
-                    ->form([
+                    ->schema([
                         TextInput::make('montant')
                             ->label('Montant versé (DH)')
                             ->numeric()
