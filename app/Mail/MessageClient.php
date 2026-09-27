@@ -19,8 +19,9 @@ class MessageClient extends Mailable
 
     public function build()
     {
-        return $this->subject('Nouveau message client — '.$this->client->nom)
+        return $this->subject('Webmarko [Support Client] — Nouveau message de '.$this->client->nom)
             ->view('emails.message-client')
+            ->text('emails.text.message-client')
             ->with([
                 'client' => $this->client,
                 'sujet' => $this->sujet,

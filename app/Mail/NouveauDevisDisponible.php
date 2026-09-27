@@ -18,8 +18,9 @@ class NouveauDevisDisponible extends Mailable
     {
         $this->devis->load('client');
 
-        return $this->subject('Nouvelle proposition commerciale — Devis '.$this->devis->numero)
+        return $this->subject('Webmarko — Proposition commerciale N° '.$this->devis->numero)
             ->view('emails.nouveau-devis')
+            ->text('emails.text.nouveau-devis')
             ->with(['devis' => $this->devis])
             ->attachData(
                 Pdf::loadView('pdf.devis', ['devis' => $this->devis])->output(),

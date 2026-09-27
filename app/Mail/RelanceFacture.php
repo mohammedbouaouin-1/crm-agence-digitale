@@ -18,8 +18,9 @@ class RelanceFacture extends Mailable
     {
         $this->facture->load(['client', 'paiements', 'devis']);
 
-        return $this->subject('Relance — Facture '.$this->facture->numero.' en attente de règlement')
+        return $this->subject('Webmarko — Suivi d\'échéance de la facture N° '.$this->facture->numero)
             ->view('emails.relance-facture')
+            ->text('emails.text.relance-facture')
             ->with(['facture' => $this->facture])
             ->attachData(
                 Pdf::loadView('pdf.facture', ['facture' => $this->facture])->output(),

@@ -18,8 +18,9 @@ class AccesClientCree extends Mailable
 
     public function build()
     {
-        return $this->subject('Votre accès au portail client')
+        return $this->subject('Webmarko — Vos identifiants d\'accès au portail client')
             ->view('emails.acces-client')
+            ->text('emails.text.acces-client')
             ->with([
                 'nomClient' => $this->nomClient,
                 'email' => $this->email,

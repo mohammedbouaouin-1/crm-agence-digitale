@@ -20,8 +20,9 @@ class DevisAccepteNotification extends Mailable
 
         $clientNom = $this->devis->client?->nom ?? 'Client';
 
-        return $this->subject("[Accord Client] Devis {$this->devis->numero} accepté — {$clientNom}")
+        return $this->subject("Webmarko [Accord Client] — Devis {$this->devis->numero} accepté ({$clientNom})")
             ->view('emails.devis-accepte')
+            ->text('emails.text.devis-accepte')
             ->with(['devis' => $this->devis])
             ->attachData(
                 Pdf::loadView('pdf.devis', ['devis' => $this->devis])->output(),

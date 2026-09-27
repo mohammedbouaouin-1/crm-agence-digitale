@@ -18,8 +18,9 @@ class NouvelleFactureDisponible extends Mailable
     {
         $this->facture->load(['client', 'devis', 'paiements']);
 
-        return $this->subject('Nouvelle facture — N° '.$this->facture->numero)
+        return $this->subject('Webmarko — Facture officielle N° '.$this->facture->numero)
             ->view('emails.nouvelle-facture')
+            ->text('emails.text.nouvelle-facture')
             ->with(['facture' => $this->facture])
             ->attachData(
                 Pdf::loadView('pdf.facture', ['facture' => $this->facture])->output(),
