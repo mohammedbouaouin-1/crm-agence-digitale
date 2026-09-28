@@ -30,6 +30,13 @@ class Projet extends Model
         'date_livraison_reelle' => 'date',
     ];
 
+    protected static function booted()
+    {
+        static::created(function (Projet $projet) {
+            $projet->client?->activerSiProspect();
+        });
+    }
+
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);

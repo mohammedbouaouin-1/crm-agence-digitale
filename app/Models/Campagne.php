@@ -26,6 +26,13 @@ class Campagne extends Model
 
     protected $casts = ['date_debut' => 'date', 'date_fin' => 'date'];
 
+    protected static function booted()
+    {
+        static::created(function (Campagne $campagne) {
+            $campagne->client?->activerSiProspect();
+        });
+    }
+
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);

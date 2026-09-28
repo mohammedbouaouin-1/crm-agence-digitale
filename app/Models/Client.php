@@ -42,4 +42,11 @@ class Client extends Model
     {
         return $this->hasMany(Devis::class);
     }
+
+    public function activerSiProspect(): void
+    {
+        if ($this->statut === 'prospect') {
+            $this->update(['statut' => 'actif']);
+        }
+    }
 }

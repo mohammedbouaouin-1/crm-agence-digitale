@@ -41,6 +41,16 @@ class Devis extends Model
                 $devis->statut = 'expire';
             }
         });
+
+        static::created(function (Devis $devis) {
+            $devis->client?->activerSiProspect();
+        });
+
+        static::saved(function (Devis $devis) {
+            if ($devis->statut === 'accepte') {
+                $devis->client?->activerSiProspect();
+            }
+        });
     }
 
     public function client(): BelongsTo

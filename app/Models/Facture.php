@@ -30,6 +30,10 @@ class Facture extends Model
                 $facture->statut = 'en_attente';
             }
         });
+
+        static::created(function (Facture $facture) {
+            $facture->client?->activerSiProspect();
+        });
     }
 
     public function client(): BelongsTo
