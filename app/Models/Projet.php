@@ -35,6 +35,12 @@ class Projet extends Model
         static::created(function (Projet $projet) {
             $projet->client?->activerSiProspect();
         });
+
+        static::saving(function (Projet $projet) {
+            if ($projet->statut === 'livre' && ! $projet->date_livraison_reelle) {
+                $projet->date_livraison_reelle = now();
+            }
+        });
     }
 
     public function client(): BelongsTo

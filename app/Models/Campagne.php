@@ -31,6 +31,12 @@ class Campagne extends Model
         static::created(function (Campagne $campagne) {
             $campagne->client?->activerSiProspect();
         });
+
+        static::saving(function (Campagne $campagne) {
+            if ($campagne->statut === 'terminee' && ! $campagne->date_fin) {
+                $campagne->date_fin = now();
+            }
+        });
     }
 
     public function client(): BelongsTo

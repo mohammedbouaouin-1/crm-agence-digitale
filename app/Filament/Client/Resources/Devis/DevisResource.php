@@ -77,6 +77,10 @@ class DevisResource extends Resource
 
     public static function table(Table $table): Table
     {
+        Devis::where('date_validite', '<', now()->startOfDay())
+            ->whereIn('statut', ['brouillon', 'envoye'])
+            ->update(['statut' => 'expire']);
+
         return $table
             ->recordTitleAttribute('numero')
             ->columns([

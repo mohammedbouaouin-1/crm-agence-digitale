@@ -27,6 +27,10 @@ class DevisTable
 {
     public static function configure(Table $table): Table
     {
+        Devis::where('date_validite', '<', now()->startOfDay())
+            ->whereIn('statut', ['brouillon', 'envoye'])
+            ->update(['statut' => 'expire']);
+
         return $table
             ->columns([
                 TextColumn::make('numero')
