@@ -16,9 +16,9 @@ class FactureForm
     {
         return $schema->components([
             Section::make('Informations de la facture')
-                ->description('Client et numérotation')
+                ->description('Client, numérotation et devis associé')
                 ->icon('heroicon-o-document-text')
-                ->columns(3)
+                ->columns(2)
                 ->schema([
                     Select::make('client_id')
                         ->label('Client')
@@ -29,8 +29,15 @@ class FactureForm
                         ->afterStateUpdated(fn (callable $set) => $set('devis_id', null))
                         ->required(),
 
+                    TextInput::make('numero')
+                        ->label('N° de Facture')
+                        ->default(fn () => Facture::genererNumero())
+                        ->required()
+                        ->unique(ignoreRecord: true),
+
                     Select::make('devis_id')
-                        ->label('Devis d\'origine (optionnel)')
+                        ->label('Devis d\'origine')
+                        ->placeholder('Sélectionner un devis (facultatif)')
                         ->relationship('devis', 'numero', function ($query, $get) {
                             $clientId = $get('client_id');
 
@@ -47,13 +54,9 @@ class FactureForm
                                     $set('montant', $devis->montant);
                                 }
                             }
-                        }),
-
-                    TextInput::make('numero')
-                        ->label('N° de Facture')
-                        ->default(fn () => Facture::genererNumero())
-                        ->required()
-                        ->unique(ignoreRecord: true),
+                        })
+                        ->columnSpanFull()
+                        ->helperText('Facultatif — Associer cette facture à un devis pour importer automatiquement son montant.'),
                 ]),
 
             Section::make('Montant et Échéances')
@@ -62,7 +65,7 @@ class FactureForm
                 ->columns(3)
                 ->schema([
                     TextInput::make('montant')
-                        ->label('Montant HT')
+                        ->label('Montant Net (DH)')
                         ->numeric()
                         ->prefix('DH')
                         ->required(),
@@ -88,7 +91,8 @@ class FactureForm
                         ->default('en_attente')
                         ->disabled()
                         ->dehydrated(false)
-                        ->columnSpanFull(),
+                        ->columnSpanFull()
+                        ->helperText('Le statut est calculé automatiquement en temps réel selon les paiements perçus.'),
                 ]),
         ]);
     }
