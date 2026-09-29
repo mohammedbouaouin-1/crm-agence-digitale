@@ -16,17 +16,6 @@ return new class extends Migration
         $admin->password = Hash::make('password');
         $admin->client_id = null;
         $admin->save();
-
-        if (Client::count() === 0) {
-            Artisan::call('db:seed', ['--class' => DemoSeeder::class, '--force' => true]);
-        }
-
-        $client = Client::first();
-        $clientUser = User::firstOrNew(['email' => 'client@webmarko.com']);
-        $clientUser->name = $clientUser->name ?: 'Client Webmarko';
-        $clientUser->password = Hash::make('password');
-        $clientUser->client_id = $client?->id;
-        $clientUser->save();
     }
 
     public function down(): void

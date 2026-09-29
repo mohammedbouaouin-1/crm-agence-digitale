@@ -15,6 +15,10 @@ class EnsureDatabaseReady
 {
     public function handle(Request $request, Closure $next): Response
     {
+        if (app()->runningUnitTests()) {
+            return $next($request);
+        }
+
         $flagFile = storage_path('framework/crm_installed.flag');
 
         if (! file_exists($flagFile)) {
