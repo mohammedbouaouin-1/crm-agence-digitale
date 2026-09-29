@@ -74,6 +74,7 @@ class ClientPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                \App\Http\Middleware\EnsureDatabaseReady::class,
             ])
             ->authMiddleware([
                 Authenticate::class,

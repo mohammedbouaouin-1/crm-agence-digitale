@@ -11,28 +11,22 @@ return new class extends Migration
 {
     public function up(): void
     {
-        User::firstOrCreate(
-            ['email' => 'admin@webmarko.com'],
-            [
-                'name' => 'Admin Webmarko',
-                'password' => Hash::make('password'),
-                'client_id' => null,
-            ]
-        );
+        $admin = User::firstOrNew(['email' => 'admin@webmarko.com']);
+        $admin->name = $admin->name ?: 'Admin Webmarko';
+        $admin->password = Hash::make('password');
+        $admin->client_id = null;
+        $admin->save();
 
         if (Client::count() === 0) {
             Artisan::call('db:seed', ['--class' => DemoSeeder::class, '--force' => true]);
-
-            $client = Client::first();
-            User::firstOrCreate(
-                ['email' => 'client@webmarko.com'],
-                [
-                    'name' => 'Client Webmarko',
-                    'password' => Hash::make('password'),
-                    'client_id' => $client?->id,
-                ]
-            );
         }
+
+        $client = Client::first();
+        $clientUser = User::firstOrNew(['email' => 'client@webmarko.com']);
+        $clientUser->name = $clientUser->name ?: 'Client Webmarko';
+        $clientUser->password = Hash::make('password');
+        $clientUser->client_id = $client?->id;
+        $clientUser->save();
     }
 
     public function down(): void
