@@ -19,5 +19,5 @@ Vous pouvez également consulter l'historique de vos factures et règlements sur
 
 Bien cordialement,
 L'équipe Webmarko
-Email : webmarko.company@gmail.com | Tél : 06 61 51 11 83
+Email : {{ \App\Models\Setting::get('agence_email', 'webmarko.company@gmail.com') }} | Tél : {{ \App\Models\Setting::get('agence_telephone', '06 61 51 11 83') }}
 Webmarko SARL — Avenue des FAR, Fès, Maroc.

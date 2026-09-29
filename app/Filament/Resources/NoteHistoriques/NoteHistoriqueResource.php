@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use UnitEnum;
 
 class NoteHistoriqueResource extends Resource
@@ -26,6 +27,8 @@ class NoteHistoriqueResource extends Resource
     protected static ?string $modelLabel = 'Note d\'historique';
 
     protected static ?string $pluralModelLabel = 'Notes d\'historique';
+
+    protected static ?int $navigationSort = 5;
 
     public static function form(Schema $schema): Schema
     {
@@ -49,5 +52,11 @@ class NoteHistoriqueResource extends Resource
             'create' => CreateNoteHistorique::route('/create'),
             'edit' => EditNoteHistorique::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with(['client']);
     }
 }

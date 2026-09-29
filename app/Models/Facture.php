@@ -18,6 +18,10 @@ class Facture extends Model
     protected static function booted()
     {
         static::saving(function (Facture $facture) {
+            if ($facture->exists && $facture->isDirty('statut') && ! $facture->isDirty(['montant', 'date_echeance'])) {
+                return;
+            }
+
             $totalPaye = $facture->totalPaye;
 
             if ($totalPaye >= $facture->montant && $facture->montant > 0) {

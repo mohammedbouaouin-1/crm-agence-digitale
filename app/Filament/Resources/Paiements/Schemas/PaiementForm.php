@@ -103,7 +103,27 @@ class PaiementForm
                         ->numeric()
                         ->prefix('DH')
                         ->live(debounce: 300)
-                        ->required(),
+                        ->required()
+                        ->minValue(0.01)
+                        ->rules([
+                            fn ($get, ?Model $record): \Closure => function (string $attribute, $value, \Closure $fail) use ($get, $record) {
+                                $factureId = $get('facture_id');
+                                if (! $factureId) {
+                                    return;
+                                }
+                                $facture = Facture::with('paiements')->find($factureId);
+                                if (! $facture) {
+                                    return;
+                                }
+                                $dejaPaye = $facture->paiements
+                                    ->when($record?->id, fn ($p) => $p->where('id', '!=', $record->id))
+                                    ->sum('montant');
+                                $resteMax = max(0, $facture->montant - $dejaPaye);
+                                if ((float) $value > $resteMax) {
+                                    $fail('Le montant ne peut pas dépasser le reste dû de '.number_format($resteMax, 2, ',', ' ').' DH.');
+                                }
+                            },
+                        ]),
 
                     TextInput::make('nouveau_reste')
                         ->label('Reste après ce versement')

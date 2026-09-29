@@ -14,6 +14,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Mail;
@@ -22,10 +23,6 @@ class FacturesTable
 {
     public static function configure(Table $table): Table
     {
-        Facture::where('date_echeance', '<', now())
-            ->whereNotIn('statut', ['payee', 'en_retard'])
-            ->update(['statut' => 'en_retard']);
-
         return $table
             ->columns([
                 TextColumn::make('numero')
@@ -94,6 +91,18 @@ class FacturesTable
                         'payee' => 'Payée',
                         'en_retard' => 'En retard',
                     ]),
+
+                Filter::make('periode')
+                    ->label('Période d\'émission')
+                    ->form([
+                        DatePicker::make('date_debut')->label('Du'),
+                        DatePicker::make('date_fin')->label('Au'),
+                    ])
+                    ->query(function ($query, array $data) {
+                        return $query
+                            ->when($data['date_debut'], fn ($q, $date) => $q->whereDate('date_emission', '>=', $date))
+                            ->when($data['date_fin'], fn ($q, $date) => $q->whereDate('date_emission', '<=', $date));
+                    }),
             ])
             ->recordActions([
                 Action::make('enregistrer_paiement')
@@ -106,6 +115,8 @@ class FacturesTable
                             ->label('Montant versé (DH)')
                             ->numeric()
                             ->required()
+                            ->minValue(0.01)
+                            ->maxValue(fn (Facture $record) => max(0, (float) $record->montant - (float) $record->paiements->sum('montant')))
                             ->default(fn (Facture $record) => max(0, (float) $record->montant - (float) $record->paiements->sum('montant'))),
                         DatePicker::make('date')
                             ->label('Date d\'encaissement')

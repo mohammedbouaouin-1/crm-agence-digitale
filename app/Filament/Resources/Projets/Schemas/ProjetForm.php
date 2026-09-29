@@ -66,8 +66,7 @@ class ProjetForm
                     TextInput::make('budget')
                         ->label('Budget')
                         ->numeric()
-                        ->suffix('DH')
-                        ->helperText('Rempli automatiquement si un devis est sélectionné, ou saisie libre.'),
+                        ->suffix('DH'),
                 ]),
 
             Section::make('Planning & Statut')

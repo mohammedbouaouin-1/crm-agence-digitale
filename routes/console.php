@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('app:mettre-a-jour-factures-en-retard')->daily();
+Schedule::command('app:mettre-a-jour-devis-expires')->daily();

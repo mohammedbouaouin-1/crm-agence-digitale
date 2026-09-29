@@ -36,6 +36,8 @@ class ClientResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Clients';
 
+    protected static ?int $navigationSort = 1;
+
     public static function form(Schema $schema): Schema
     {
         return ClientForm::configure($schema);

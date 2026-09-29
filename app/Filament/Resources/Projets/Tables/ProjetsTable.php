@@ -93,7 +93,8 @@ class ProjetsTable
                     ->label('Lien')
                     ->icon('heroicon-o-arrow-top-right-on-square')
                     ->url(fn ($record) => $record->url_site, shouldOpenInNewTab: true)
-                    ->placeholder('—'),
+                    ->placeholder('—')
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('statut')

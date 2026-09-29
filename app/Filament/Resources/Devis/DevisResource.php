@@ -30,6 +30,8 @@ class DevisResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Devis';
 
+    protected static ?int $navigationSort = 1;
+
     public static function getNavigationBadge(): ?string
     {
         $count = static::getModel()::whereIn('statut', ['envoye', 'brouillon'])->count();

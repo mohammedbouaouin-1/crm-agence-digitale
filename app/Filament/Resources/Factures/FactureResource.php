@@ -31,6 +31,8 @@ class FactureResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Factures';
 
+    protected static ?int $navigationSort = 2;
+
     public static function getNavigationBadge(): ?string
     {
         $count = static::getModel()::where('statut', 'en_retard')->count();

@@ -19,7 +19,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // Données par défaut pour Webmarko
         $defaults = [
             'agence_nom' => 'Webmarko',
             'agence_slogan' => 'Concepteur de sites web',

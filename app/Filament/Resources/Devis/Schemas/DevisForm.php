@@ -74,6 +74,8 @@ class DevisForm
                         ])
                         ->default('brouillon')
                         ->required()
+                        ->disabled(fn (?Devis $record) => (bool) $record?->accepte_le)
+                        ->helperText(fn (?Devis $record) => $record?->accepte_le ? 'Ce devis a été validé en ligne par le client.' : null)
                         ->columnSpanFull(),
 
                     TextEntry::make('acceptation_info')

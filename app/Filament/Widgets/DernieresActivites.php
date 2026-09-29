@@ -25,11 +25,12 @@ class DernieresActivites extends BaseWidget
         return $table
             ->query(
                 Facture::query()
+                    ->with('client')
                     ->where('statut', '!=', 'payee')
                     ->orderBy('date_echeance', 'asc')
-                    ->limit(10)
             )
-            ->paginated(false)
+            ->paginated([5, 10])
+            ->defaultPaginationPageOption(5)
             ->columns([
                 TextColumn::make('numero')
                     ->label('N° Facture')

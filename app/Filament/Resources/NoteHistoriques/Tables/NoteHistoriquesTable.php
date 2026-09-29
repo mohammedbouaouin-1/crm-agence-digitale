@@ -24,6 +24,12 @@ class NoteHistoriquesTable
                 TextColumn::make('type')
                     ->label('Type d\'échange')
                     ->badge()
+                    ->icon(fn (string $state): string => match ($state) {
+                        'reunion' => 'heroicon-o-user-group',
+                        'appel' => 'heroicon-o-phone',
+                        'email' => 'heroicon-o-envelope',
+                        default => 'heroicon-o-chat-bubble-bottom-center-text',
+                    })
                     ->color(fn (string $state): string => match ($state) {
                         'reunion' => 'success',
                         'appel' => 'info',
@@ -46,12 +52,14 @@ class NoteHistoriquesTable
                 TextColumn::make('prochaine_action')
                     ->label('Prochaine action')
                     ->date('d/m/Y')
+                    ->icon('heroicon-o-calendar')
                     ->sortable()
                     ->placeholder('—'),
 
                 TextColumn::make('created_at')
                     ->label('Daté du')
                     ->dateTime('d/m/Y H:i')
+                    ->icon('heroicon-o-clock')
                     ->sortable(),
             ])
             ->filters([

@@ -5,6 +5,7 @@ namespace App\Filament\Client\Resources\Devis;
 use App\Filament\Client\Resources\Devis\Pages\ManageDevis;
 use App\Mail\DevisAccepteNotification;
 use App\Models\Devis;
+use App\Models\Setting;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
@@ -77,10 +78,6 @@ class DevisResource extends Resource
 
     public static function table(Table $table): Table
     {
-        Devis::where('date_validite', '<', now()->startOfDay())
-            ->whereIn('statut', ['brouillon', 'envoye'])
-            ->update(['statut' => 'expire']);
-
         return $table
             ->recordTitleAttribute('numero')
             ->columns([
@@ -156,7 +153,7 @@ class DevisResource extends Resource
                         ]);
 
                         try {
-                            Mail::to('webmarko.company@gmail.com')->send(
+                            Mail::to(Setting::get('agence_email', 'webmarko.company@gmail.com'))->send(
                                 new DevisAccepteNotification($record->fresh())
                             );
                         } catch (\Throwable) {

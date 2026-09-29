@@ -5,7 +5,9 @@ namespace App\Filament\Resources\Paiements\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
@@ -19,6 +21,7 @@ class PaiementsTable
                     ->label('N° Facture')
                     ->searchable()
                     ->sortable()
+                    ->icon('heroicon-o-document-text')
                     ->weight('bold'),
 
                 TextColumn::make('facture.client.nom')
@@ -35,6 +38,13 @@ class PaiementsTable
                 TextColumn::make('methode')
                     ->label('Méthode')
                     ->badge()
+                    ->icon(fn (string $state): string => match ($state) {
+                        'virement' => 'heroicon-o-arrows-right-left',
+                        'carte' => 'heroicon-o-credit-card',
+                        'cheque' => 'heroicon-o-document-check',
+                        'especes' => 'heroicon-o-banknotes',
+                        default => 'heroicon-o-currency-dollar',
+                    })
                     ->color(fn (string $state): string => match ($state) {
                         'virement' => 'success',
                         'cheque' => 'warning',
@@ -53,6 +63,7 @@ class PaiementsTable
                 TextColumn::make('date')
                     ->label('Date de paiement')
                     ->date('d/m/Y')
+                    ->icon('heroicon-o-calendar')
                     ->sortable(),
             ])
             ->filters([
@@ -64,6 +75,18 @@ class PaiementsTable
                         'especes' => 'Espèces',
                         'carte' => 'Carte bancaire',
                     ]),
+
+                Filter::make('periode')
+                    ->label('Période de paiement')
+                    ->form([
+                        DatePicker::make('date_debut')->label('Du'),
+                        DatePicker::make('date_fin')->label('Au'),
+                    ])
+                    ->query(function ($query, array $data) {
+                        return $query
+                            ->when($data['date_debut'], fn ($q, $date) => $q->whereDate('date', '>=', $date))
+                            ->when($data['date_fin'], fn ($q, $date) => $q->whereDate('date', '<=', $date));
+                    }),
             ])
             ->recordActions([
                 EditAction::make(),

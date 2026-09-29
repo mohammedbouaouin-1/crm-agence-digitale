@@ -39,56 +39,67 @@ class StatsOverview extends StatsOverviewWidget
         $devisAcceptes = Devis::accepte()->count();
         $tauxConversion = $devisTraites > 0 ? round(($devisAcceptes / $devisTraites) * 100, 1) : 0;
 
-        $clientsParMois = collect(range(5, 0))->map(function ($monthsAgo) {
-            $date = now()->subMonths($monthsAgo)->endOfMonth();
+        $sparklines = cache()->remember('dashboard_sparklines', 300, function () {
+            $clientsParMois = collect(range(5, 0))->map(function ($monthsAgo) {
+                $date = now()->subMonths($monthsAgo)->endOfMonth();
 
-            return Client::where('statut', 'actif')
-                ->where('created_at', '<=', $date)
-                ->count();
-        })->toArray();
+                return Client::where('statut', 'actif')
+                    ->where('created_at', '<=', $date)
+                    ->count();
+            })->toArray();
 
-        $campagnesParMois = collect(range(5, 0))->map(function ($monthsAgo) {
-            $date = now()->subMonths($monthsAgo);
+            $campagnesParMois = collect(range(5, 0))->map(function ($monthsAgo) {
+                $date = now()->subMonths($monthsAgo);
 
-            return Campagne::whereYear('created_at', $date->year)
-                ->whereMonth('created_at', $date->month)
-                ->count();
-        })->toArray();
+                return Campagne::whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month)
+                    ->count();
+            })->toArray();
 
-        $factureParMois = collect(range(5, 0))->map(function ($monthsAgo) {
-            $date = now()->subMonths($monthsAgo);
+            $factureParMois = collect(range(5, 0))->map(function ($monthsAgo) {
+                $date = now()->subMonths($monthsAgo);
 
-            return (float) Facture::whereYear('date_emission', $date->year)
-                ->whereMonth('date_emission', $date->month)
-                ->sum('montant');
-        })->toArray();
+                return (float) Facture::whereYear('date_emission', $date->year)
+                    ->whereMonth('date_emission', $date->month)
+                    ->sum('montant');
+            })->toArray();
 
-        $retardsParMois = collect(range(5, 0))->map(function ($monthsAgo) {
-            $date = now()->subMonths($monthsAgo);
+            $retardsParMois = collect(range(5, 0))->map(function ($monthsAgo) {
+                $date = now()->subMonths($monthsAgo);
 
-            return Facture::where('statut', 'en_retard')
-                ->whereYear('created_at', $date->year)
-                ->whereMonth('created_at', $date->month)
-                ->count();
-        })->toArray();
+                return Facture::where('statut', 'en_retard')
+                    ->whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month)
+                    ->count();
+            })->toArray();
 
-        $pipelineParMois = collect(range(5, 0))->map(function ($monthsAgo) {
-            $date = now()->subMonths($monthsAgo);
+            $pipelineParMois = collect(range(5, 0))->map(function ($monthsAgo) {
+                $date = now()->subMonths($monthsAgo);
 
-            return (float) Devis::where('statut', 'envoye')
-                ->whereYear('created_at', $date->year)
-                ->whereMonth('created_at', $date->month)
-                ->sum('montant');
-        })->toArray();
+                return (float) Devis::where('statut', 'envoye')
+                    ->whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month)
+                    ->sum('montant');
+            })->toArray();
 
-        $devisAcceptesParMois = collect(range(5, 0))->map(function ($monthsAgo) {
-            $date = now()->subMonths($monthsAgo);
+            $devisAcceptesParMois = collect(range(5, 0))->map(function ($monthsAgo) {
+                $date = now()->subMonths($monthsAgo);
 
-            return Devis::where('statut', 'accepte')
-                ->whereYear('created_at', $date->year)
-                ->whereMonth('created_at', $date->month)
-                ->count();
-        })->toArray();
+                return Devis::where('statut', 'accepte')
+                    ->whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month)
+                    ->count();
+            })->toArray();
+
+            return compact('clientsParMois', 'campagnesParMois', 'factureParMois', 'retardsParMois', 'pipelineParMois', 'devisAcceptesParMois');
+        });
+
+        $clientsParMois = $sparklines['clientsParMois'];
+        $campagnesParMois = $sparklines['campagnesParMois'];
+        $factureParMois = $sparklines['factureParMois'];
+        $retardsParMois = $sparklines['retardsParMois'];
+        $pipelineParMois = $sparklines['pipelineParMois'];
+        $devisAcceptesParMois = $sparklines['devisAcceptesParMois'];
 
         $diffClients = $clientsActifs - $clientsActifsMoisDernier;
         $labelClients = $diffClients >= 0 ? "+{$diffClients} ce mois" : "{$diffClients} ce mois";

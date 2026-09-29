@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use UnitEnum;
 
 class CampagneResource extends Resource
@@ -28,6 +29,8 @@ class CampagneResource extends Resource
     protected static ?string $modelLabel = 'Campagne';
 
     protected static ?string $pluralModelLabel = 'Campagnes';
+
+    protected static ?int $navigationSort = 2;
 
     public static function form(Schema $schema): Schema
     {
@@ -51,5 +54,11 @@ class CampagneResource extends Resource
             'create' => CreateCampagne::route('/create'),
             'edit' => EditCampagne::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with(['client', 'devis']);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Filament\Client\Resources\Demandes\Pages;
 
 use App\Filament\Client\Resources\Demandes\DemandeResource;
 use App\Mail\MessageClient;
+use App\Models\Setting;
 use Filament\Actions\CreateAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ManageRecords;
@@ -28,7 +29,7 @@ class ManageDemandes extends ManageRecords
                     $client = auth()->user()?->client;
                     if ($client) {
                         try {
-                            Mail::to('webmarko.company@gmail.com')->send(
+                            Mail::to(Setting::get('agence_email', 'webmarko.company@gmail.com'))->send(
                                 new MessageClient(
                                     $client,
                                     $record->sujet,

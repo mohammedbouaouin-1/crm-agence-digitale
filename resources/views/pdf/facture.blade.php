@@ -225,7 +225,6 @@
 </head>
 <body>
 
-    {{-- En-tête --}}
     <div class="en-tete">
         <div class="en-tete-gauche">
             @php
@@ -253,7 +252,6 @@
         </div>
     </div>
 
-    {{-- Infos client + dates --}}
     <div class="infos">
         <div class="infos-bloc">
             <div class="infos-label">Facturé à</div>
@@ -291,7 +289,6 @@
         </div>
     </div>
 
-    {{-- Détail de la facture --}}
     <table class="montant">
         <thead>
             <tr>
@@ -314,7 +311,6 @@
         </tbody>
     </table>
 
-    {{-- Total --}}
     @php
         $totalPaye = $facture->totalPaye ?? 0;
         $resteAPayer = max(0, $facture->montant - $totalPaye);
@@ -336,7 +332,6 @@
         </div>
     </div>
 
-    {{-- Historique des paiements --}}
     @if($facture->paiements->count() > 0)
         <div style="clear: both;">
             <div class="section-titre">Historique des règlements</div>
@@ -361,7 +356,6 @@
         </div>
     @endif
 
-    {{-- Coordonnées bancaires pour le règlement --}}
     <div style="clear: both; margin-top: 25px; margin-bottom: 25px; padding: 14px 18px; background: #f8fafc; border-left: 4px solid #06b6d4; border-radius: 4px;">
         <div style="font-weight: bold; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #0f172a; margin-bottom: 6px;">Modalités de règlement par virement bancaire</div>
         <div style="font-size: 11px; color: #334155; line-height: 1.6;">
@@ -371,7 +365,6 @@
         </div>
     </div>
 
-    {{-- Pied de page --}}
     <div class="pied">
         <strong>{{ \App\Models\Setting::get('agence_nom', 'Webmarko') }} — {{ \App\Models\Setting::get('agence_slogan', 'Concepteur de sites web') }}</strong><br>
         Email: {{ \App\Models\Setting::get('agence_email', 'webmarko.company@gmail.com') }} &nbsp;|&nbsp; Tél: {{ \App\Models\Setting::get('agence_telephone', '06 61 51 11 83') }}<br>

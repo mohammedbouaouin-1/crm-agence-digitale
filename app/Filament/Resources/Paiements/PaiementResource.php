@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use UnitEnum;
 
 class PaiementResource extends Resource
@@ -26,6 +27,8 @@ class PaiementResource extends Resource
     protected static ?string $modelLabel = 'Paiement';
 
     protected static ?string $pluralModelLabel = 'Paiements';
+
+    protected static ?int $navigationSort = 3;
 
     public static function form(Schema $schema): Schema
     {
@@ -49,5 +52,11 @@ class PaiementResource extends Resource
             'create' => CreatePaiement::route('/create'),
             'edit' => EditPaiement::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with(['facture.client']);
     }
 }

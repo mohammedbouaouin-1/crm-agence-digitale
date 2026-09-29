@@ -236,7 +236,6 @@
 </head>
 <body>
 
-    {{-- En-tête --}}
     <div class="en-tete">
         <div class="en-tete-gauche">
             @php
@@ -265,7 +264,6 @@
         </div>
     </div>
 
-    {{-- Infos client + dates --}}
     <div class="infos">
         <div class="infos-bloc">
             <div class="infos-label">Devis établi pour</div>
@@ -303,7 +301,6 @@
         </div>
     </div>
 
-    {{-- Détail de la proposition / prestations --}}
     <table class="montant">
         <thead>
             <tr>
@@ -326,7 +323,6 @@
         </tbody>
     </table>
 
-    {{-- Bloc total --}}
     <div class="bloc-total">
         <div class="bloc-total-interieur">
             <div class="ligne-total">
@@ -352,7 +348,6 @@
         </div>
     @endif
 
-    {{-- Pied de page --}}
     <div class="pied">
         <strong>{{ \App\Models\Setting::get('agence_nom', 'Webmarko') }} — {{ \App\Models\Setting::get('agence_slogan', 'Concepteur de sites web') }}</strong><br>
         Email: {{ \App\Models\Setting::get('agence_email', 'webmarko.company@gmail.com') }} &nbsp;|&nbsp; Tél: {{ \App\Models\Setting::get('agence_telephone', '06 61 51 11 83') }}<br>

@@ -47,7 +47,7 @@ class Devis extends Model
         });
 
         static::saved(function (Devis $devis) {
-            if ($devis->statut === 'accepte') {
+            if ($devis->wasChanged('statut') && $devis->statut === 'accepte') {
                 $devis->client?->activerSiProspect();
             }
         });

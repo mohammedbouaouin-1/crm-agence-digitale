@@ -261,7 +261,7 @@ class DemoSeeder extends Seeder
                         'numero' => 'F-2026-008',
                         'montant' => 16000,
                         'date_emission' => Carbon::now()->subMonth(),
-                        'date_echeance' => Carbon::now()->subDays(10), // En retard
+                        'date_echeance' => Carbon::now()->subDays(10),
                         'paiements' => [],
                     ],
                 ],
@@ -390,7 +390,7 @@ class DemoSeeder extends Seeder
                 'adresse' => 'Route de Sefrou, Fès',
                 'secteur_activite' => 'Éducation',
                 'statut' => 'actif',
-                'created_at' => Carbon::now()->subDays(12), // Client acquis ce mois-ci (+1)
+                'created_at' => Carbon::now()->subDays(12),
                 'projets' => [
                     [
                         'nom' => 'Refonte Portail Scolaire & Espace Parents',
@@ -428,7 +428,7 @@ class DemoSeeder extends Seeder
                 'adresse' => 'Boulevard Mohammed V, Fès',
                 'secteur_activite' => 'Santé',
                 'statut' => 'actif',
-                'created_at' => Carbon::now()->subDays(5), // Client acquis ce mois-ci (+2)
+                'created_at' => Carbon::now()->subDays(5),
                 'projets' => [
                     [
                         'nom' => 'Site Web Local & Service Garde 24/7',

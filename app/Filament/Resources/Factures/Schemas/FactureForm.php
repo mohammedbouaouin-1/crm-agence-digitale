@@ -55,8 +55,7 @@ class FactureForm
                                 }
                             }
                         })
-                        ->columnSpanFull()
-                        ->helperText('Facultatif — Associer cette facture à un devis pour importer automatiquement son montant.'),
+                        ->columnSpanFull(),
                 ]),
 
             Section::make('Montant et Échéances')
@@ -92,7 +91,7 @@ class FactureForm
                         ->disabled()
                         ->dehydrated(false)
                         ->columnSpanFull()
-                        ->helperText('Le statut est calculé automatiquement en temps réel selon les paiements perçus.'),
+                        ->helperText('Calculé automatiquement selon les règlements enregistrés.'),
                 ]),
         ]);
     }

@@ -84,8 +84,7 @@ class CampagneForm
                     TextInput::make('budget')
                         ->label('Budget alloué')
                         ->numeric()
-                        ->prefix('DH')
-                        ->helperText('Rempli automatiquement si un devis est sélectionné, ou saisie libre.'),
+                        ->prefix('DH'),
 
                     DatePicker::make('date_debut')
                         ->label('Date de début')

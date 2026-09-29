@@ -28,6 +28,8 @@ class ProjetResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Projets Web';
 
+    protected static ?string $recordTitleAttribute = 'nom';
+
     protected static ?int $navigationSort = 3;
 
     public static function form(Schema $schema): Schema
