@@ -47,6 +47,10 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::Cyan,
             ])
             ->renderHook(
+                'panels::head.start',
+                fn (): string => '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">'
+            )
+            ->renderHook(
                 'panels::head.end',
                 fn (): string => '<link rel="stylesheet" href="'.asset('css/filament-theme.css').'">'
             )

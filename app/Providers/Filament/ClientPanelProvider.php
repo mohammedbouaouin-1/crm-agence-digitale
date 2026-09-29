@@ -37,6 +37,10 @@ class ClientPanelProvider extends PanelProvider
             ->spa()
             ->colors(['primary' => Color::Indigo])
             ->renderHook(
+                'panels::head.start',
+                fn (): string => '<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">'
+            )
+            ->renderHook(
                 'panels::head.end',
                 fn (): string => '<link rel="stylesheet" href="'.asset('css/filament-theme.css').'">'
             )
