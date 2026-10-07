@@ -240,7 +240,8 @@
         <div class="en-tete-gauche">
             @php
                 $logoPath = public_path('images/logo.png');
-                $logoBase64 = file_exists($logoPath) ? base64_encode(file_get_contents($logoPath)) : null;
+                $hasGd = extension_loaded('gd');
+                $logoBase64 = ($hasGd && file_exists($logoPath)) ? base64_encode(file_get_contents($logoPath)) : null;
             @endphp
             @if($logoBase64)
                 <img src="data:image/png;base64,{{ $logoBase64 }}" style="height: 40px;">
