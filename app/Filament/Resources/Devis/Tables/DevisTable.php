@@ -137,17 +137,25 @@ class DevisTable
                     ->modalDescription(fn (Devis $record) => "Transmettre le devis {$record->numero} et son PDF par email à {$record->client->nom} ({$record->client->email}) ?")
                     ->modalSubmitActionLabel('Envoyer par email')
                     ->action(function (Devis $record) {
-                        Mail::to($record->client->email)->send(new NouveauDevisDisponible($record));
+                        try {
+                            Mail::to($record->client->email)->send(new NouveauDevisDisponible($record));
 
-                        if ($record->statut === 'brouillon') {
-                            $record->update(['statut' => 'envoye']);
+                            if ($record->statut === 'brouillon') {
+                                $record->update(['statut' => 'envoye']);
+                            }
+
+                            Notification::make()
+                                ->title('Devis envoyé par email')
+                                ->body("La proposition {$record->numero} a été transmise à {$record->client->email}.")
+                                ->success()
+                                ->send();
+                        } catch (\Throwable $e) {
+                            Notification::make()
+                                ->title("Erreur lors de l'envoi")
+                                ->body("Impossible d'envoyer l'e-mail : {$e->getMessage()}")
+                                ->danger()
+                                ->send();
                         }
-
-                        Notification::make()
-                            ->title('Devis envoyé par email')
-                            ->body("La proposition {$record->numero} a été transmise à {$record->client->email}.")
-                            ->success()
-                            ->send();
                     }),
 
                 ActionGroup::make([

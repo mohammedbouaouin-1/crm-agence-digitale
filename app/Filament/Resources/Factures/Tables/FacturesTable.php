@@ -153,13 +153,21 @@ class FacturesTable
                     ->modalDescription(fn (Facture $record) => "Envoyer la facture {$record->numero} et son PDF par email à {$record->client->nom} ({$record->client->email}) ?")
                     ->modalSubmitActionLabel('Envoyer par email')
                     ->action(function (Facture $record) {
-                        Mail::to($record->client->email)->send(new NouvelleFactureDisponible($record));
+                        try {
+                            Mail::to($record->client->email)->send(new NouvelleFactureDisponible($record));
 
-                        Notification::make()
-                            ->title('Facture envoyée')
-                            ->body("La facture {$record->numero} a été transmise à {$record->client->email}.")
-                            ->success()
-                            ->send();
+                            Notification::make()
+                                ->title('Facture envoyée')
+                                ->body("La facture {$record->numero} a été transmise à {$record->client->email}.")
+                                ->success()
+                                ->send();
+                        } catch (\Throwable $e) {
+                            Notification::make()
+                                ->title("Erreur lors de l'envoi")
+                                ->body("Impossible d'envoyer l'e-mail : {$e->getMessage()}")
+                                ->danger()
+                                ->send();
+                        }
                     }),
 
                 Action::make('relancer')
@@ -171,12 +179,20 @@ class FacturesTable
                     ->modalDescription(fn ($record) => "Envoyer un email de relance à {$record->client->nom} pour la facture {$record->numero} ?")
                     ->action(function ($record) {
                         if ($record->client?->email) {
-                            Mail::to($record->client->email)->send(new RelanceFacture($record));
+                            try {
+                                Mail::to($record->client->email)->send(new RelanceFacture($record));
 
-                            Notification::make()
-                                ->title('Relance envoyée')
-                                ->success()
-                                ->send();
+                                Notification::make()
+                                    ->title('Relance envoyée')
+                                    ->success()
+                                    ->send();
+                            } catch (\Throwable $e) {
+                                Notification::make()
+                                    ->title("Erreur lors de la relance")
+                                    ->body("Impossible d'envoyer l'e-mail : {$e->getMessage()}")
+                                    ->danger()
+                                    ->send();
+                            }
                         }
                     }),
                 Action::make('telecharger_pdf')
